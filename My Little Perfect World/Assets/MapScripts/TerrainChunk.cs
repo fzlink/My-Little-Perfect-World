@@ -12,7 +12,7 @@ public class TerrainChunk
     Vector2 sampleCentre;
     Bounds bounds;
 
-    const float colliderGenerationDistanceThreshold = 100;
+    const float colliderGenerationDistanceThreshold = 5;
 
 
     MeshRenderer meshRenderer;
@@ -28,15 +28,15 @@ public class TerrainChunk
     int previousLODIndex = -1;
     bool hasSetCollider;
     float maxViewDst;
-    //List<Vector2> points;
-    //GameObject cube;
+    List<Vector2> points;
+    GameObject cube;
 
     HeightMapSettings heightMapSettings;
     MeshSettings meshSettings;
 
     Transform viewer;
 
-    public TerrainChunk(Vector2 coord, HeightMapSettings heightMapSettings, MeshSettings meshSettings, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Transform viewer, Material material)
+    public TerrainChunk(Vector2 coord, HeightMapSettings heightMapSettings, MeshSettings meshSettings, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Transform viewer, Material material,List<Vector2> points,GameObject cube)
     {
         this.coord = coord;
         this.detailLevels = detailLevels;
@@ -44,8 +44,8 @@ public class TerrainChunk
         this.heightMapSettings = heightMapSettings;
         this.meshSettings = meshSettings;
         this.viewer = viewer;
-        //this.points = points;
-        //this.cube = cube;
+        this.points = points;
+        this.cube = cube;
         
         
 
@@ -159,16 +159,16 @@ public class TerrainChunk
         }
     }
 
-    //private void PlaceObjects()
-    //{
-    //    foreach (Vector2 point in points)
-    //    {
-    //        Debug.Log("asd");
-    //        Vector3 newP = new Vector3(point.x-25, 10, point.y-25);
-    //        cube.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-    //        UnityEngine.Object.Instantiate(cube, newP,Quaternion.identity);
-    //    }
-    //}
+    private void PlaceObjects()
+    {
+        foreach (Vector2 point in points)
+        {
+            Debug.Log("asd");
+            Vector3 newP = new Vector3(point.x-25, 10, point.y-25);
+            cube.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            UnityEngine.Object.Instantiate(cube, newP,Quaternion.identity);
+        }
+    }
 
     public void UpdateCollisionMesh()
     {
