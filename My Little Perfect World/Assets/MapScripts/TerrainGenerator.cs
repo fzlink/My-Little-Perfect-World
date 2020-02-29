@@ -12,10 +12,10 @@ public class TerrainGenerator : MonoBehaviour
     public float mapChunkConstraintY = 10;
 
 
-    public float radius = 1;
-    public Vector2 regionSize = Vector2.one;
-    public int rejectionSamples = 30;
-    public GameObject cube; 
+    //public float radius = 1;
+    //public Vector2 regionSize = Vector2.one;
+    //public int rejectionSamples = 30;
+    //public GameObject cube; 
 
     public int colliderLODIndex;
     public LODInfo[] detailLevels;
@@ -32,6 +32,8 @@ public class TerrainGenerator : MonoBehaviour
 
     float meshWorldSize;
     int chunksVisibleInViewDst;
+
+    public bool isWaterGenerator;
 
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
@@ -94,8 +96,8 @@ public class TerrainGenerator : MonoBehaviour
                     }
                     else
                     {
-                        List<Vector2> points = PoissonDiscSampling.GeneratePoints(radius, regionSize, rejectionSamples);
-                        TerrainChunk chunk = new TerrainChunk(viewedChunkCoord,heightMapSettings,meshSettings, detailLevels, colliderLODIndex, transform,viewer, mapMaterial,points,cube);
+                        //List<Vector2> points = PoissonDiscSampling.GeneratePoints(radius, regionSize, rejectionSamples);
+                        TerrainChunk chunk = new TerrainChunk(viewedChunkCoord,heightMapSettings,meshSettings, detailLevels, colliderLODIndex, transform,viewer, mapMaterial, isWaterGenerator);
                         terrainChunkDictionary.Add(viewedChunkCoord,chunk);
                         chunk.OnVisibilityChanged += OnTerrainChunkVisibilityChanged;
                         chunk.Load();

@@ -12,7 +12,7 @@ public class TerrainChunk
     Vector2 sampleCentre;
     Bounds bounds;
 
-    const float colliderGenerationDistanceThreshold = 5;
+    const float colliderGenerationDistanceThreshold = 100;
 
 
     MeshRenderer meshRenderer;
@@ -28,15 +28,17 @@ public class TerrainChunk
     int previousLODIndex = -1;
     bool hasSetCollider;
     float maxViewDst;
-    List<Vector2> points;
-    GameObject cube;
+    //List<Vector2> points;
+    //GameObject cube;
+
+    bool isWaterChunk;
 
     HeightMapSettings heightMapSettings;
     MeshSettings meshSettings;
 
     Transform viewer;
 
-    public TerrainChunk(Vector2 coord, HeightMapSettings heightMapSettings, MeshSettings meshSettings, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Transform viewer, Material material,List<Vector2> points,GameObject cube)
+    public TerrainChunk(Vector2 coord, HeightMapSettings heightMapSettings, MeshSettings meshSettings, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Transform viewer, Material material,bool isWaterChunk)
     {
         this.coord = coord;
         this.detailLevels = detailLevels;
@@ -44,10 +46,11 @@ public class TerrainChunk
         this.heightMapSettings = heightMapSettings;
         this.meshSettings = meshSettings;
         this.viewer = viewer;
-        this.points = points;
-        this.cube = cube;
-        
-        
+        this.isWaterChunk = isWaterChunk;
+        //this.points = points;
+        //this.cube = cube;
+
+
 
         sampleCentre = coord * meshSettings.meshWorldSize / meshSettings.meshScale;
         Vector2 position = coord * meshSettings.meshWorldSize;
@@ -60,7 +63,14 @@ public class TerrainChunk
         meshCollider = meshObject.AddComponent<MeshCollider>();
         meshRenderer.material = material;
 
-        meshObject.layer = LayerMask.NameToLayer("Ground");
+        if (isWaterChunk)
+        {
+            meshObject.layer = LayerMask.NameToLayer("Water");
+        }
+        else
+        {
+            meshObject.layer = LayerMask.NameToLayer("Ground");
+        }
 
         meshObject.transform.position = new Vector3(position.x, 0, position.y);
         meshObject.transform.parent = parent;
@@ -159,16 +169,16 @@ public class TerrainChunk
         }
     }
 
-    private void PlaceObjects()
-    {
-        foreach (Vector2 point in points)
-        {
-            Debug.Log("asd");
-            Vector3 newP = new Vector3(point.x-25, 10, point.y-25);
-            cube.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-            UnityEngine.Object.Instantiate(cube, newP,Quaternion.identity);
-        }
-    }
+    //private void PlaceObjects()
+    //{
+    //    foreach (Vector2 point in points)
+    //    {
+    //        Debug.Log("asd");
+    //        Vector3 newP = new Vector3(point.x-25, 10, point.y-25);
+    //        cube.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+    //        UnityEngine.Object.Instantiate(cube, newP,Quaternion.identity);
+    //    }
+    //}
 
     public void UpdateCollisionMesh()
     {
