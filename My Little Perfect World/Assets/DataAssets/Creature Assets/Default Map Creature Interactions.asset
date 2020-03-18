@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51e4596d874df34e8019fa9152ff406, type: 3}
+  m_Name: Default Map Creature Interactions
+  m_EditorClassIdentifier: 
+  creatures:
+  - {fileID: 7190114741653865621, guid: 25fc2e46da567424daff60a37411eb31, type: 3}
+  - {fileID: 8595764055261603967, guid: c22879ff8df457a4a8057440b2e872dc, type: 3}
+  creatureFoodChainIndices: 0102

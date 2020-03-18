@@ -1,9 +1,7 @@
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Assembly-CSharp.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Assembly-CSharp.pdb
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Boo.Lang.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\GAF.461.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\GAF.462.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Microsoft.CSharp.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Microsoft.Win32.Primitives.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\mscorlib.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\netstandard.dll
@@ -12,7 +10,6 @@ C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Littl
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Collections.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Collections.NonGeneric.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Collections.Specialized.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.ComponentModel.Annotations.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.ComponentModel.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.ComponentModel.EventBasedAsync.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.ComponentModel.Primitives.dll
@@ -50,7 +47,6 @@ C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Littl
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Linq.Parallel.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Linq.Queryable.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Net.Http.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Net.Http.Rtc.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Net.NameResolution.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Net.NetworkInformation.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Net.Ping.dll
@@ -65,9 +61,6 @@ C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Littl
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Numerics.Vectors.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.ObjectModel.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Reflection.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Reflection.Emit.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Reflection.Emit.ILGeneration.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Reflection.Emit.Lightweight.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Reflection.Extensions.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Reflection.Primitives.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Resources.Reader.dll
@@ -94,11 +87,6 @@ C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Littl
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Security.Cryptography.X509Certificates.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Security.Principal.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Security.SecureString.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.ServiceModel.Duplex.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.ServiceModel.Http.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.ServiceModel.NetTcp.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.ServiceModel.Primitives.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.ServiceModel.Security.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Text.Encoding.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Text.Encoding.Extensions.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Text.RegularExpressions.dll
@@ -194,8 +182,6 @@ C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Littl
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\UnityEngine.VRModule.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\UnityEngine.WindModule.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\UnityEngine.XRModule.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\UnityScript.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\UnityScript.Lang.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Unity.CompilationPipeline.Common.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Unity.Cecil.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Unity.SerializationLogic.dll
@@ -206,10 +192,6 @@ C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Littl
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Unity.Settings.Editor.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Unity.ProBuilder.Stl.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\UnityEditor.TestRunner.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Boo.Lang.Compiler.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Boo.Lang.PatternMatching.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Boo.Lang.Parser.dll
-C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Boo.Lang.Useful.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Unity.CecilTools.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\UnityEngine.TestRunner.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\UnityEngine.xml
@@ -299,3 +281,14 @@ C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Littl
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\obj\Debug\Assembly-CSharp.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\obj\Debug\Assembly-CSharp.pdb
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.ComponentModel.Composition.dll
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Diagnostics.Tracing.dll
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Drawing.dll
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.IO.Compression.dll
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.IO.Compression.FileSystem.dll
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Net.dll
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.ServiceModel.Web.dll
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Transactions.dll
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Web.dll
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Windows.dll
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\System.Xml.Serialization.dll
