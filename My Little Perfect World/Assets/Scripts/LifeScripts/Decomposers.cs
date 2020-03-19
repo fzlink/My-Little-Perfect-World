@@ -8,12 +8,12 @@ public class Decomposers : MonoBehaviour
     private float decomposePower;
     private float nutritionJob;
 
-    private Environment environment;
+    private Air air;
     private Soil soil;
 
     private void Awake()
     {
-        environment = FindObjectOfType<Environment>();
+        air = FindObjectOfType<Air>();
         soil = FindObjectOfType<Soil>();
     }
 
