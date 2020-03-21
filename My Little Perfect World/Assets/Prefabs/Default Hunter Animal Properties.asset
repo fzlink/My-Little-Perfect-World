@@ -12,18 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3f769c48c8e9646b2303028d0562fa, type: 3}
   m_Name: Default Hunter Animal Properties
   m_EditorClassIdentifier: 
+  animal: {fileID: 8595764055261603964, guid: c22879ff8df457a4a8057440b2e872dc, type: 3}
+  commonSkinColor: {r: 0.90588236, g: 0.15686275, b: 0.15686275, a: 0}
   wanderingSpeed: 8
+  wanderChangeDirectionDelay: 10
   runningSpeed: 12
   awarenessRadius: 10
-  fallRiseSpeed: 20
-  changeDirectionDelay: 10
-  drinkSpeed: 1
-  eatingSpeed: 1
-  thirstThreshold: 10
-  commonSkinColor: {r: 0.90588236, g: 0.15686275, b: 0.15686275, a: 0}
-  directions:
+  lookForWaterdirections:
   - {x: -10, y: -1, z: 10}
   - {x: -5, y: -1, z: 10}
   - {x: 0, y: -1, z: 10}
   - {x: 5, y: -1, z: 10}
   - {x: 10, y: -1, z: 10}
+  foodMaximum: 100
+  foodDangerThreshold: 25
+  foodEatingSpeed: 1
+  foodDecreaseSpeed: 1
+  waterMaximum: 100
+  waterDangerThreshold: 25
+  waterDrinkingSpeed: 1
+  waterDecreaseSpeed: 1
+  sleepMaximum: 100
+  sleepDangerThreshold: 25
+  sleepGettingSpeed: 1
+  sleepDecreaseSpeed: 1
+  stressMaximum: 100
+  stressDangerThreshold: 25
+  stressGettingSpeed: 1
+  stressDecreaseSpeed: 1
+  reproducingMaximum: 100
+  reproducingSpeed: 1
+  pregnancyMaximum: 1000
+  pregnancySpeed: 1
+  pregnancyChildAmount: 1
