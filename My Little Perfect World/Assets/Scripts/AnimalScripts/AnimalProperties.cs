@@ -7,6 +7,7 @@ public class AnimalProperties : ScriptableObject
 {
     [Header("General Values")]
     [SerializeField] private GameObject animal;
+    [SerializeField] private Texture animalIcon;
     [SerializeField] private Color commonSkinColor;
 
     [Header("Wandering Values")]
@@ -43,7 +44,7 @@ public class AnimalProperties : ScriptableObject
     [Header("Reproducing Values")]
     [SerializeField] private float reproducingMaximum;
     [SerializeField] private float reproducingSpeed;
-
+    [SerializeField] private float reproducingAge;
 
     [Header("Pregnancy Values")]
     [SerializeField] private float pregnancyMaximum;
@@ -51,6 +52,7 @@ public class AnimalProperties : ScriptableObject
     [SerializeField] private int pregnancyChildAmount;
 
     public GameObject Animal { get => animal; set => animal = value; }
+    public Texture AnimalIcon { get => animalIcon; set => animalIcon = value; }
     public Color CommonSkinColor { get => commonSkinColor; set => commonSkinColor = value; }
     public float WanderingSpeed { get => wanderingSpeed; set => wanderingSpeed = value; }
     public float WanderChangeDirectionDelay { get => wanderChangeDirectionDelay; set => wanderChangeDirectionDelay = value; }
@@ -75,6 +77,7 @@ public class AnimalProperties : ScriptableObject
     public float StressDecreaseSpeed { get => stressDecreaseSpeed; set => stressDecreaseSpeed = value; }
     public float ReproducingMaximum { get => reproducingMaximum; set => reproducingMaximum = value; }
     public float ReproducingSpeed { get => reproducingSpeed; set => reproducingSpeed = value; }
+    public float ReproducingAge { get => reproducingAge; set => reproducingAge = value; }
     public float PregnancyMaximum { get => pregnancyMaximum; set => pregnancyMaximum = value; }
     public float PregnancySpeed { get => pregnancySpeed; set => pregnancySpeed = value; }
     public int PregnancyChildAmount { get => pregnancyChildAmount; set => pregnancyChildAmount = value; }

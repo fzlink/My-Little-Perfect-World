@@ -13,17 +13,18 @@ public class DNA
     {
         DetermineSex();
 
-        skinIlluminance = Random.Range(0.25f, 0.75f);
+        skinIlluminance = Random.Range(0.50f, 1.50f);
         DetermineSkinIlluminance(commonSkinColor, skinIlluminance);
 
     }
+
 
     public DNA(Color commonSkinColor, float skinIlluminance) // With ancestor
     {
         DetermineSex();
 
+        this.skinIlluminance = skinIlluminance;
         DetermineSkinIlluminance(commonSkinColor, skinIlluminance);
-
     }
 
 
@@ -35,19 +36,20 @@ public class DNA
 
     private void DetermineSkinIlluminance(Color commonSkinColor, float skinIlluminance)
     {
-        if (skinIlluminance <= 0.5f)
-        {
-            skinColor = Color.Lerp(commonSkinColor, Color.black, skinIlluminance);
-        }
-        else
-        {
-            skinColor = Color.Lerp(commonSkinColor, Color.white, skinIlluminance);
-        }
+        Color newColor = commonSkinColor * skinIlluminance;
+        newColor.a = 1f;
+        skinColor = newColor;
     }
     
     public bool isOppositeSex(Sex sex)
     {
         if(this.sex == sex) { return false; }
         else { return true; }
+    }
+
+    public static Sex GetOppositeSex(Sex sex)
+    {
+        if(sex == Sex.Female) { return Sex.Male; }
+        else { return Sex.Female; }
     }
 }

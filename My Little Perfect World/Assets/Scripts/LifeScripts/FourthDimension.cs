@@ -6,11 +6,11 @@ using UnityEngine;
 public class FourthDimension : MonoBehaviour
 {
     public enum TimeOfDay { Day, Night};
-    public TimeOfDay timeOfDay;
-    private float currentTime = 0;
-    private float currentDay = 0;
-    public float fullCycleTime = 200;
-    public float timeSpeedMultiplier = 1;
+    public static TimeOfDay timeOfDay;
+    public static float currentTime = 0;
+    public static int currentDay = 0;
+    public float fullCycleTime = 240;
+    public float timeSpeedMultiplier = 100;
 
     private void Start()
     {
@@ -20,7 +20,7 @@ public class FourthDimension : MonoBehaviour
     private void Update()
     {
         currentTime += (Time.deltaTime / fullCycleTime) * timeSpeedMultiplier;
-        print(timeOfDay);
+        print(currentTime);
         if(currentTime >= 0.5f)
         {
             timeOfDay = TimeOfDay.Night;

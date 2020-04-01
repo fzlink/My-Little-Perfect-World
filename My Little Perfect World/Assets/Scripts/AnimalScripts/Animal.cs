@@ -13,19 +13,22 @@ public class Animal : Creature
         Eating = 4, //ScanForOtherCreature, MakeNoise(maybe),Eat
         Reproducing = 5, //ScanForOtherCreature, Reproduce
         BeingEaten = 6, //BeEaten
+        GoingToSomething = 7,
+        LookForDanger = 8
     }
     public AnimalState state { get; set; }
 
     public DNA dNA { get; set; }
     [SerializeField] private AnimalProperties properties;
+    public AnimalProperties GetProperties() { return properties; }
 
     private const int maxLookDownDistance = 100;
     private const int maxLookDownForItemDistance = 20;
     private const int fallRiseSpeed = 20;
     private const int groundMask = 1 << 8;
     private const int animalPlantMask = (1 << 9) | (1 << 10);
+    private const int animalMask = (1 << 9);
     private const int groundWaterMask = (1 << 4) | (1 << 8);
-    private Vector3 defaultLook;
 
     //State (UI) Properties
     // Food   |xxxxx________| 1-FoodAmount, 2-FoodMaximum, 3-FoodDangerThreshold, 4-FoodEatingSpeed, 5-FoodDecreaseSpeed
@@ -34,66 +37,67 @@ public class Animal : Creature
     // Stress |xx___________| 1-StressAmount, 2-StressMaximum, 3-StressDangerThreshold, 4-StressGettingSpeed, 5-StressDecreaseSpeed
     // Pregnancy |xxxxxxxxx___| 1-PregnancyAmount, 2-PregnancyMaximum, 3-PregnancySpeed
 
-    private float foodAmount;
-    private float waterAmount;
-    private float sleepAmount;
-    private float stressAmount;
-    private float pregnancyAmount;
-    private float reproduceAmount;
+    public float foodAmount { get; set; }
+    public float waterAmount { get; set; }
+    public float sleepAmount { get; set; }
+    public float stressAmount { get; set; }
+    public float pregnancyAmount { get; set; }
+    public float reproduceAmount { get; set; }
+
+    public float age => FourthDimension.currentDay - dayOfBirth;
 
     private bool isHungry;
     private bool isThirsty;
     private bool isPregnant;
     Vector3[] fovDirections;
 
+    public Food currentFood { get; set; }
 
     public bool hasAncestor { get; set; }
     private Animal partner;
-
-
+    public int dayOfBirth { get; set; }
     public Animal mother { get; set; }
     public Animal father { get; set; }
     public List<Animal> childs { get; set; }
+    public int reproId;
 
     private Coroutine changeDirectionCoroutine;
     private BoxCollider boxCollider;
 
     private Vector3 scanOrigin;
 
+    public DNA.Sex sex;
 
-    private bool changeDirection;
-    private GameObject enemyGameObject;
-    private Vector3 waterLocation;
-    private Vector3 enemyPoint;
+    private bool wanderChangeDirection;
+    public Location currentLocationInterest = new Location();
+    private List<Location> locationHistory = new List<Location>();
 
     private Soil soil;
     private float scaleMagnitude;
 
-    //Todo - Stop State, Continue State
-    private bool onRun;
-    private bool onHunt;
-    private bool goingToWater;
-    private bool goingToPartner;
-    private Vector3 rotationEventDir;
-    private bool rotationEvent;
+    private GameObject enemyGameObject;
+
+    public bool isRunning;
+    private bool runChangeDirection;
 
     private void Awake()
     {
         if (!hasAncestor)
         {
             dNA = new DNA(properties.CommonSkinColor);
+            GetComponent<Renderer>().material.color = dNA.skinColor;
+            sex = dNA.sex;
         }
-        //else
-        //{
-        //    dNA = new DNA(properties.CommonSkinColor,
-        //        (mother.dNA.skinIlluminance + father.dNA.skinIlluminance) / 2);
-        //}
-
     }
 
     private void Start()
     {
-        changeDirectionCoroutine = StartCoroutine(ChangeDirection(properties.WanderChangeDirectionDelay));
+        reproId = -1;
+        dayOfBirth = FourthDimension.currentDay;
+        foodAmount = 25;
+        waterAmount = 100;
+        sleepAmount = 50;
+        changeDirectionCoroutine = StartCoroutine(WanderChangeDirection(properties.WanderChangeDirectionDelay));
         scaleMagnitude = transform.localScale.magnitude;
         soil = FindObjectOfType<Soil>();
         scanOrigin = transform.position;
@@ -101,64 +105,201 @@ public class Animal : Creature
         fovDirections = properties.LookForWaterdirections;
     }
 
+    private void FixedUpdate()
+    {
+        MakeGrounded();
+        if(state == AnimalState.Wandering)
+        {
+            ScanForOtherCreature();
+        }
+        else
+        {
+            ScanForEnemy();
+        }
+
+    }
+
+    private void ScanForEnemy()
+    {
+        //Scan For Enemies or Friends
+        Collider[] scannedColliders = Physics.OverlapSphere(scanOrigin, properties.AwarenessRadius, animalMask);
+        foreach (Collider collider in scannedColliders)
+        {
+            if (collider.transform != transform)
+            {
+                if (!collider.CompareTag(tag) && collider.gameObject != enemyGameObject)
+                {
+                    bool danger = PotentialEnemyDetected(collider);
+                    if (danger) { break; }
+                }
+            }
+        }
+    }
+
     private void Update()
     {
         scanOrigin = transform.position;
-
-        switch(state){
+        switch (state){
             case AnimalState.Wandering:
                 Wander();
                 ScanForWater();
-                ScanForOtherCreature();
                 LookInFront();
                 break;
             case AnimalState.Sleeping:
                 Sleep();
                 break;
-            case AnimalState.Running:
-                ScanForOtherCreature();
-                Run();
-                LookInFront();
-                break;
             case AnimalState.Reproducing:
-                ScanForOtherCreature();
-                Reproduce();
                 break;
             case AnimalState.Eating:
-                ScanForOtherCreature();
                 Eat();
                 //MakeNoise();
                 break;
             case AnimalState.Drinking:
-                ScanForOtherCreature();
                 DrinkWater();
                 break;
-            case AnimalState.BeingEaten:
-                BeEaten();
+            case AnimalState.GoingToSomething:
+                GoToSomething();
+                LookInFarFront();
+                JudgeDistance();
+                break;
+            case AnimalState.LookForDanger:
+                //ScanForOtherCreature();
+                StartCoroutine(GoWander());
                 break;
             default:
                 break;
         }
-        MakeGrounded();
+        //MakeGrounded();
         //MakeProperRotation();
         ReEvaluateProperties();
-        //ScanArea();
-        //Wander();
-        //ReEvaluateProperties();
-        //if (eating)
-        //{
-        //    Eat();
-        //}
-        //if (drinking)
-        //{
-        //    DrinkWater();
-        //}
-        
     }
 
-    public bool MakeGrounded()
+    private IEnumerator GoWander()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if(state == AnimalState.LookForDanger)
+        {
+            state = AnimalState.Wandering;
+        }
+    }
+
+    private void JudgeDistance()
+    {
+
+        if(Vector3.Distance(transform.position, currentLocationInterest.GetPosition()) <= 1.5f)
+        {
+            ArrivedToLocation();
+        }
+        else if( currentLocationInterest.GetLocationType() == Location.LocationType.Enemy && Vector3.Distance(transform.position, currentLocationInterest.GetPosition()) >= 25f){
+            Lost();
+        }
+    }
+
+    private void ArrivedToLocation()
+    {
+        switch (currentLocationInterest.GetLocationType())
+        {
+            case Location.LocationType.Water:
+                state = AnimalState.Drinking;
+                break;
+            case Location.LocationType.Enemy:
+                EnemyConfrontation();
+                break;
+            case Location.LocationType.Partner:
+                PartnerConfrontation();
+                break;
+            case Location.LocationType.Food:
+                FoodConfrontation();
+                break;
+            default:
+                break;
+        }
+        currentLocationInterest = null;
+        //locationHistory.Add(currentLocationInterest);
+    }
+
+    private void FoodConfrontation()
+    {
+        currentFood = currentLocationInterest.GetObjectToFollow().gameObject.GetComponent<Food>();
+        currentFood.GetComponent<Food>().beingEatenSpeed = properties.FoodEatingSpeed;
+        currentFood.GetComponent<Food>().isBeingEaten = true;
+        state = AnimalState.Eating;
+    }
+
+    private void PartnerConfrontation()
+    {
+        AnimalInteractionManager.instance.StartReproducing(this, partner, properties.ReproducingSpeed, properties.ReproducingMaximum);
+        AnimalInteractionManager.instance.onReproducingFinished += OnReproductionFinished;
+        state = AnimalState.Reproducing;
+    }
+    private void EnemyConfrontation()
+    {
+        isRunning = false;
+        if (currentLocationInterest.isGettingAwayFrom)
+        {
+            Die();
+        }
+        else
+        {
+            enemyGameObject.GetComponent<Animal>().Die();
+            FoodConfrontation();
+            //state = AnimalState.Eating;
+        }
+    }
+
+    private void OnReproductionFinished(int id, bool isSuccess)
+    {
+        if(id == reproId && isSuccess)
+        {
+            if(sex == DNA.Sex.Female)
+            {
+                isPregnant = true;
+            }
+        }
+        reproId = -1;
+        state = AnimalState.LookForDanger;
+        AnimalInteractionManager.instance.onReproducingFinished -= OnReproductionFinished;
+    }
+
+
+    private void Lost()
+    {
+        isRunning = false;
+        state = AnimalState.Wandering;
+        //If enemySitutaion
+        enemyGameObject = null;
+    }
+
+   
+
+    private void GoToSomething()
+    {
+        if (!runChangeDirection)
+        {
+            Vector3 direction = currentLocationInterest.GetPosition() - transform.position;
+            if (currentLocationInterest.isGettingAwayFrom) { direction = -direction; }
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
+
+        float speed = properties.WanderingSpeed;
+        if (isRunning) { speed = properties.RunningSpeed; }
+        transform.position += transform.forward * Time.deltaTime * speed;
+    }
+
+
+    private bool MakeGrounded()
     {
         RaycastHit hit;
+
+        //if (Physics.Raycast(transform.position, -Vector3.up, out hit, 1000,groundMask))
+        //{
+        //    var distanceToGround = hit.distance; 
+        //    //use below code if your pivot point is in the middle
+        //    transform.position = new Vector3(transform.position.x,hit.distance + boxCollider.bounds.extents.y*4,transform.position.z);
+        //    //use below code if your pivot point is at the bottom
+        //    //transform.position.y = hit.distance;
+        //}
+
         if (Physics.Raycast(scanOrigin, Vector3.down, out hit, maxLookDownDistance, groundMask))
         {
             if (hit.distance <= boxCollider.bounds.extents.y + 0.25f && hit.distance >= boxCollider.bounds.extents.y)
@@ -180,20 +321,6 @@ public class Animal : Creature
         }
     }
 
-    private void MakeProperRotation()
-    {
-        RaycastHit hit;
-        if(rotationEvent)
-        {
-            transform.rotation = Quaternion.LookRotation(rotationEventDir, Vector3.up);
-            rotationEvent = false;
-        }
-        if(Physics.Raycast(scanOrigin, Vector3.down, out hit, maxLookDownForItemDistance, groundMask))
-        {
-            //transform.up = hit.normal;
-        }
-    }
-
     private void RotationEvent(Vector3 rotation, int rotationType)
     {
         if(rotationType == 0)
@@ -204,8 +331,6 @@ public class Animal : Creature
         {
             transform.rotation = Quaternion.Euler(rotation);
         }
-        //rotationEventDir = rotation;
-        //rotationEvent = true;
     }
 
     private void ReEvaluateProperties()
@@ -215,9 +340,13 @@ public class Animal : Creature
             waterAmount -= Time.deltaTime;
             if(waterAmount < 0) { waterAmount = 0; }
         }
-        if(!isThirsty && waterAmount < properties.WaterDangerThreshold)
+        if(waterAmount < properties.WaterDangerThreshold)
         {
             isThirsty = true;
+        }
+        else
+        {
+            isThirsty = false;
         }
 
         if (state != AnimalState.Eating)
@@ -225,9 +354,13 @@ public class Animal : Creature
             foodAmount -= Time.deltaTime;
             if (foodAmount < 0) { foodAmount = 0; }
         }
-        if (!isHungry && foodAmount < properties.FoodDangerThreshold)
+        if (foodAmount < properties.FoodDangerThreshold)
         {
             isHungry = true;
+        }
+        else
+        {
+            isHungry = false;
         }
 
         if (isPregnant)
@@ -263,27 +396,35 @@ public class Animal : Creature
 
     private void Wander()
     {
-        if (!changeDirection)
+        if (!wanderChangeDirection)
         {
-            changeDirectionCoroutine =  StartCoroutine(ChangeDirection(properties.WanderChangeDirectionDelay));
+            changeDirectionCoroutine =  StartCoroutine(WanderChangeDirection(properties.WanderChangeDirectionDelay));
         }
         transform.position += transform.forward * Time.deltaTime * properties.WanderingSpeed;
     }
 
-    private void Run()
+    IEnumerator WanderChangeDirection(float seconds)
     {
-        transform.position += transform.forward * Time.deltaTime * properties.RunningSpeed;
-    }
-
-    IEnumerator ChangeDirection(float seconds)
-    {
-        changeDirection = true;
+        wanderChangeDirection = true;
         yield return new WaitForSeconds(seconds);
         if(state == AnimalState.Wandering)
         {
-            RotationEvent(new Vector3(0, UnityEngine.Random.Range(-180, 180), 0), 1);
+            TurnToRandomRotation();
         }
-        changeDirection = false;
+        wanderChangeDirection = false;
+    }
+
+    IEnumerator RunChangeDirection(Vector3 direction, float seconds)
+    {
+        runChangeDirection = true;
+        RotationEvent(direction,0);
+        yield return new WaitForSeconds(seconds);
+        runChangeDirection = false;
+    }
+
+    private void TurnToRandomRotation()
+    {
+        transform.rotation = Quaternion.Euler(new Vector3(0, UnityEngine.Random.Range(-180, 180), 0));
     }
 
 
@@ -291,10 +432,11 @@ public class Animal : Creature
     {
         for (int i = 0; i < properties.PregnancyChildAmount; i++)
         {
-            GameObject child = Instantiate(properties.Animal, -transform.forward, Quaternion.identity);
+            GameObject child = Instantiate(properties.Animal, transform.position - transform.forward.normalized*2, Quaternion.identity);
             Animal childScript = child.GetComponent<Animal>();
             childScript.dNA = new DNA(properties.CommonSkinColor,
                     (dNA.skinIlluminance + father.dNA.skinIlluminance) / 2);
+            child.GetComponent<Renderer>().material.color = childScript.dNA.skinColor;
 
             childScript.mother = this;
             childScript.father = partner;
@@ -320,23 +462,15 @@ public class Animal : Creature
                 {
                     Debug.DrawLine(scanOrigin, hit.point, Color.green);
                     //print(hit.textureCoord);
-                    waterLocation = hit.point;
-                    //RotationEvent(waterLocation - transform.position);
-                    goingToWater = true;
+                    //To-do -- Make nearest hit.point waterLocation
+
+                    currentLocationInterest.SetLocation(hit.point, Location.LocationType.Water, false);
+                    state = AnimalState.GoingToSomething;
                 }
                 else
                 {
                     Debug.DrawRay(scanOrigin, direction * hit.distance, Color.black);
                 }
-            }
-        }
-
-        if (goingToWater)
-        {
-            if (Vector3.Distance(transform.position, waterLocation) <= 2f)
-            {
-                goingToWater = false;
-                state = AnimalState.Drinking;
             }
         }
     }
@@ -347,6 +481,7 @@ public class Animal : Creature
         if (waterAmount > properties.WaterMaximum)
         {
             waterAmount = properties.WaterMaximum;
+            RotationEvent(-transform.forward, 0);
             state = AnimalState.Wandering;
         }
     }
@@ -360,119 +495,191 @@ public class Animal : Creature
         {
             if (collider.transform != transform)
             {
-                if (!collider.CompareTag(tag))
+                if(collider.gameObject.GetComponent<Creature>() != null)
                 {
-                    enemyGameObject = collider.gameObject;
-                    byte enemyFoodChainIndex = enemyGameObject.GetComponent<Creature>().foodChainIndex;
-                    if (enemyFoodChainIndex != foodChainIndex)
+                    if (!collider.CompareTag(tag) && collider.gameObject != enemyGameObject)
                     {
-                        enemyPoint = collider.ClosestPoint(transform.position);
-
-                        if (enemyFoodChainIndex > foodChainIndex)
-                        {
-                            state = AnimalState.Running;
-                            onRun = true;
-                            //RotationEvent(transform.position - enemyPoint); //RunFrom
-                            break;
-                        }
-                        else if (enemyFoodChainIndex < foodChainIndex && isHungry)
-                        {
-                            state = AnimalState.Running;
-                            onHunt = true;
-                            //RotationEvent(enemyPoint - transform.position); //RunTo
-                            break;
-                        }
+                        bool danger = PotentialEnemyDetected(collider);
+                        if(danger) { break; }
+                    }
+                    else if(enemyGameObject == null)
+                    {
+                        PotentialPartnerDetected(collider);
                     }
                 }
-                else if(state == AnimalState.Wandering && collider.gameObject.CompareTag(tag)) 
+                else if(isHungry && collider.gameObject.GetComponent<Food>() != null && state != AnimalState.Eating)
                 {
-                    Animal potentialPartner = collider.gameObject.GetComponent<Animal>();
-                    if(potentialPartner.state == AnimalState.Wandering && dNA.isOppositeSex(potentialPartner.dNA.sex))
-                    {
-                        partner = potentialPartner;
-                        goingToPartner = true;
-                        //RotationEvent(partner.transform.position - transform.position);
-                    }
+                    PotentialFoodDetected(collider);
                 }
-            }
-        }
-
-        if (state == AnimalState.Running)
-        {
-            if (Vector3.Distance(transform.position, enemyPoint) <= 1f)
-            {
-                if (onRun)
-                {
-                    onRun = false;
-                    state = AnimalState.BeingEaten;
-                }
-                else if (onHunt)
-                {
-                    onHunt = false;
-                    state = AnimalState.Eating;
-                }
-            }
-            else if (Vector3.Distance(transform.position, enemyPoint) >= 20f)
-            {
-                onRun = false;
-                onHunt = false;
-                state = AnimalState.Wandering;
-            }
-        }
-        else if (goingToPartner)
-        {
-            if(Vector3.Distance(transform.position,partner.transform.position) <= 1f)
-            {
-                goingToPartner = false;
-                state = AnimalState.Reproducing;
             }
         }
     }
 
-
-    private void BeEaten()
+    private void PotentialFoodDetected(Collider collider)
     {
-        if(transform.localScale.magnitude < 0.5f)
+        state = AnimalState.GoingToSomething;
+        isRunning = true;
+        currentLocationInterest.SetObjectToFollow(collider.transform, Location.LocationType.Food, false);
+    }
+
+    private bool PotentialEnemyDetected(Collider collider)
+    {
+
+        int enemyFoodChainIndex = collider.gameObject.GetComponent<Creature>().foodChainIndex;
+        if (enemyFoodChainIndex != foodChainIndex)
         {
-            Die();
+            enemyGameObject = collider.gameObject;
+            Interrupted();
+
+            state = AnimalState.GoingToSomething;
+            isRunning = true;
+            if (enemyFoodChainIndex > foodChainIndex)
+            {
+                currentLocationInterest.SetObjectToFollow(collider.transform,Location.LocationType.Enemy,true);
+            }
+            else if (enemyFoodChainIndex < foodChainIndex)
+            {
+                currentLocationInterest.SetObjectToFollow(collider.transform, Location.LocationType.Enemy, false);
+            }
+            return true;
         }
+        return false;
+    }
+
+    private void Interrupted()
+    {
+        AnimalInteractionManager.instance.Interrupted(this);
+    }
+
+    private void PotentialPartnerDetected(Collider collider)
+    {
+        Animal potentialPartner = collider.gameObject.GetComponent<Animal>();
+
+        bool canInitiateReproducing = isEligiblePartner(potentialPartner);
+
+        bool isPartnerEligible = potentialPartner.isEligiblePartner(this) && dNA.isOppositeSex(potentialPartner.dNA.sex);
+
+        if (canInitiateReproducing && isPartnerEligible)
+        {
+            partner = potentialPartner;
+            currentLocationInterest.SetObjectToFollow(collider.transform, Location.LocationType.Partner, false);
+            state = AnimalState.GoingToSomething;
+        }
+    }
+
+    public bool isEligiblePartner(Animal potentialPartner)
+    {
+        return !isPregnant && age >= properties.ReproducingAge && (state == AnimalState.Wandering || (state == AnimalState.GoingToSomething && potentialPartner == partner) );
     }
 
     private void Die()
     {
-        soil.IncreaseDead(scaleMagnitude);
-        Destroy(gameObject);
+        Meat meat = gameObject.AddComponent<Meat>();
+        meat.animalType = tag;
+        Destroy(this);
     }
+
+    //private void Die()
+    //{
+    //    soil.IncreaseDead(scaleMagnitude);
+    //    Destroy(gameObject);
+    //}
 
     private void Eat()
     {
-        if(enemyGameObject == null)
+        if(currentFood == null)
         {
             state = AnimalState.Wandering;
         }
         else
         {
-            enemyGameObject.transform.localScale -= Vector3.one * properties.FoodEatingSpeed * Time.deltaTime;
             foodAmount += properties.FoodEatingSpeed * Time.deltaTime;
-            if (foodAmount > properties.FoodMaximum) { foodAmount = properties.FoodMaximum; }
+            if (foodAmount > properties.FoodMaximum)
+            {
+                foodAmount = properties.FoodMaximum;
+                state = AnimalState.Wandering;
+            }
         }
     }
 
-    private void Reproduce()
+    //private void Reproduce()
+    //{
+    //    //Process Reproduce
+    //    if(partner.isPregnant || isPregnant)
+    //    {
+    //        state = AnimalState.Wandering;
+    //        return;
+    //    }
+    //    reproduceAmount += properties.ReproducingSpeed * Time.deltaTime;
+    //    print(reproduceAmount);
+    //    if(reproduceAmount >= properties.ReproducingMaximum)
+    //    {
+    //        reproduceAmount = 0;
+    //        state = AnimalState.Wandering;
+    //        if ( dNA.sex == DNA.Sex.Female) //Female
+    //        {
+    //            isPregnant = true;
+    //        }
+    //    }
+    //}
+
+    
+
+    private void LookInFarFront()
     {
-        //Process Reproduce
-        
-        reproduceAmount += properties.ReproducingSpeed * Time.deltaTime;
-        if(reproduceAmount >= properties.ReproducingMaximum)
+        if (runChangeDirection) { return; }
+        RaycastHit hit;
+        RaycastHit hit1;
+        RaycastHit hit2;
+        float maxD = 0;
+        if(Physics.Raycast(scanOrigin + transform.up * boxCollider.bounds.max.y, transform.TransformVector(new Vector3(0,-1,1)),out hit, maxLookDownForItemDistance, groundWaterMask))
         {
-            reproduceAmount = 0;
-            state = AnimalState.Wandering;
-            if ( dNA.sex == DNA.Sex.Female) //Female
+            if(hit.collider.gameObject.layer == 4)
             {
-                isPregnant = true;
+                Physics.Raycast(scanOrigin + transform.up * boxCollider.bounds.max.y, transform.TransformVector(new Vector3(1, -1, 0)), out hit1, maxLookDownForItemDistance, groundWaterMask);
+                if(hit1.collider.gameObject.layer == 4)
+                {
+                    maxD = -1;
+                }
+                else
+                {
+                    maxD = hit1.distance;
+                }
+
+                Physics.Raycast(scanOrigin + transform.up * boxCollider.bounds.max.y, transform.TransformVector(new Vector3(-1, -1, 0)), out hit2, maxLookDownForItemDistance, groundWaterMask);
+                if(hit2.collider.gameObject.layer == 4)
+                {
+                    if(maxD == -1)
+                    {
+                        StartCoroutine(RunChangeDirection(-transform.forward, 0.5f));
+                    }
+                    else
+                    {
+                        StartCoroutine(RunChangeDirection(transform.right, 0.5f));
+                    }
+                }
+                else
+                {
+                    if(maxD == -1)
+                    {
+                        StartCoroutine(RunChangeDirection(-transform.right, 0.5f));
+                    }
+                    else if(hit2.distance > maxD)
+                    {
+                        StartCoroutine(RunChangeDirection(-transform.right, 0.5f));
+                    }
+                    else
+                    {
+                        StartCoroutine(RunChangeDirection(transform.right, 0.5f));
+                    }
+                }
+                Debug.DrawLine(scanOrigin + transform.up * boxCollider.bounds.max.y, hit.point, Color.green);
+            }
+            else
+            {
+                Debug.DrawLine(scanOrigin + transform.up * boxCollider.bounds.max.y, hit.point, Color.black);
             }
         }
-
     }
 
     private void LookInFront()
@@ -485,10 +692,24 @@ public class Animal : Creature
             if (hitItem.collider.gameObject.layer == 4)
             {
                 //print("Hit water");
-                if (!isThirsty || state == AnimalState.Running)
+                if (isRunning)
                 {
                     Debug.DrawLine(scanOrigin + transform.forward * 2, hitItem.point, Color.blue);
-                    //RotationEvent(new Vector3(transform.eulerAngles.x, UnityEngine.Random.Range(-180, 180), transform.eulerAngles.z));
+                    if (!runChangeDirection)
+                    {
+                        Vector3 angleBisectorVector = (hitItem.point - transform.position) + (enemyGameObject.transform.position - transform.position);
+                        StartCoroutine(RunChangeDirection(angleBisectorVector, 1f));
+                    }
+
+                    //TurnToRandomRotation();
+                }
+                else if (isThirsty)
+                {
+                    state = AnimalState.Drinking;
+                }
+                else
+                {
+                    TurnToRandomRotation();
                 }
             }
             else
@@ -511,6 +732,70 @@ public class Animal : Creature
         }
 
         //Gizmos.DrawSphere((waterLocation + enemyPoint) / 2, 0.5f);
+    }
+
+    private void OnDestroy()
+    {
+        
+    }
+
+}
+
+[Serializable]
+public class Location
+{
+    public enum LocationType { Default = 0, Water = 1, Enemy = 2, Partner = 3, Food = 4};
+    private LocationType locationType;
+    private Vector3 location;
+
+    private Transform objectToFollow;
+    public bool isGettingAwayFrom;
+
+    public Location()
+    {
+        objectToFollow = null;
+        location = Vector3.zero;
+        locationType = LocationType.Default;
+    }
+
+    public Vector3 GetPosition()
+    {
+        if (objectToFollow)
+        {
+            return objectToFollow.position;
+        }
+        else
+        {
+            return location;
+        }
+    }
+
+    public void SetLocation(Vector3 location, LocationType locationType, bool isGettingAwayFrom)
+    {
+        this.location = location;
+        this.locationType = locationType;
+        this.isGettingAwayFrom = isGettingAwayFrom;
+        objectToFollow = null;
+    }
+
+    public void SetObjectToFollow(Transform objectToFollow, LocationType locationType, bool isGettingAwayFrom)
+    {
+        this.objectToFollow = objectToFollow;
+        this.locationType = locationType;
+        this.isGettingAwayFrom = isGettingAwayFrom;
+        location = Vector3.zero;
+    }
+    public Transform GetObjectToFollow()
+    {
+        return objectToFollow;
+    }
+    public Vector3 GetLocation()
+    {
+        return location;
+    }
+    public LocationType GetLocationType()
+    {
+        return locationType;
     }
 
 }

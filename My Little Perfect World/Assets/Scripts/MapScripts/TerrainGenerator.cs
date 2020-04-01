@@ -8,8 +8,8 @@ public class TerrainGenerator : MonoBehaviour
     const float viewerMoveThresholdForChunkUpdate = 25f;
     const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
 
-    public float mapChunkConstraintX = 10;
-    public float mapChunkConstraintY = 10;
+    public float mapChunkConstraintX;
+    public float mapChunkConstraintY;
 
 
     //public float radius = 1;

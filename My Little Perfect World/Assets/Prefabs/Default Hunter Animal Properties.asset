@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Default Hunter Animal Properties
   m_EditorClassIdentifier: 
   animal: {fileID: 8595764055261603964, guid: c22879ff8df457a4a8057440b2e872dc, type: 3}
+  animalIcon: {fileID: 2800000, guid: 9a7de3e8ca96cf54bbf2433666c49ebf, type: 3}
   commonSkinColor: {r: 0.90588236, g: 0.15686275, b: 0.15686275, a: 0}
   wanderingSpeed: 8
-  wanderChangeDirectionDelay: 10
+  wanderChangeDirectionDelay: 9
   runningSpeed: 12
   awarenessRadius: 10
   lookForWaterdirections:
@@ -34,7 +35,7 @@ MonoBehaviour:
   waterDecreaseSpeed: 1
   sleepMaximum: 100
   sleepDangerThreshold: 25
-  sleepGettingSpeed: 1
+  sleepGettingSpeed: 15
   sleepDecreaseSpeed: 1
   stressMaximum: 100
   stressDangerThreshold: 25
@@ -42,6 +43,7 @@ MonoBehaviour:
   stressDecreaseSpeed: 1
   reproducingMaximum: 100
   reproducingSpeed: 1
+  reproducingAge: 10
   pregnancyMaximum: 1000
   pregnancySpeed: 1
   pregnancyChildAmount: 1

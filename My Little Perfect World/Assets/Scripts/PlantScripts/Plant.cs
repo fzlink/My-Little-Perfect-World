@@ -10,7 +10,7 @@ public class Plant : Creature
     private Air air;
     private FourthDimension time;
     private Sun sun;
-    public float growFactor = 0.01f;
+    public float growFactor = 0.001f;
 
     private void Start()
     {
@@ -26,11 +26,11 @@ public class Plant : Creature
             starch = 0;
         }
 
-        if(chlorophyllAmount > 0 && air.carbondioxide > 0 && time.timeOfDay == FourthDimension.TimeOfDay.Day)
+        if(chlorophyllAmount > 0 && air.carbondioxide > 0 && FourthDimension.timeOfDay == FourthDimension.TimeOfDay.Day)
         {
             Photosynthesis();
         }
-        else if(starch > 0 && time.timeOfDay == FourthDimension.TimeOfDay.Night)
+        else if(starch > 0 && FourthDimension.timeOfDay == FourthDimension.TimeOfDay.Night)
         {
             Grow();
         }
@@ -57,4 +57,11 @@ public class Plant : Creature
         air.IncreaseCarbondioxide();
     }
 
+    private void BeEaten()
+    {
+        if (transform.localScale.magnitude < 0.5f)
+        {
+            //Die();
+        }
+    }
 }

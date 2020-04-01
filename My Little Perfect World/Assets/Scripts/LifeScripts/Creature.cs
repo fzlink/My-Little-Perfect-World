@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class Creature : MonoBehaviour
 {
-    public byte foodChainIndex;
+    public int creatureID { get; set; }
+    public int foodChainIndex;
+
 }
