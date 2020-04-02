@@ -8,9 +8,16 @@ public class TerrainGenerator : MonoBehaviour
     const float viewerMoveThresholdForChunkUpdate = 25f;
     const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
 
-    public float mapChunkConstraintX;
-    public float mapChunkConstraintY;
-
+    public int mapChunkConstraintX;
+    public int mapChunkConstraintY;
+    
+    public int MapChunkCount
+    {
+        get
+        {
+            return ((mapChunkConstraintX - 1) * 2 + 1) * ((mapChunkConstraintY - 1) * 2 + 1);
+        }
+    }
 
     //public float radius = 1;
     //public Vector2 regionSize = Vector2.one;
@@ -106,6 +113,7 @@ public class TerrainGenerator : MonoBehaviour
 
             }
         }
+
     }
 
   
@@ -114,6 +122,7 @@ public class TerrainGenerator : MonoBehaviour
         if (isVisible)
         {
             visibleTerrainChunks.Add(chunk);
+
         }
         else
         {

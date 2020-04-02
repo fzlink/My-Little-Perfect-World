@@ -21,7 +21,10 @@ public class CreatureController : MonoBehaviour
             GameObject[] creatures = GameObject.FindGameObjectsWithTag(tag);
             for (int j = 0; j < creatures.Length; j++)
             {
-                creatures[j].GetComponent<Creature>().foodChainIndex = creatureData.creatureFoodChainIndices[i];
+                if(creatures[j].GetComponent<Creature>() != null)
+                {
+                    creatures[j].GetComponent<Creature>().foodChainIndex = creatureData.creatureFoodChainIndices[i];
+                }
             }
         }
     }

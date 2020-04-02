@@ -167,6 +167,7 @@ public class TerrainChunk
                     OnVisibilityChanged(this, visible);
                 }
             }
+
         }
     }
 
@@ -187,22 +188,23 @@ public class TerrainChunk
         {
             float sqrDstFromViewerToEdge = bounds.SqrDistance(viewerPosition);
 
-            if (sqrDstFromViewerToEdge < detailLevels[colliderLODIndex].sqrVisibleDstThreshold)
-            {
+           //if (sqrDstFromViewerToEdge < detailLevels[colliderLODIndex].sqrVisibleDstThreshold)
+            //{
                 if (!lodMeshes[colliderLODIndex].hasRequestedMesh)
                 {
                     lodMeshes[colliderLODIndex].RequestMesh(heightMap, meshSettings);
                 }
-            }
+            //}
 
-            if (sqrDstFromViewerToEdge < colliderGenerationDistanceThreshold * colliderGenerationDistanceThreshold)
-            {
+            //if (sqrDstFromViewerToEdge < colliderGenerationDistanceThreshold * colliderGenerationDistanceThreshold)
+            //{
                 if (lodMeshes[colliderLODIndex].hasMesh)
                 {
                     meshCollider.sharedMesh = lodMeshes[colliderLODIndex].mesh;
                     hasSetCollider = true;
+                    MapEventManager.instance.RegisterChunk(coord);
                 }
-            }
+            //}
         }
     }
 

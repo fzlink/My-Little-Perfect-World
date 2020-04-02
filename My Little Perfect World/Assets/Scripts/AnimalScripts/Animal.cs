@@ -95,7 +95,7 @@ public class Animal : Creature
         reproId = -1;
         dayOfBirth = FourthDimension.currentDay;
         foodAmount = 25;
-        waterAmount = 100;
+        waterAmount = 25;
         sleepAmount = 50;
         changeDirectionCoroutine = StartCoroutine(WanderChangeDirection(properties.WanderChangeDirectionDelay));
         scaleMagnitude = transform.localScale.magnitude;
@@ -127,10 +127,13 @@ public class Animal : Creature
         {
             if (collider.transform != transform)
             {
-                if (!collider.CompareTag(tag) && collider.gameObject != enemyGameObject)
+                if(collider.gameObject.GetComponent<Creature>() != null)
                 {
-                    bool danger = PotentialEnemyDetected(collider);
-                    if (danger) { break; }
+                    if (!collider.CompareTag(tag) && collider.gameObject != enemyGameObject)
+                    {
+                        bool danger = PotentialEnemyDetected(collider);
+                        if (danger) { break; }
+                    }
                 }
             }
         }
@@ -215,6 +218,7 @@ public class Animal : Creature
                 break;
         }
         currentLocationInterest = null;
+        isRunning = false;
         //locationHistory.Add(currentLocationInterest);
     }
 
@@ -634,7 +638,7 @@ public class Animal : Creature
         float maxD = 0;
         if(Physics.Raycast(scanOrigin + transform.up * boxCollider.bounds.max.y, transform.TransformVector(new Vector3(0,-1,1)),out hit, maxLookDownForItemDistance, groundWaterMask))
         {
-            if(hit.collider.gameObject.layer == 4)
+            if(hit.collider.gameObject.layer == 4 && currentLocationInterest.GetLocationType() != Location.LocationType.Water)
             {
                 Physics.Raycast(scanOrigin + transform.up * boxCollider.bounds.max.y, transform.TransformVector(new Vector3(1, -1, 0)), out hit1, maxLookDownForItemDistance, groundWaterMask);
                 if(hit1.collider.gameObject.layer == 4)
