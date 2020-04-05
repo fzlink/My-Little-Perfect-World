@@ -20,46 +20,45 @@ public class AnimalInteractionManager : MonoBehaviour
 
     public int reproManagerCount;
     public List<ReproManager> reproManagers;
-    public event Action<int,bool> onReproducingFinished;
+    public event Action<ReproManager,bool> onReproducingFinished;
 
     public void StartReproducing(Animal animal, Animal partner, float reproSpeed, float reproMax)
     {
-        if(partner.reproId == -1)
+        if(partner.reproManager == null)
         {
-            animal.reproId = reproManagerCount;
-            GameObject newReproManager = new GameObject("Repro Manager" + reproManagerCount);
-            ReproManager reproScript = newReproManager.AddComponent<ReproManager>();
-            newReproManager.transform.parent = reproducingManagersParent.transform;
-            reproScript.id = reproManagerCount++;
-            reproScript.partner1 = animal;
-            reproScript.reproSpeed = reproSpeed;
-            reproScript.reproMax = reproMax;
+            GameObject reproGameObject = new GameObject("Repro Manager" + reproManagerCount);
+            reproGameObject.transform.position = animal.transform.position;
+            reproGameObject.transform.parent = reproducingManagersParent.transform;
 
-            reproManagers.Add(reproScript);
+            ReproManager repro = reproGameObject.AddComponent<ReproManager>();
+            animal.reproManager = repro;
+            repro.id = reproManagerCount++;
+            repro.reproSpeed = reproSpeed;
+            repro.reproMax = reproMax;
+
+            reproManagers.Add(repro);
         }
         else
         {
-            animal.reproId = partner.reproId;
-            reproManagers[partner.reproId].partner2 = animal;
-            reproManagers[partner.reproId].StartReproduction();
+            animal.reproManager = partner.reproManager;
+            animal.reproManager.StartReproduction();
         }
     }
-    public void FinishReproducing(int id, bool isSuccess)
+    public void FinishReproducing(ReproManager reproManager, bool isSuccess)
     {
-        if(id != -1)
+        if(reproManager != null)
         {
             if(onReproducingFinished != null)
             {
-                Destroy(reproManagers[id]);
-                reproManagers.RemoveAt(id);
-                onReproducingFinished(id,isSuccess);
+                Destroy(reproManager.gameObject);
+                reproManagers.Remove(reproManager);
+                onReproducingFinished(reproManager,isSuccess);
             }
         }
     }
 
     public void Interrupted(Animal animal)
     {
-        FinishReproducing(animal.reproId, false);
-
+        FinishReproducing(animal.reproManager, false);
     }
 }

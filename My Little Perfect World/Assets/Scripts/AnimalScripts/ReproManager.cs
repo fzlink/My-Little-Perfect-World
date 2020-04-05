@@ -6,9 +6,6 @@ public class ReproManager : MonoBehaviour
 {
     public int id;
 
-    public Animal partner1 { get; set; }
-    public Animal partner2 { get; set; }
-
     public float reproSpeed { get; set; }
     public float reproMax { get; set; }
     private float reproduceAmount;
@@ -29,7 +26,7 @@ public class ReproManager : MonoBehaviour
             print(reproduceAmount);
             if (reproduceAmount >= reproMax)
             {
-                AnimalInteractionManager.instance.FinishReproducing(id,true);
+                AnimalInteractionManager.instance.FinishReproducing(this,true);
             }
         }
     }

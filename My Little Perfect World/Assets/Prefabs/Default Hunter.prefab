@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 8595764055261603961}
   - component: {fileID: 8595764055261603966}
   - component: {fileID: 8595764055261603967}
+  - component: {fileID: 3426932736908754841}
+  - component: {fileID: -7531437404370474876}
   m_Layer: 9
   m_Name: Default Hunter
   m_TagString: Hunter
@@ -107,6 +109,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodChainIndex: 0
-  sex: 0
   properties: {fileID: 11400000, guid: 0fe98f6c05234e14b84e0e2c54ea8772, type: 2}
-  thirst: 20
+  femaleProperties: {fileID: 11400000, guid: 59e11e63fb71aa94e8fc785f24e162a1, type: 2}
+  reproManager: {fileID: 0}
+--- !u!114 &3426932736908754841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8595764055261603964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eefa23336b76293499d8b745d57d18b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7531437404370474876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8595764055261603964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92d1277b2c881414ab7940d79d7d1981, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

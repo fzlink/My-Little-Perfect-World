@@ -8,6 +8,7 @@ public class CreatureController : MonoBehaviour
 
     public CreatureData creatureData;
 
+
     private void Start()
     {
         BriefAnimals();

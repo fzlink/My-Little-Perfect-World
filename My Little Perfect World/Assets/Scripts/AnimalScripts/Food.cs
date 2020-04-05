@@ -6,6 +6,8 @@ using UnityEngine;
 public class Food : MonoBehaviour
 {
     public bool isBeingEaten { get; set; }
+    public bool isDecayed { get; set; }
+
     public float beingEatenSpeed { get; set; }
     private float magnitude;
     private const float destroyMagnitudeThreshold = 0.5f;

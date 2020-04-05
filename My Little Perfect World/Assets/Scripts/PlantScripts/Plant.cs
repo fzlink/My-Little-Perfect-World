@@ -11,6 +11,7 @@ public class Plant : Creature
     private FourthDimension time;
     private Sun sun;
     public float growFactor = 0.001f;
+    public bool isNotEdible;
 
     private void Start()
     {
@@ -57,11 +58,11 @@ public class Plant : Creature
         air.IncreaseCarbondioxide();
     }
 
-    private void BeEaten()
+    public Vegetation Die()
     {
-        if (transform.localScale.magnitude < 0.5f)
-        {
-            //Die();
-        }
+        Vegetation vegetation = gameObject.AddComponent<Vegetation>();
+        vegetation.vegetationType = tag;
+        Destroy(this);
+        return vegetation;
     }
 }

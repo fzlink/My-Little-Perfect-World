@@ -8,8 +8,15 @@ public class CreatureUIManager : MonoBehaviour
 
     public RawImage creatureIcon;
     private StatBar[] statBars;
-    private Animal animalOnInterest;
+    public Animal animalOnInterest = null;
     private float animalOnInterestDangerThreshold;
+
+    public static CreatureUIManager instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -29,6 +36,7 @@ public class CreatureUIManager : MonoBehaviour
     {
         animalOnInterest = animal;
         AnimalProperties properties = animal.GetProperties();
+        FemaleProperties femaleProperties = animal.GetFemaleProperties();
         creatureIcon.gameObject.SetActive(true);
         creatureIcon.texture = properties.AnimalIcon;
         for (int i = 0; i < statBars.Length; i++)
@@ -49,9 +57,9 @@ public class CreatureUIManager : MonoBehaviour
                     statBars[i].ChangeInterest(animal.stressAmount, properties.StressMaximum, properties.StressDangerThreshold);
                     break;
                 case StatBar.BarType.Pregnancy:
-                    if(animal.dNA.sex == DNA.Sex.Female)
+                    if(animal.dNA.sex == Sex.Female)
                     {
-                        statBars[i].ChangeInterest(animal.pregnancyAmount, properties.PregnancyMaximum, 0f);
+                        statBars[i].ChangeInterest(animal.GetComponent<FemaleAttributes>().pregnancyAmount, femaleProperties.PregnancyMaximum, 0f);
                     }
                     else
                     {
@@ -89,7 +97,7 @@ public class CreatureUIManager : MonoBehaviour
                         statBars[i].ChangeValues(animalOnInterest.stressAmount, properties.StressDangerThreshold);
                         break;
                     case StatBar.BarType.Pregnancy:
-                            statBars[i].ChangeValues(animalOnInterest.pregnancyAmount, 0f);
+                            statBars[i].ChangeValues(animalOnInterest.GetComponent<FemaleAttributes>().pregnancyAmount, 0f);
                         break;
                     default:
                         break;

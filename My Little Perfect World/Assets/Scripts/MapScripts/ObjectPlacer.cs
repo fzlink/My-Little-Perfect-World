@@ -7,8 +7,9 @@ public class ObjectPlacer : MonoBehaviour
 {
 
     public GameObject tree;
-    public GameObject prey;
-    public GameObject hunter;
+
+    public List<GameObject> animals;
+    public List<Transform> animalContainers;
 
     private bool startedPlacing;
 
@@ -23,7 +24,15 @@ public class ObjectPlacer : MonoBehaviour
     {
         for (int i = 0; i < safeSpots.Count; i++)
         {
-            Instantiate(prey, safeSpots[i], Quaternion.identity);
+            GameObject child = AnimalFactory.CreateChild(animals[0],safeSpots[i],animalContainers[0]);
+            //Instantiate(animals[0], safeSpots[i], Quaternion.identity);
+            child.name = "Prey" + i;
+        }
+        for (int i = 0; i < safeSpots.Count; i+= 5)
+        {
+            GameObject child = AnimalFactory.CreateChild(animals[1], safeSpots[i], animalContainers[1]);
+            child.GetComponent<Animal>().foodChainIndex = 1;
+            child.name = "Hunter" + i;
         }
         gameObject.GetComponent<SafeSpotFinder>().onSafeSpotsFounded -= PlaceObjects;
     }
