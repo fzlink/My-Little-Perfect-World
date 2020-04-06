@@ -5,15 +5,18 @@ using UnityEngine;
 
 public class Plant : Creature
 {
-    public float chlorophyllAmount;
-    public float starch;
+    [SerializeField] private PlantProperties properties;
+    public PlantProperties GetPlantProperties () { return properties; }
+
     private Air air;
     private FourthDimension time;
     private Sun sun;
-    public float growFactor = 0.001f;
-    public bool isNotEdible;
 
-    private void Start()
+    public float starchAmount;
+    public float growAmount => transform.localScale.magnitude;
+    public bool isEdible => growAmount >= properties.EdibilityThreshold;
+
+    private void Awake()
     {
         air = FindObjectOfType<Air>();
         time = FindObjectOfType<FourthDimension>();
@@ -22,40 +25,42 @@ public class Plant : Creature
 
     private void Update()
     {
-        if(starch < 0)
-        {
-            starch = 0;
-        }
-
-        if(chlorophyllAmount > 0 && air.carbondioxide > 0 && FourthDimension.timeOfDay == FourthDimension.TimeOfDay.Day)
-        {
-            Photosynthesis();
-        }
-        else if(starch > 0 && FourthDimension.timeOfDay == FourthDimension.TimeOfDay.Night)
+        if(starchAmount > 0)
         {
             Grow();
+        }
+
+        if( air.carbondioxide > 0 && FourthDimension.timeOfDay == FourthDimension.TimeOfDay.Day)
+        {
+            Photosynthesis();
         }
     }
 
     private void Photosynthesis()
     {
-        starch += chlorophyllAmount * air.carbondioxide * sun.sunlightStrength * Time.deltaTime;
+        starchAmount += air.carbondioxide * sun.sunlightStrength * Time.deltaTime;
+        if (starchAmount > properties.MaxStarch)
+            starchAmount = properties.MaxStarch;
         air.DecreaseCarbondioxide();
         air.IncreaseOxygen();
     }
 
     private void Grow()
     {
-        Vector3 clampedScale = transform.localScale;
-        clampedScale += Vector3.one * starch * growFactor * Time.deltaTime;
-        clampedScale.x = Mathf.Clamp(clampedScale.x, 0, 1);
-        clampedScale.y = Mathf.Clamp(clampedScale.y, 0, 1);
-        clampedScale.z = Mathf.Clamp(clampedScale.z, 0, 1);
-        transform.localScale = clampedScale;
+        starchAmount -= Time.deltaTime * 10;
+        if (starchAmount < 0)
+            starchAmount = 0;
 
-        starch -= Time.deltaTime * growFactor;
         air.DecreaseOxygen();
         air.IncreaseCarbondioxide();
+
+        Vector3 clampedScale = transform.localScale;
+        clampedScale += Vector3.one * starchAmount * properties.GrowSpeed * Time.deltaTime;
+        clampedScale.x = Mathf.Clamp(clampedScale.x, 0, properties.MaxGrowth.x);
+        clampedScale.y = Mathf.Clamp(clampedScale.y, 0, properties.MaxGrowth.y);
+        clampedScale.z = Mathf.Clamp(clampedScale.z, 0, properties.MaxGrowth.z);
+        transform.localScale = clampedScale;
+
     }
 
     public Vegetation Die()

@@ -11,6 +11,10 @@ public class ObjectPlacer : MonoBehaviour
     public List<GameObject> animals;
     public List<Transform> animalContainers;
 
+    public List<GameObject> plants;
+    public List<Transform> plantContainers;
+
+
     private bool startedPlacing;
 
     // Start is called before the first frame update
@@ -24,15 +28,23 @@ public class ObjectPlacer : MonoBehaviour
     {
         for (int i = 0; i < safeSpots.Count; i++)
         {
-            GameObject child = AnimalFactory.CreateChild(animals[0],safeSpots[i],animalContainers[0]);
-            //Instantiate(animals[0], safeSpots[i], Quaternion.identity);
-            child.name = "Prey" + i;
-        }
-        for (int i = 0; i < safeSpots.Count; i+= 5)
-        {
-            GameObject child = AnimalFactory.CreateChild(animals[1], safeSpots[i], animalContainers[1]);
-            child.GetComponent<Animal>().foodChainIndex = 1;
-            child.name = "Hunter" + i;
+            float rnd = UnityEngine.Random.value;
+            if(rnd < .35)
+            {
+                GameObject plant = Instantiate(plants[0], safeSpots[i], Quaternion.identity);
+                plant.name = "Plant" + i;
+            }
+            else if(rnd < .85)
+            {
+                GameObject prey = AnimalFactory.CreateChild(animals[0], safeSpots[i], animalContainers[0]);
+                prey.name = "Prey" + i;
+            }
+            else
+            {
+                GameObject hunter = AnimalFactory.CreateChild(animals[1], safeSpots[i], animalContainers[1]);
+                hunter.GetComponent<Animal>().foodChainIndex = 1;
+                hunter.name = "Hunter" + i;
+            }
         }
         gameObject.GetComponent<SafeSpotFinder>().onSafeSpotsFounded -= PlaceObjects;
     }

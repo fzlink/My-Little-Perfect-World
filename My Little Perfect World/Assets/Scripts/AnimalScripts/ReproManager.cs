@@ -23,7 +23,6 @@ public class ReproManager : MonoBehaviour
         if (canStartReproducing)
         {
             reproduceAmount += reproSpeed * Time.deltaTime;
-            print(reproduceAmount);
             if (reproduceAmount >= reproMax)
             {
                 AnimalInteractionManager.instance.FinishReproducing(this,true);

@@ -25,11 +25,15 @@ public class Food : MonoBehaviour
         if (isBeingEaten)
         {
             transform.localScale -= Vector3.one * Time.deltaTime * beingEatenSpeed;
-            if(transform.localScale.magnitude < destroyMagnitudeThreshold)
+            if(transform.localScale.magnitude < destroyMagnitudeThreshold || isScaleNegative())
             {
                 Destroy(gameObject);
             }
         }
+    }
+    private bool isScaleNegative()
+    {
+        return transform.localScale.x < 0 || transform.localScale.y < 0 || transform.localScale.z < 0;
     }
 
     private void Decay()

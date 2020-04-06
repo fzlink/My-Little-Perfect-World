@@ -26,7 +26,7 @@ public class ScanController : MonoBehaviour
 {
     private Animal animal;
     private AnimalProperties properties;
-    private BoxCollider boxCollider;
+    private Collider boxCollider;
     private Vector3 scanOrigin;
     private Vector3[] fovDirections;
     private Location target = new Location();
@@ -38,7 +38,7 @@ public class ScanController : MonoBehaviour
     private void Awake()
     {
         animal = GetComponent<Animal>();
-        boxCollider = GetComponent<BoxCollider>();
+        boxCollider = GetComponent<Collider>();
         properties = animal.GetProperties();
         fovDirections = properties.LookForWaterdirections;
     }
@@ -63,6 +63,8 @@ public class ScanController : MonoBehaviour
                     }
                     if (animal.isHerbivore)
                     {
+                        //if (CreatureUIManager.instance.animalOnInterest != null && CreatureUIManager.instance.animalOnInterest.GetComponent<ScanController>() == this)
+                        //    Debug.Log("");
                         if (SearchPlant(scannedColliders.Where(c => c.GetComponent<Plant>() != null).ToList()))
                             break;
                         if (SearchFood(scannedColliders.Where(c => c.GetComponent<Vegetation>() != null).ToList()))
@@ -226,7 +228,7 @@ public class ScanController : MonoBehaviour
         {
             if (PotentialPlantDetected(collider))
             {
-                AssignTarget(collider.transform, LocationType.Food, false);
+                AssignTarget(collider.transform, LocationType.Plant, false);
             }
         }
         return false;
@@ -234,7 +236,7 @@ public class ScanController : MonoBehaviour
 
     private bool PotentialPlantDetected(Collider collider)
     {
-        if (!collider.GetComponent<Plant>().isNotEdible)
+        if (collider.GetComponent<Plant>().isEdible)
         {
             return true;
         }

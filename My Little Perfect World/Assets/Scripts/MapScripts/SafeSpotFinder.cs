@@ -26,7 +26,7 @@ public class SafeSpotFinder : MonoBehaviour
         for (int i = 0; i < mapChunks.childCount; i++)
         {
             center = mapChunks.GetChild(i).transform.position;
-            for (int j = 0; j < 2; j++)
+            for (int j = 0; j < 7; j++)
             {
                 xRange = UnityEngine.Random.Range(center.x - chunkCoordInc / 2, center.x + chunkCoordInc / 2);
                 yRange = UnityEngine.Random.Range(center.z - chunkCoordInc / 2, center.z + chunkCoordInc / 2);

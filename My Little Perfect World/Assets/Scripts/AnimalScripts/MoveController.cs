@@ -14,7 +14,7 @@ public class MoveController : MonoBehaviour
 {
     private Animal animal;
     private AnimalProperties properties;
-    private BoxCollider boxCollider;
+    private Collider boxCollider;
 
     private Location target = null;
 
@@ -28,7 +28,7 @@ public class MoveController : MonoBehaviour
     {
         animal = GetComponent<Animal>();
         properties = animal.GetProperties();
-        boxCollider = GetComponent<BoxCollider>();
+        boxCollider = GetComponent<Collider>();
     }
 
     private void Start()
@@ -72,6 +72,8 @@ public class MoveController : MonoBehaviour
     private void SetTarget(Location target)
     {
         this.target = target;
+        if (target.GetLocationType() == LocationType.Enemy)
+            isRunning = true;
     }
 
     private void GoToSomething()
@@ -109,6 +111,7 @@ public class MoveController : MonoBehaviour
                 break;
             case LocationType.Enemy:
                 animal.EnemyConfrontation();
+                isRunning = false;
                 break;
             case LocationType.Partner:
                 animal.PartnerConfrontation();
@@ -231,60 +234,62 @@ public class MoveController : MonoBehaviour
 
     private bool LookInFarFront()
     {
-        if (CreatureUIManager.instance.animalOnInterest != null && CreatureUIManager.instance.animalOnInterest.GetComponent<MoveController>() == this)
-            Debug.Log("");
         if (isRotated) { return true; }
         RaycastHit hit;
         RaycastHit hit1;
         RaycastHit hit2;
         float maxD = 0;
-        if (Physics.Raycast(scanOrigin + transform.up * boxCollider.bounds.max.y, transform.TransformVector(new Vector3(0, -1, 1)), out hit, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
+        if (Physics.Raycast(scanOrigin + transform.up , transform.TransformVector(new Vector3(0, -1, 1)), out hit, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
         {
             if ((hit.collider.gameObject.layer == 4 && target != null && target.GetLocationType() != LocationType.Water) || hit.collider.gameObject.layer == 11 || hit.collider.gameObject.layer == 12)
             {
-                Physics.Raycast(scanOrigin + transform.up * boxCollider.bounds.max.y, transform.TransformVector(new Vector3(1, -1, 0)), out hit1, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask);
-                if (hit1.collider.gameObject.layer != 8)
+                if(Physics.Raycast(scanOrigin + transform.up , transform.TransformVector(new Vector3(1, -1, 0)), out hit1, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
                 {
-                    maxD = -1;
-                }
-                else
-                {
-                    maxD = hit1.distance;
+                    if (hit1.collider.gameObject.layer != 8)
+                    {
+                        maxD = -1;
+                    }
+                    else
+                    {
+                        maxD = hit1.distance;
+                    }
                 }
 
-                Physics.Raycast(scanOrigin + transform.up * boxCollider.bounds.max.y, transform.TransformVector(new Vector3(-1, -1, 0)), out hit2, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask);
-                if (hit2.collider.gameObject.layer != 8)
+                if(Physics.Raycast(scanOrigin + transform.up, transform.TransformVector(new Vector3(-1, -1, 0)), out hit2, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
                 {
-                    if (maxD == -1)
+                    if (hit2.collider.gameObject.layer != 8)
                     {
-                        StartCoroutine(RunChangeDirection(-transform.forward, 0.5f));
+                        if (maxD == -1)
+                        {
+                            StartCoroutine(RunChangeDirection(-transform.forward, 0.25f));
+                        }
+                        else
+                        {
+                            StartCoroutine(RunChangeDirection(transform.right, 0.25f));
+                        }
                     }
                     else
                     {
-                        StartCoroutine(RunChangeDirection(transform.right, 0.5f));
+                        if (maxD == -1)
+                        {
+                            StartCoroutine(RunChangeDirection(-transform.right, 0.25f));
+                        }
+                        else if (hit2.distance > maxD)
+                        {
+                            StartCoroutine(RunChangeDirection(-transform.right, 0.25f));
+                        }
+                        else
+                        {
+                            StartCoroutine(RunChangeDirection(transform.right, 0.25f));
+                        }
                     }
                 }
-                else
-                {
-                    if (maxD == -1)
-                    {
-                        StartCoroutine(RunChangeDirection(-transform.right, 0.5f));
-                    }
-                    else if (hit2.distance > maxD)
-                    {
-                        StartCoroutine(RunChangeDirection(-transform.right, 0.5f));
-                    }
-                    else
-                    {
-                        StartCoroutine(RunChangeDirection(transform.right, 0.5f));
-                    }
-                }
-                Debug.DrawLine(scanOrigin + transform.up * boxCollider.bounds.max.y, hit.point, Color.green);
+                Debug.DrawLine(scanOrigin + transform.up , hit.point, Color.green);
                 return true;
             }
             else
             {
-                Debug.DrawLine(scanOrigin + transform.up * boxCollider.bounds.max.y, hit.point, Color.black);
+                Debug.DrawLine(scanOrigin + transform.up , hit.point, Color.black);
             }
         }
         return false;

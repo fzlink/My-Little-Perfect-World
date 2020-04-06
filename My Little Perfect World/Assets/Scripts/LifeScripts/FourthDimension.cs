@@ -20,7 +20,7 @@ public class FourthDimension : MonoBehaviour
     private void Update()
     {
         currentTime += (Time.deltaTime / fullCycleTime) * timeSpeedMultiplier;
-        print(currentTime);
+        //print(currentTime);
         if(currentTime >= 0.5f)
         {
             timeOfDay = TimeOfDay.Night;

@@ -178,12 +178,17 @@ public class Animal : Creature
         //{
         //    Die();
         //}
-        if(currentEnemy.GetComponent<Animal>().foodChainIndex < this.foodChainIndex)
+        try
         {
-            currentEnemy.GetComponent<Animal>().Die();
-            currentFood = currentEnemy.GetComponent<Food>();
-            FoodConfrontation();
+            if(currentEnemy.GetComponent<Animal>().foodChainIndex < this.foodChainIndex)
+            {
+                currentEnemy.GetComponent<Animal>().Die();
+                currentFood = currentEnemy.GetComponent<Food>();
+                FoodConfrontation();
+            }
+
         }
+        catch { }
     }
 
     public void EnemyLost()
