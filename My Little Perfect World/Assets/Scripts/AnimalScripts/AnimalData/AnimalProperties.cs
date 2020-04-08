@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName ="Animal Properties", menuName ="Animal/Animal Properties",order = 0)]
-public class AnimalProperties : ScriptableObject
+public class AnimalProperties : Properties
 {
     [Header("General Values")]
     [SerializeField] private GameObject animal;

@@ -93,8 +93,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a6b6b89fd31064f950ce228b99e4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  creatureTypeID: 0
+  creatureType: Plant
   foodChainIndex: 0
-  properties: {fileID: 11400000, guid: ea9446ef148041343bcb0baaa98e438d, type: 2}
+  propertiesSerialized: {fileID: 11400000, guid: ea9446ef148041343bcb0baaa98e438d,
+    type: 2}
   starchAmount: 0
 --- !u!136 &162757094468861015
 CapsuleCollider:

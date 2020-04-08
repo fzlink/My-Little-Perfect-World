@@ -2,7 +2,7 @@
 
 
 [CreateAssetMenu(fileName = "Female Properties", menuName = "Animal/Female Properties", order = 1)]
-public class FemaleProperties : ScriptableObject
+public class FemaleProperties : Properties
 {
     [Header("Pregnancy Values")]
     [SerializeField] private float pregnancyMaximum;

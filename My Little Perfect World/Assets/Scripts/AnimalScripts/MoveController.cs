@@ -147,7 +147,7 @@ public class MoveController : MonoBehaviour
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
             if (hit.distance <= boxCollider.bounds.extents.y + 0.25f && hit.distance >= boxCollider.bounds.extents.y)
             {
-                Debug.DrawLine(scanOrigin, hit.point, Color.green);
+                //Debug.DrawLine(scanOrigin, hit.point, Color.green);
                 return true;
             }
             else
@@ -159,7 +159,7 @@ public class MoveController : MonoBehaviour
         else
         {
             transform.position += Vector3.up * Time.deltaTime * GroundingProp.fallRiseSpeed;
-            Debug.DrawRay(scanOrigin, Vector3.down, Color.red);
+            //Debug.DrawRay(scanOrigin, Vector3.down, Color.red);
             return false;
         }
     }
@@ -261,35 +261,35 @@ public class MoveController : MonoBehaviour
                     {
                         if (maxD == -1)
                         {
-                            StartCoroutine(RunChangeDirection(-transform.forward, 0.25f));
+                            StartCoroutine(RunChangeDirection(-transform.forward, 0.1f));
                         }
                         else
                         {
-                            StartCoroutine(RunChangeDirection(transform.right, 0.25f));
+                            StartCoroutine(RunChangeDirection(transform.right, 0.1f));
                         }
                     }
                     else
                     {
                         if (maxD == -1)
                         {
-                            StartCoroutine(RunChangeDirection(-transform.right, 0.25f));
+                            StartCoroutine(RunChangeDirection(-transform.right, 0.1f));
                         }
                         else if (hit2.distance > maxD)
                         {
-                            StartCoroutine(RunChangeDirection(-transform.right, 0.25f));
+                            StartCoroutine(RunChangeDirection(-transform.right, 0.1f));
                         }
                         else
                         {
-                            StartCoroutine(RunChangeDirection(transform.right, 0.25f));
+                            StartCoroutine(RunChangeDirection(transform.right, 0.1f));
                         }
                     }
                 }
-                Debug.DrawLine(scanOrigin + transform.up , hit.point, Color.green);
+                //Debug.DrawLine(scanOrigin + transform.up , hit.point, Color.green);
                 return true;
             }
             else
             {
-                Debug.DrawLine(scanOrigin + transform.up , hit.point, Color.black);
+                //Debug.DrawLine(scanOrigin + transform.up , hit.point, Color.black);
             }
         }
         return false;

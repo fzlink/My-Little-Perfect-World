@@ -19,6 +19,12 @@ public class Animal : Creature
     public DNA dNA { get; set; }
     [SerializeField] private AnimalProperties properties;
     [SerializeField] private FemaleProperties femaleProperties;
+
+    //private void Awake()
+    //{
+    //    properties = propertiesSerialized;
+    //}
+
     public AnimalProperties GetProperties() { return properties; }
     public FemaleProperties GetFemaleProperties() { return femaleProperties; }
 
@@ -56,16 +62,23 @@ public class Animal : Creature
     public List<Animal> childs { get; set; }
 
     public ReproManager reproManager;
+    public EatingManager eatingManager;
+
     private Plant currentPlant;
 
     private void Start()
     {
         GetComponent<ScanController>().onTargetFound += OnTargetFound;
         childs = new List<Animal>();
-        dayOfBirth = FourthDimension.currentDay;
-        foodAmount = 25;
-        waterAmount = 25;
-        sleepAmount = 50;
+        InitValues();
+    }
+
+    protected virtual void InitValues()
+    {
+
+        foodAmount = UnityEngine.Random.Range(25f, 100f);
+        waterAmount = UnityEngine.Random.Range(25f, 100f);
+        sleepAmount = UnityEngine.Random.Range(25f, 100f);
     }
 
     private void Update()
@@ -115,9 +128,27 @@ public class Animal : Creature
     ///////////////Food
     public void FoodConfrontation()
     {
-        currentFood.beingEatenSpeed = properties.FoodEatingSpeed;
-        currentFood.isBeingEaten = true;
-        state = AnimalState.Eating;
+        if(AnimalInteractionManager.instance.StartEating(this, currentFood))
+        {
+            AnimalInteractionManager.instance.onEatingFinished += OnEatingFinished;
+            //currentFood.StartBeingEaten(properties.FoodEatingSpeed);
+            state = AnimalState.Eating;
+        }
+    }
+
+    private void OnEatingFinished(EatingManager eatingManager, bool isSuccess)
+    {
+        if (this.eatingManager == eatingManager && isSuccess && currentFood != null)
+        {
+            currentFood.Finish(this);
+            currentFood = null;
+        }
+        if (this.eatingManager == eatingManager)
+        {
+            eatingManager = null;
+            state = AnimalState.Wandering;
+            AnimalInteractionManager.instance.onEatingFinished -= OnEatingFinished;
+        }
     }
 
     private void Eat()
@@ -128,7 +159,7 @@ public class Animal : Creature
         }
         else
         {
-            foodAmount += properties.FoodEatingSpeed * Time.deltaTime;
+            foodAmount += properties.FoodEatingSpeed * Time.deltaTime * currentFood.nutritionValue;
             if (foodAmount > properties.FoodMaximum)
             {
                 foodAmount = properties.FoodMaximum;
@@ -139,8 +170,11 @@ public class Animal : Creature
 
     public void PlantConfrontation()
     {
-        currentFood = currentPlant.Die();
-        FoodConfrontation();
+        if(currentPlant != null)
+        {
+            currentFood = currentPlant.Die();
+            FoodConfrontation();
+        }
     }
 
     ///////////////Water
@@ -206,6 +240,8 @@ public class Animal : Creature
         Destroy(GetComponent<ScanController>());
         if (sex == Sex.Female)
             Destroy(GetComponent<FemaleAttributes>());
+        transform.parent = AnimalInteractionManager.instance.MeatContainer.transform;
+        AnimalInteractionManager.instance.PrintDeadCount();
     }
 
     ///////////////Reproduction
@@ -255,7 +291,7 @@ public class Animal : Creature
         if(state != AnimalState.Drinking)
         {
             waterAmount -= Time.deltaTime;
-            if(waterAmount < 0) { waterAmount = 0; }
+            if(waterAmount < 0) { Interrupted(); Die(); }
         }
         if(waterAmount < properties.WaterDangerThreshold)
         {
@@ -270,7 +306,7 @@ public class Animal : Creature
         if (state != AnimalState.Eating)
         {
             foodAmount -= Time.deltaTime;
-            if (foodAmount < 0) { foodAmount = 0; }
+            if (foodAmount < 0) { Interrupted();  Die(); }
         }
         if (foodAmount < properties.FoodDangerThreshold)
         {

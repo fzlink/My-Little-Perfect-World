@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ReproManager : MonoBehaviour
 {
-    public int id;
 
     public float reproSpeed { get; set; }
     public float reproMax { get; set; }

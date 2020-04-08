@@ -10,34 +10,49 @@ public class Food : MonoBehaviour
 
     public float beingEatenSpeed { get; set; }
     private float magnitude;
+    public float nutritionValue;
+
     private const float destroyMagnitudeThreshold = 0.5f;
 
     // Start is called before the first frame update
     void Start()
     {
         magnitude = transform.localScale.magnitude;
+        nutritionValue = 50f;
+    }
+
+    public void StartBeingEaten(float beingEatenSpeed)
+    {
+        this.beingEatenSpeed = beingEatenSpeed;
+        isBeingEaten = true;
+    }
+
+    public virtual void Finish(Animal animal)
+    {
+        Destroy(gameObject);
+    }
+
+    public bool IsEdible()
+    {
+        return transform.localScale.magnitude > 0.5f;
     }
 
     // Update is called once per frame
-    protected virtual void Update()
-    {
-        //Decay();
-        if (isBeingEaten)
-        {
-            transform.localScale -= Vector3.one * Time.deltaTime * beingEatenSpeed;
-            if(transform.localScale.magnitude < destroyMagnitudeThreshold || isScaleNegative())
-            {
-                Destroy(gameObject);
-            }
-        }
-    }
-    private bool isScaleNegative()
-    {
-        return transform.localScale.x < 0 || transform.localScale.y < 0 || transform.localScale.z < 0;
-    }
+    //protected virtual void Update()
+    //{
+    //    //Decay();
+    //    //if (isBeingEaten)
+    //    {
+    //        //transform.localScale -= Vector3.one * Time.deltaTime * beingEatenSpeed;
+    //        //if(transform.localScale.magnitude < destroyMagnitudeThreshold || isScaleNegative())
+    //        //{
+    //        //    Destroy(gameObject);
+    //        //}
+    //    }
+    //}
 
-    private void Decay()
-    {
+    //private void Decay()
+    //{
         
-    }
+    //}
 }

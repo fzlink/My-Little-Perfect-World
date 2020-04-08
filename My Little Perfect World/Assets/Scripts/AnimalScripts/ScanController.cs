@@ -49,34 +49,42 @@ public class ScanController : MonoBehaviour
         scannedColliders = Physics.OverlapSphere(scanOrigin, properties.AwarenessRadius, Masks.animalPlantMask);
         switch (animal.state)
         {
+
             case AnimalState.Wandering:
-                if (SearchEnemies(scannedColliders.Where(c => c.GetComponent<Animal>() != null && c.GetComponent<Animal>().foodChainIndex > animal.foodChainIndex && !c.CompareTag(tag)).ToList()))
-                    break;
-                if (animal.isHungry)
+                if(scannedColliders.Length > 1)
                 {
-                    if (animal.isCarnivore)
+                    if (SearchEnemies(scannedColliders.Where(c => c.GetComponent<Animal>() != null && c.GetComponent<Animal>().foodChainIndex > animal.foodChainIndex && !c.CompareTag(tag)).ToList()))
+                        break;
+                    if (animal.isHungry)
                     {
-                        if (SearchEnemies(scannedColliders.Where(c => c.GetComponent<Animal>() != null && !c.CompareTag(tag)).ToList()))
-                            break;
-                        if (SearchFood(scannedColliders.Where(c => c.GetComponent<Meat>() != null).ToList()))
-                            break;
+                        if (animal.isCarnivore)
+                        {
+                            if (SearchEnemies(scannedColliders.Where(c => c.GetComponent<Animal>() != null && !c.CompareTag(tag)).ToList()))
+                                break;
+                            if (SearchFood(scannedColliders.Where(c => c.GetComponent<Meat>() != null).ToList()))
+                                break;
+                        }
+                        if (animal.isHerbivore)
+                        {
+                            //if (CreatureUIManager.instance.animalOnInterest != null && CreatureUIManager.instance.animalOnInterest.GetComponent<ScanController>() == this)
+                            //    Debug.Log("");
+                            if (SearchPlant(scannedColliders.Where(c => c.GetComponent<Plant>() != null).ToList()))
+                                break;
+                            if (SearchFood(scannedColliders.Where(c => c.GetComponent<Vegetation>() != null).ToList()))
+                                break;
+                        }
                     }
-                    if (animal.isHerbivore)
-                    {
-                        //if (CreatureUIManager.instance.animalOnInterest != null && CreatureUIManager.instance.animalOnInterest.GetComponent<ScanController>() == this)
-                        //    Debug.Log("");
-                        if (SearchPlant(scannedColliders.Where(c => c.GetComponent<Plant>() != null).ToList()))
-                            break;
-                        if (SearchFood(scannedColliders.Where(c => c.GetComponent<Vegetation>() != null).ToList()))
-                            break;
-                    }
+
                 }
 
                 if (animal.isThirsty)
                     if (SearchWater())
                         break;
-                if (SearchPartners(scannedColliders.Where(c => c.GetComponent<Animal>() != null && c.CompareTag(tag)).ToList()))
-                    break;
+                if(scannedColliders.Length > 1)
+                {
+                    if (SearchPartners(scannedColliders.Where(c => c.GetComponent<Animal>() != null && c.CompareTag(tag)).ToList()))
+                        break;
+                }
                 break;
 
             case AnimalState.Drinking:
@@ -213,7 +221,7 @@ public class ScanController : MonoBehaviour
 
     private bool PotentialFoodDetected(Collider collider)
     {
-        if (!collider.GetComponent<Food>().isDecayed)
+        if (collider.GetComponent<Food>().IsEdible())
         {
             return true;
         }
@@ -249,7 +257,7 @@ public class ScanController : MonoBehaviour
         Vector3 direction;
         float minDst = Mathf.Infinity;
         Vector3 minPoint = Vector3.zero;
-        for (int i = 0; i < fovDirections.Length; i++)
+        for (int i = 0; i < fovDirections.Length; i += 2)
         {
             direction = fovDirections[i].normalized;
             direction = transform.TransformVector(direction);
@@ -262,11 +270,11 @@ public class ScanController : MonoBehaviour
                         minDst = hit.distance;
                         minPoint = hit.point;
                     }
-                    Debug.DrawLine(scanOrigin, hit.point, Color.green);
+                    //Debug.DrawLine(scanOrigin, hit.point, Color.green);
                 }
                 else
                 {
-                    Debug.DrawRay(scanOrigin, direction, Color.black);
+                    //Debug.DrawRay(scanOrigin, direction, Color.black);
                 }
             }
         }
@@ -277,7 +285,7 @@ public class ScanController : MonoBehaviour
         }
         return false;
     }
-   
+
 
     private void OnDrawGizmos()
     {

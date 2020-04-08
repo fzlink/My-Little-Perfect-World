@@ -95,10 +95,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c799ae74fc9dbda45956cce734cc96cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodChainIndex: 0
+  creatureTypeID: 0
+  creatureType: Hunter
+  foodChainIndex: 1
   properties: {fileID: 11400000, guid: 0fe98f6c05234e14b84e0e2c54ea8772, type: 2}
   femaleProperties: {fileID: 11400000, guid: 59e11e63fb71aa94e8fc785f24e162a1, type: 2}
   reproManager: {fileID: 0}
+  eatingManager: {fileID: 0}
 --- !u!114 &3426932736908754841
 MonoBehaviour:
   m_ObjectHideFlags: 0

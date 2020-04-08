@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Plant Properties", menuName = "Plant/Plant Properties", order = 0)]
-public class PlantProperties : ScriptableObject
+public class PlantProperties : Properties
 {
     [SerializeField] private GameObject plant;
 

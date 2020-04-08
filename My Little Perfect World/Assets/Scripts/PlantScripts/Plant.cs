@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Plant : Creature
 {
-    [SerializeField] private PlantProperties properties;
-    public PlantProperties GetPlantProperties () { return properties; }
+    public static PlantProperties properties;
 
+    
     private Air air;
     private FourthDimension time;
     private Sun sun;

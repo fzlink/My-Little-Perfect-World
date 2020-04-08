@@ -5,16 +5,20 @@ using UnityEngine;
 
 public class MapEventManager : MonoBehaviour
 {
-    TerrainGenerator terrainGenerator;
+    public TerrainGenerator terrainGenerator;
+    public const int chunkCoordInc = 98;
+    public int xOffset => terrainGenerator.mapChunkConstraintX - 1;
+    public int yOffset => terrainGenerator.mapChunkConstraintY - 1;
+
 
     private int mapChunkNum;
     private int registeredChunkNum;
-    private const int passCount = 2;
+    public int passCount;
     public Dictionary<Vector2, int> registeredChunks = new Dictionary<Vector2, int>();
 
     public static MapEventManager instance;
 
-        public event Action onTerrainGenerationFinished;
+    public event Action onTerrainGenerationFinished;
 
     private void Awake()
     {

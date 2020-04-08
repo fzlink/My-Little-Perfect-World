@@ -13,6 +13,7 @@ public class AnimalFactory
         newChildAnimal.mother = mother;
         newChildAnimal.father = father;
         newChildAnimal.hasAncestor = true;
+        newChildAnimal.dayOfBirth = FourthDimension.currentDay;
 
         mother.childs.Add(newChildAnimal);
         father.childs.Add(newChildAnimal);
@@ -24,6 +25,7 @@ public class AnimalFactory
         GameObject newChild = GameObject.Instantiate(clone, position, Quaternion.identity, container);
         Animal newChildAnimal = newChild.GetComponent<Animal>();
         newChildAnimal.dNA = ConstructDNA(newChildAnimal.GetProperties().CommonSkinColor);
+        newChildAnimal.dayOfBirth = Random.Range(0, 5);
         CheckForFemaleAndAttributes(newChild, newChildAnimal);
         newChild.GetComponent<Renderer>().material.color = newChildAnimal.dNA.skinColor;
         return newChild;
