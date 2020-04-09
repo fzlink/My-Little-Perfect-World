@@ -13,7 +13,7 @@ public class MapEventManager : MonoBehaviour
 
     private int mapChunkNum;
     private int registeredChunkNum;
-    public int passCount;
+    private int passCount;
     public Dictionary<Vector2, int> registeredChunks = new Dictionary<Vector2, int>();
 
     public static MapEventManager instance;
@@ -23,11 +23,11 @@ public class MapEventManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        passCount = FindObjectsOfType<TerrainGenerator>().Length;
     }
 
     void Start()
     {
-        terrainGenerator = FindObjectOfType<TerrainGenerator>();
         mapChunkNum = terrainGenerator.MapChunkCount;
     }
 

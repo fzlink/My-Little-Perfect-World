@@ -14,26 +14,12 @@ public enum AnimalState {
 
 public class Animal : Creature
 {
+
     public AnimalState state { get; set; }
 
     public DNA dNA { get; set; }
     [SerializeField] private AnimalProperties properties;
-    [SerializeField] private FemaleProperties femaleProperties;
-
-    //private void Awake()
-    //{
-    //    properties = propertiesSerialized;
-    //}
-
     public AnimalProperties GetProperties() { return properties; }
-    public FemaleProperties GetFemaleProperties() { return femaleProperties; }
-
-    //State (UI) Properties
-    // Food   |xxxxx________| 1-FoodAmount, 2-FoodMaximum, 3-FoodDangerThreshold, 4-FoodEatingSpeed, 5-FoodDecreaseSpeed
-    // Water  |xxxxxxxxxx___| 1-WaterAmount, 2-WaterMaximum, 3-WaterDangerThreshold, 4-WaterDrinkingSpeed, 5-WaterDecreaseSpeed
-    // Sleep  |xxxxxxx______| 1-SleepAmount, 2-SleepMaximum, 3-SleepDangerThreshold, 4-SleepGettingSpeed, 5-SleepDecreaseSpeed
-    // Stress |xx___________| 1-StressAmount, 2-StressMaximum, 3-StressDangerThreshold, 4-StressGettingSpeed, 5-StressDecreaseSpeed
-    // Pregnancy |xxxxxxxxx___| 1-PregnancyAmount, 2-PregnancyMaximum, 3-PregnancySpeed
 
     public float foodAmount { get; set; }
     public float waterAmount { get; set; }
@@ -131,7 +117,6 @@ public class Animal : Creature
         if(AnimalInteractionManager.instance.StartEating(this, currentFood))
         {
             AnimalInteractionManager.instance.onEatingFinished += OnEatingFinished;
-            //currentFood.StartBeingEaten(properties.FoodEatingSpeed);
             state = AnimalState.Eating;
         }
     }
@@ -234,13 +219,14 @@ public class Animal : Creature
     private void Die()
     {
         Meat meat = gameObject.AddComponent<Meat>();
+        meat.nutritionValue = properties.NutritionValue;
         meat.animalType = tag;
-        Destroy(this);
-        Destroy(GetComponent<MoveController>());
-        Destroy(GetComponent<ScanController>());
+        this.enabled = false;
+        GetComponent<MoveController>().enabled = false;
+        GetComponent<ScanController>().enabled = false;
         if (sex == Sex.Female)
-            Destroy(GetComponent<FemaleAttributes>());
-        transform.parent = AnimalInteractionManager.instance.MeatContainer.transform;
+            GetComponent<FemaleAttributes>().enabled = false;
+        transform.parent = AnimalInteractionManager.instance.foodContainer.transform;
         AnimalInteractionManager.instance.PrintDeadCount();
     }
 

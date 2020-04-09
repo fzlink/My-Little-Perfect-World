@@ -20,6 +20,7 @@ public class AnimalProperties : Properties
     [Header("Food Values")]
     [SerializeField] private bool isCarnivore;
     [SerializeField] private bool isHerbivore;
+    [SerializeField] private float nutritionValue;
     [SerializeField] private float foodMaximum;
     [SerializeField] private float foodDangerThreshold;
     [SerializeField] private float foodEatingSpeed;
@@ -48,6 +49,12 @@ public class AnimalProperties : Properties
     [SerializeField] private float reproducingSpeed;
     [SerializeField] private float reproducingAge;
 
+    [Header("Pregnancy Values")]
+    [SerializeField] private float pregnancyMaximum;
+    [SerializeField] private float pregnancySpeed;
+    [SerializeField] private int pregnancyChildAmount;
+
+
 
 
     public GameObject Animal { get => animal; set => animal = value; }
@@ -60,6 +67,7 @@ public class AnimalProperties : Properties
     public Vector3[] LookForWaterdirections { get => lookForWaterdirections; set => lookForWaterdirections = value; }
     public bool IsCarnivore { get => isCarnivore; set => isCarnivore = value; }
     public bool IsHerbivore { get => isHerbivore; set => isHerbivore = value; }
+    public float NutritionValue { get => nutritionValue; set => nutritionValue = value; }
     public float FoodMaximum { get => foodMaximum; set => foodMaximum = value; }
     public float FoodDangerThreshold { get => foodDangerThreshold; set => foodDangerThreshold = value; }
     public float FoodEatingSpeed { get => foodEatingSpeed; set => foodEatingSpeed = value; }
@@ -79,5 +87,8 @@ public class AnimalProperties : Properties
     public float ReproducingMaximum { get => reproducingMaximum; set => reproducingMaximum = value; }
     public float ReproducingSpeed { get => reproducingSpeed; set => reproducingSpeed = value; }
     public float ReproducingAge { get => reproducingAge; set => reproducingAge = value; }
+    public float PregnancyMaximum { get => pregnancyMaximum; set => pregnancyMaximum = value; }
+    public float PregnancySpeed { get => pregnancySpeed; set => pregnancySpeed = value; }
+    public int PregnancyChildAmount { get => pregnancyChildAmount; set => pregnancyChildAmount = value; }
 
 }

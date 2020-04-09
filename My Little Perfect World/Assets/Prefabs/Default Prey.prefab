@@ -99,7 +99,6 @@ MonoBehaviour:
   creatureType: Prey
   foodChainIndex: 0
   properties: {fileID: 11400000, guid: db74f27bfa156c34cb7888de5247de6b, type: 2}
-  femaleProperties: {fileID: 11400000, guid: 4f414bb6b15a4a0458a79b4536127d0d, type: 2}
   reproManager: {fileID: 0}
   eatingManager: {fileID: 0}
 --- !u!114 &-5158049969991895672

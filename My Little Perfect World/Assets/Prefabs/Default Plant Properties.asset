@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plant: {fileID: 8209879541702131022, guid: 73c08b2a3c570884d800e05ed730ec2f, type: 3}
   maxGrowth: {x: 1, y: 2, z: 1}
-  growSpeed: 0.01
+  growSpeed: 0.005
   maxStarch: 1000
   edibilityThreshold: 0.5
+  nutritionValue: 50

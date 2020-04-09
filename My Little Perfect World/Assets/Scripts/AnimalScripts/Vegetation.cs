@@ -34,8 +34,7 @@ public class Vegetation : Food
         if(animal != null)
         {
             transform.position = animal.transform.position - transform.forward;
-            //print("Animal: " + animal + ", Plant: " + this);
-            gameObject.AddComponent<Plant>();
+            GetComponent<Plant>().enabled = true;
             GetComponent<Renderer>().enabled = true;
             Destroy(this);
         }

@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Plant : Creature
 {
-    public static PlantProperties properties;
+    [SerializeField] private PlantProperties properties;
+    public PlantProperties GetProperties() { return properties; }
 
     
     private Air air;
@@ -66,8 +67,9 @@ public class Plant : Creature
     public Vegetation Die()
     {
         Vegetation vegetation = gameObject.AddComponent<Vegetation>();
+        vegetation.nutritionValue = properties.NutritionValue;
         vegetation.vegetationType = tag;
-        Destroy(this);
+        enabled = false;
         return vegetation;
     }
 }

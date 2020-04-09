@@ -1,8 +1,19 @@
 ﻿using UnityEngine;
 
-public class AnimalFactory
+public class AnimalFactory : CreatureFactory
 {
-    public static void CreateChild(Animal mother, Animal father) // With Ancestor
+    public GameObject CreateChild(GameObject clone, Vector3 position, Transform container) //Without Ancestor
+    {
+        GameObject newChild = GameObject.Instantiate(clone, position, Quaternion.identity, container);
+        Animal newChildAnimal = newChild.GetComponent<Animal>();
+        newChildAnimal.dNA = ConstructDNA(newChildAnimal.GetProperties().CommonSkinColor);
+        newChildAnimal.dayOfBirth = Random.Range(0, 5);
+        CheckForFemaleAndAttributes(newChild, newChildAnimal);
+        newChild.GetComponent<Renderer>().material.color = newChildAnimal.dNA.skinColor;
+        return newChild;
+    }
+
+    public static void GiveBirthChild(Animal mother, Animal father) // With Ancestor
     {
         GameObject newChild = GameObject.Instantiate(mother.GetProperties().Animal, mother.transform.position - mother.transform.forward.normalized * 2, Quaternion.identity, mother.gameObject.transform.parent);
         Animal newChildAnimal = newChild.GetComponent<Animal>();
@@ -20,23 +31,13 @@ public class AnimalFactory
 
     }
 
-    public static GameObject CreateChild(GameObject clone, Vector3 position, Transform container) //Without Ancestor
-    {
-        GameObject newChild = GameObject.Instantiate(clone, position, Quaternion.identity, container);
-        Animal newChildAnimal = newChild.GetComponent<Animal>();
-        newChildAnimal.dNA = ConstructDNA(newChildAnimal.GetProperties().CommonSkinColor);
-        newChildAnimal.dayOfBirth = Random.Range(0, 5);
-        CheckForFemaleAndAttributes(newChild, newChildAnimal);
-        newChild.GetComponent<Renderer>().material.color = newChildAnimal.dNA.skinColor;
-        return newChild;
-    }
+
 
     private static void CheckForFemaleAndAttributes(GameObject newChild, Animal newChildAnimal)
     {
         if (newChildAnimal.dNA.sex == Sex.Female)
         {
             FemaleAttributes femaleAttr = newChild.AddComponent<FemaleAttributes>();
-            femaleAttr.femaleProperties = newChildAnimal.GetFemaleProperties();
         }
     }
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Female Properties", menuName = "Animal/Female Properties", order = 1)]
+//[CreateAssetMenu(fileName = "Female Properties", menuName = "Animal/Female Properties", order = 1)]
 public class FemaleProperties : Properties
 {
     [Header("Pregnancy Values")]

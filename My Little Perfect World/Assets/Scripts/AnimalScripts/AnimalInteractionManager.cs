@@ -11,11 +11,13 @@ public class AnimalInteractionManager : MonoBehaviour
     private GameObject reproducingManagersParent;
     private GameObject eatingManagersParent;
 
-    public Transform MeatContainer;
-    public int reproManagerCount;
-    public int eatingManagerCount;
-    public List<ReproManager> reproManagers;
-    public List<EatingManager> eatingManagers;
+    public Transform foodContainer;
+    public Transform interactionContainer;
+
+    private int reproManagerCount;
+    private int eatingManagerCount;
+    private List<ReproManager> reproManagers;
+    private List<EatingManager> eatingManagers;
     public event Action<ReproManager, bool> onReproducingFinished;
     public event Action<EatingManager, bool> onEatingFinished;
 
@@ -24,6 +26,8 @@ public class AnimalInteractionManager : MonoBehaviour
         instance = this;
         reproducingManagersParent = new GameObject("Repros");
         eatingManagersParent = new GameObject("Eatings");
+        reproducingManagersParent.transform.parent = interactionContainer;
+        eatingManagersParent.transform.parent = interactionContainer;
     }
 
     private void Start()
@@ -34,7 +38,7 @@ public class AnimalInteractionManager : MonoBehaviour
 
     public void PrintDeadCount()
     {
-        print("Dead Animal Count: " + MeatContainer.childCount);
+        print("Dead Animal Count: " + foodContainer.childCount);
     }
 
     public void Interrupted(Animal animal)

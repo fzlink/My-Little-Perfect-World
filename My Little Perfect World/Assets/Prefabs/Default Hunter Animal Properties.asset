@@ -27,6 +27,7 @@ MonoBehaviour:
   - {x: 10, y: -1, z: 10}
   isCarnivore: 1
   isHerbivore: 0
+  nutritionValue: 100
   foodMaximum: 100
   foodDangerThreshold: 25
   foodEatingSpeed: 1
@@ -46,3 +47,6 @@ MonoBehaviour:
   reproducingMaximum: 100
   reproducingSpeed: 1
   reproducingAge: 1
+  pregnancyMaximum: 100
+  pregnancySpeed: 1
+  pregnancyChildAmount: 1

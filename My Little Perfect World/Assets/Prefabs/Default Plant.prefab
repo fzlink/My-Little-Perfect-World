@@ -96,8 +96,7 @@ MonoBehaviour:
   creatureTypeID: 0
   creatureType: Plant
   foodChainIndex: 0
-  propertiesSerialized: {fileID: 11400000, guid: ea9446ef148041343bcb0baaa98e438d,
-    type: 2}
+  properties: {fileID: 11400000, guid: ea9446ef148041343bcb0baaa98e438d, type: 2}
   starchAmount: 0
 --- !u!136 &162757094468861015
 CapsuleCollider:

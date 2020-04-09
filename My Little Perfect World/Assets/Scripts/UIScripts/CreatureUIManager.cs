@@ -36,7 +36,6 @@ public class CreatureUIManager : MonoBehaviour
     {
         animalOnInterest = animal;
         AnimalProperties properties = animal.GetProperties();
-        FemaleProperties femaleProperties = animal.GetFemaleProperties();
         creatureIcon.gameObject.SetActive(true);
         creatureIcon.texture = properties.AnimalIcon;
         for (int i = 0; i < statBars.Length; i++)
@@ -59,7 +58,7 @@ public class CreatureUIManager : MonoBehaviour
                 case StatBar.BarType.Pregnancy:
                     if(animal.dNA.sex == Sex.Female)
                     {
-                        statBars[i].ChangeInterest(animal.GetComponent<FemaleAttributes>().pregnancyAmount, femaleProperties.PregnancyMaximum, 0f);
+                        statBars[i].ChangeInterest(animal.GetComponent<FemaleAttributes>().pregnancyAmount, properties.PregnancyMaximum, 0f);
                     }
                     else
                     {

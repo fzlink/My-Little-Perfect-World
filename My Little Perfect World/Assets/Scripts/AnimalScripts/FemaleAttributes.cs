@@ -7,21 +7,21 @@ public class FemaleAttributes : MonoBehaviour
     public bool isPregnant { get; set; }
     public float pregnancyAmount { get; set; }
 
-    public FemaleProperties femaleProperties;
+    private AnimalProperties properties;
     private Animal animal;
 
     private void Awake()
     {
         animal = GetComponent<Animal>();
-        femaleProperties = animal.GetFemaleProperties();
+        properties = animal.GetProperties();
     }
 
     void Update()
     {
         if (isPregnant)
         {
-            pregnancyAmount += femaleProperties.PregnancySpeed * Time.deltaTime;
-            if (animal.state == AnimalState.Wandering && pregnancyAmount >= femaleProperties.PregnancyMaximum)
+            pregnancyAmount += properties.PregnancySpeed * Time.deltaTime;
+            if (animal.state == AnimalState.Wandering && pregnancyAmount >= properties.PregnancyMaximum)
             {
                 isPregnant = false;
                 pregnancyAmount = 0;
@@ -33,9 +33,9 @@ public class FemaleAttributes : MonoBehaviour
 
     private void GiveBirth(Animal father)
     {
-        for (int i = 0; i < femaleProperties.PregnancyChildAmount; i++)
+        for (int i = 0; i < properties.PregnancyChildAmount; i++)
         {
-            AnimalFactory.CreateChild(animal, father);
+            AnimalFactory.GiveBirthChild(animal, father);
 
         }
     }

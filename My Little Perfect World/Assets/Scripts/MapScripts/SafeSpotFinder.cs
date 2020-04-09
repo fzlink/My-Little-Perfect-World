@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class SafeSpotFinder : MonoBehaviour
 {
-    private const int chunkCoordInc = 98;
-    private const int EdgeOffset = 3;
-    private const int groundWaterMask = (1 << 4) | (1 << 8);
+    private int chunkCoordInc;
+    public int EdgeOffset = 3;
 
-    public List<Vector3> safeSpots = new List<Vector3>();
+    private List<Vector3> safeSpots;
     public Transform mapChunks;
     public int spotPerChunk;
 
@@ -16,6 +15,8 @@ public class SafeSpotFinder : MonoBehaviour
 
     private void Start()
     {
+        safeSpots = new List<Vector3>();
+        chunkCoordInc = MapEventManager.chunkCoordInc;
         MapEventManager.instance.onTerrainGenerationFinished += FindSafeSpots;
     }
 
@@ -33,7 +34,7 @@ public class SafeSpotFinder : MonoBehaviour
                 xRange = UnityEngine.Random.Range(center.x - chunkCoordInc / 2 + EdgeOffset, center.x + chunkCoordInc / 2 - EdgeOffset);
                 yRange = UnityEngine.Random.Range(center.z - chunkCoordInc / 2 + EdgeOffset, center.z + chunkCoordInc / 2 - EdgeOffset);
 
-                if (Physics.Raycast(new Vector3(xRange, 100, yRange), Vector3.down, out hit, 100, groundWaterMask))
+                if (Physics.Raycast(new Vector3(xRange, 100, yRange), Vector3.down, out hit, 100, Masks.groundWaterMask))
                 {
                     if (hit.collider.gameObject.layer == 8 && Vector3.Angle(Vector3.up,hit.normal) < 25f)
                     {
