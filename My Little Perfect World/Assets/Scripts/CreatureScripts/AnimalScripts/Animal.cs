@@ -277,7 +277,8 @@ public class Animal : Creature
     {
         if(state != AnimalState.Drinking)
         {
-            waterAmount -= Time.deltaTime;
+            float temp = 1 + Climate.temperature / 100;
+            waterAmount -= Time.deltaTime * properties.WaterDecreaseSpeed * temp;
             if(waterAmount < 0) { Interrupted(); Die(); }
         }
         if(waterAmount < properties.WaterDangerThreshold)
@@ -292,7 +293,7 @@ public class Animal : Creature
         //////////////////////
         if (state != AnimalState.Eating)
         {
-            foodAmount -= Time.deltaTime;
+            foodAmount -= Time.deltaTime * properties.FoodDecreaseSpeed;
             if (foodAmount < 0) { Interrupted();  Die(); }
         }
         if (foodAmount < properties.FoodDangerThreshold)
@@ -307,7 +308,7 @@ public class Animal : Creature
         
         if(state != AnimalState.Sleeping)
         {
-            sleepAmount -= Time.deltaTime;
+            sleepAmount -= Time.deltaTime * properties.SleepDecreaseSpeed;
             if(state == AnimalState.Wandering && sleepAmount < properties.SleepDangerThreshold)
             {
                 if(sleepAmount <= 0) { sleepAmount = 0; }

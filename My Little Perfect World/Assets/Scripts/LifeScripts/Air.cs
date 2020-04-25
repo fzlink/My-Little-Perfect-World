@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Air : MonoBehaviour
 {
+
     public float carbondioxide; // %0.03
     public float oxygen; // %21
     public float nitrogen; // %78

@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6845d5014a688442bfdf5efc98251e9, type: 3}
   m_Name: Climate Properties
   m_EditorClassIdentifier: 
-  winterRainAmount: 100
-  springRainAmount: 120
-  summerRainAmount: 100
-  fallRainAmount: 120
+  winterRainAmount: 300
+  springRainAmount: 500
+  summerRainAmount: 300
+  fallRainAmount: 500
   rainVolume: 1
-  startTemperature: -16.5
+  winterTemperature: -30
+  springTemperature: 10
+  summerTemperature: 30
+  fallTemperature: -10
+  temperatureVolume: 1

@@ -16,18 +16,22 @@ public class Climate: MonoBehaviour
         FALL = 3
     }
     public static Season season;
+    public static float temperature;
+    private float tempdeb;
 
     [SerializeField] private ClimateProperties properties;
     [SerializeField] private int dayInSeason;
     [SerializeField] private GameObject rain;
 
-    private Air air;
+
     private FourthDimension time;
     float[] nums;
     float rainDuration;
 
     public event Action onRainStart;
     public event Action onRainStop;
+
+    public event Action<Season> onSeasonChange;
 
     private void Awake()
     {
@@ -37,9 +41,18 @@ public class Climate: MonoBehaviour
     private void Start()
     {
         time.onPassDay += OnPassDay;
-
         season = (Season)UnityEngine.Random.Range(0, 4);
+        SetTemperature();
+        tempdeb = temperature;
         CalculateRain();
+    }
+
+    private void SetTemperature()
+    {
+        if (season == Season.WINTER) temperature = properties.WinterTemperature;
+        else if (season == Season.SPRING) temperature = properties.SpringTemperature;
+        else if (season == Season.SUMMER) temperature = properties.SummerTemperature;
+        else temperature = properties.FallTemperature;
     }
 
     private void CalculateRain()
@@ -123,6 +136,13 @@ public class Climate: MonoBehaviour
         if(FourthDimension.currentDay % dayInSeason == 0)
         {
             season++;
+            if ((int)season >= 3)
+                season = 0;
+            if(onSeasonChange != null)
+            {
+                onSeasonChange(season);
+            }
+            SetTemperature();
             CalculateRain();
         }
     }
