@@ -9,8 +9,19 @@ public class FourthDimension : MonoBehaviour
     public static TimeOfDay timeOfDay;
     public static float currentTime = 0;
     public static int currentDay = 0;
+
+    public static float fCT;
     public float fullCycleTime;
+    public static float tSM;
     public float timeSpeedMultiplier;
+
+    public event Action onPassDay;
+
+    private void Awake()
+    {
+        fCT = fullCycleTime;
+        tSM = timeSpeedMultiplier;
+    }
 
     private void Start()
     {
@@ -19,8 +30,9 @@ public class FourthDimension : MonoBehaviour
 
     private void Update()
     {
-
-        currentTime += (Time.deltaTime / fullCycleTime) * timeSpeedMultiplier;
+        fCT = fullCycleTime;
+        tSM = timeSpeedMultiplier;
+        currentTime += (Time.deltaTime / fCT) * tSM;
         //print(currentTime);
         if(currentTime >= 0.5f)
         {
@@ -37,6 +49,10 @@ public class FourthDimension : MonoBehaviour
         currentDay++;
         currentTime = 0;
         timeOfDay = TimeOfDay.Day;
+        if(onPassDay != null)
+        {
+            onPassDay();
+        }
     }
 
     

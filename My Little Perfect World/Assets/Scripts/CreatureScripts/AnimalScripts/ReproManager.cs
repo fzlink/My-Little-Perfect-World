@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class ReproManager : MonoBehaviour
 {
-
-    public float reproSpeed { get; set; }
-    public float reproMax { get; set; }
+    private Animal animal1;
+    private Animal animal2;
     private float reproduceAmount;
     private bool canStartReproducing;
+
+    public void SetAnimal1(Animal animal1)
+    {
+        this.animal1 = animal1;
+    }
+
+    public void SetAnimal2(Animal animal2)
+    {
+        this.animal2 = animal1;
+    }
 
     public void StartReproduction()
     {
@@ -21,8 +30,8 @@ public class ReproManager : MonoBehaviour
     {
         if (canStartReproducing)
         {
-            reproduceAmount += reproSpeed * Time.deltaTime;
-            if (reproduceAmount >= reproMax)
+            reproduceAmount += animal1.GetProperties().ReproducingSpeed * Time.deltaTime;
+            if (reproduceAmount >= animal1.GetProperties().ReproducingMaximum)
             {
                 AnimalInteractionManager.instance.FinishReproducing(this,true);
             }

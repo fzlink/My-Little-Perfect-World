@@ -235,7 +235,7 @@ public class Animal : Creature
 
     public void PartnerConfrontation()
     {
-        AnimalInteractionManager.instance.StartReproducing(this, currentPartner, properties.ReproducingSpeed, properties.ReproducingMaximum);
+        AnimalInteractionManager.instance.StartReproducing(this, currentPartner);
         AnimalInteractionManager.instance.onReproducingFinished += OnReproductionFinished;
         state = AnimalState.Reproducing;
     }

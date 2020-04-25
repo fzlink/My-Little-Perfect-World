@@ -287,14 +287,14 @@ public class ScanController : MonoBehaviour
     }
 
 
-    private void OnDrawGizmos()
-    {
-        if (Application.isPlaying)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(scanOrigin, properties.AwarenessRadius); //ScanArea
-        }
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    if (Application.isPlaying)
+    //    {
+    //        Gizmos.color = Color.yellow;
+    //        Gizmos.DrawWireSphere(scanOrigin, properties.AwarenessRadius); //ScanArea
+    //    }
+    //}
 
 }
 

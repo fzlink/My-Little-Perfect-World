@@ -48,5 +48,5 @@ MonoBehaviour:
   reproducingSpeed: 1
   reproducingAge: 1
   pregnancyMaximum: 100
-  pregnancySpeed: 1
+  pregnancySpeed: 2
   pregnancyChildAmount: 1

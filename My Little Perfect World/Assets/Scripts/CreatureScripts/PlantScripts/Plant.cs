@@ -7,18 +7,20 @@ public class Plant : Creature
 {
     [SerializeField] private PlantProperties properties;
     public PlantProperties GetProperties() { return properties; }
-
+    public bool isDormant { get; set; }
     
     private Air air;
     private FourthDimension time;
     private Sun sun;
+    private Soil soil;
 
     public float starchAmount;
     public float growAmount => transform.localScale.magnitude;
-    public bool isEdible => growAmount >= properties.EdibilityThreshold;
+    public bool isEdible => growAmount >= properties.EdibilityThreshold && !isDormant;
 
     private void Awake()
     {
+        soil = FindObjectOfType<Soil>();
         air = FindObjectOfType<Air>();
         time = FindObjectOfType<FourthDimension>();
         sun = FindObjectOfType<Sun>();
@@ -26,34 +28,37 @@ public class Plant : Creature
 
     private void Update()
     {
-        if(starchAmount > 0)
+        if (!isDormant)
         {
-            Grow();
-        }
+            if(starchAmount > 0)
+            {
+                Grow();
+            }
 
-        if( air.carbondioxide > 0 && FourthDimension.timeOfDay == FourthDimension.TimeOfDay.Day)
-        {
-            Photosynthesis();
+            if( FourthDimension.timeOfDay == FourthDimension.TimeOfDay.Day)
+            {
+                Photosynthesis();
+            }
         }
     }
 
     private void Photosynthesis()
     {
-        starchAmount += air.carbondioxide * sun.sunlightStrength * Time.deltaTime;
+        starchAmount +=  sun.sunlightStrength * soil.water * Time.deltaTime * properties.PhotosynthesisSpeed;
         if (starchAmount > properties.MaxStarch)
             starchAmount = properties.MaxStarch;
-        air.DecreaseCarbondioxide();
-        air.IncreaseOxygen();
+        //air.DecreaseCarbondioxide();
+        //air.IncreaseOxygen();
     }
 
     private void Grow()
     {
-        starchAmount -= Time.deltaTime * 10;
+        starchAmount -= Time.deltaTime * properties.GrowSpeed;
         if (starchAmount < 0)
             starchAmount = 0;
 
-        air.DecreaseOxygen();
-        air.IncreaseCarbondioxide();
+        //air.DecreaseOxygen();
+        //air.IncreaseCarbondioxide();
 
         Vector3 clampedScale = transform.localScale;
         clampedScale += Vector3.one * starchAmount * properties.GrowSpeed * Time.deltaTime;

@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class EatingManager : MonoBehaviour
 {
-    public float eatingSpeed { get; set; }
+    private Animal animal;
     private bool canStartEating;
     public Transform food;
     private const float destroyMagnitudeThreshold = 0.5f;
 
-    public void StartEating(Food food, float eatingSpeed)
+    public void StartEating(Food food, Animal animal)
     {
         this.food = food.transform;
-        this.eatingSpeed = eatingSpeed;
+        this.animal = animal;
         canStartEating = true;
     }
 
@@ -19,7 +19,7 @@ public class EatingManager : MonoBehaviour
     {
         if (canStartEating && food != null)
         {
-            food.localScale -= Vector3.one * Time.deltaTime * eatingSpeed;
+            food.localScale -= Vector3.one * Time.deltaTime * animal.GetProperties().FoodEatingSpeed;
             if (food.localScale.magnitude < destroyMagnitudeThreshold || isScaleNegative())
             {
                 AnimalInteractionManager.instance.FinishEating(this, true);

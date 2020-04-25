@@ -7,6 +7,7 @@ using UnityEngine;
 public class ObjectPlacer : MonoBehaviour
 {
     public List<ObjectsToPlace> objectsToPlace;
+    public event Action onObjectsPlaced;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +38,13 @@ public class ObjectPlacer : MonoBehaviour
                         else
                         {
                             creature = plantFactory.CreateChild(objectsToPlace[j].obj, safeSpots[i], objectsToPlace[j].container);
+                            if (UnityEngine.Random.value < 0.3f)
+                            {
+                                creature.transform.localScale = Vector3.one * 0.1f;
+                                creature.GetComponent<Plant>().isDormant = true;
+                            }
                         }
+                        
                         creature.name = creature.GetComponent<Creature>().creatureType + i;
                     }
                     else
@@ -49,6 +56,10 @@ public class ObjectPlacer : MonoBehaviour
                 }
                 prev += objectsToPlace[j].magnitude;
             }
+        }
+        if(onObjectsPlaced != null)
+        {
+            onObjectsPlaced();
         }
         gameObject.GetComponent<SafeSpotFinder>().onSafeSpotsFounded -= PlaceObjects;
     }

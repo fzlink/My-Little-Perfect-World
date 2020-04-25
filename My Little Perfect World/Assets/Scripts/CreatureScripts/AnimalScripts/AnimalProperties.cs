@@ -60,9 +60,9 @@ public class AnimalProperties : Properties
     public GameObject Animal { get => animal; set => animal = value; }
     public Texture AnimalIcon { get => animalIcon; set => animalIcon = value; }
     public Color CommonSkinColor { get => commonSkinColor; set => commonSkinColor = value; }
-    public float WanderingSpeed { get => wanderingSpeed; set => wanderingSpeed = value; }
-    public float WanderChangeDirectionDelay { get => wanderChangeDirectionDelay; set => wanderChangeDirectionDelay = value; }
-    public float RunningSpeed { get => runningSpeed; set => runningSpeed = value; }
+    public float WanderingSpeed { get => wanderingSpeed * FourthDimension.tSM; set => wanderingSpeed = value; }
+    public float WanderChangeDirectionDelay { get => wanderChangeDirectionDelay / FourthDimension.tSM; set => wanderChangeDirectionDelay = value; }
+    public float RunningSpeed { get => runningSpeed * FourthDimension.tSM; set => runningSpeed = value; }
     public float AwarenessRadius { get => awarenessRadius; set => awarenessRadius = value; }
     public Vector3[] LookForWaterdirections { get => lookForWaterdirections; set => lookForWaterdirections = value; }
     public bool IsCarnivore { get => isCarnivore; set => isCarnivore = value; }
@@ -70,25 +70,25 @@ public class AnimalProperties : Properties
     public float NutritionValue { get => nutritionValue; set => nutritionValue = value; }
     public float FoodMaximum { get => foodMaximum; set => foodMaximum = value; }
     public float FoodDangerThreshold { get => foodDangerThreshold; set => foodDangerThreshold = value; }
-    public float FoodEatingSpeed { get => foodEatingSpeed; set => foodEatingSpeed = value; }
-    public float FoodDecreaseSpeed { get => foodDecreaseSpeed; set => foodDecreaseSpeed = value; }
+    public float FoodEatingSpeed { get => foodEatingSpeed * FourthDimension.tSM; set => foodEatingSpeed = value; }
+    public float FoodDecreaseSpeed { get => foodDecreaseSpeed * FourthDimension.tSM; set => foodDecreaseSpeed = value; }
     public float WaterMaximum { get => waterMaximum; set => waterMaximum = value; }
     public float WaterDangerThreshold { get => waterDangerThreshold; set => waterDangerThreshold = value; }
-    public float WaterDrinkingSpeed { get => waterDrinkingSpeed; set => waterDrinkingSpeed = value; }
-    public float WaterDecreaseSpeed { get => waterDecreaseSpeed; set => waterDecreaseSpeed = value; }
+    public float WaterDrinkingSpeed { get => waterDrinkingSpeed * FourthDimension.tSM; set => waterDrinkingSpeed = value; }
+    public float WaterDecreaseSpeed { get => waterDecreaseSpeed * FourthDimension.tSM; set => waterDecreaseSpeed = value; }
     public float SleepMaximum { get => sleepMaximum; set => sleepMaximum = value; }
     public float SleepDangerThreshold { get => sleepDangerThreshold; set => sleepDangerThreshold = value; }
-    public float SleepGettingSpeed { get => sleepGettingSpeed; set => sleepGettingSpeed = value; }
-    public float SleepDecreaseSpeed { get => sleepDecreaseSpeed; set => sleepDecreaseSpeed = value; }
+    public float SleepGettingSpeed { get => sleepGettingSpeed * FourthDimension.tSM; set => sleepGettingSpeed = value; }
+    public float SleepDecreaseSpeed { get => sleepDecreaseSpeed * FourthDimension.tSM; set => sleepDecreaseSpeed = value; }
     public float StressMaximum { get => stressMaximum; set => stressMaximum = value; }
     public float StressDangerThreshold { get => stressDangerThreshold; set => stressDangerThreshold = value; }
-    public float StressGettingSpeed { get => stressGettingSpeed; set => stressGettingSpeed = value; }
-    public float StressDecreaseSpeed { get => stressDecreaseSpeed; set => stressDecreaseSpeed = value; }
+    public float StressGettingSpeed { get => stressGettingSpeed * FourthDimension.tSM; set => stressGettingSpeed = value; }
+    public float StressDecreaseSpeed { get => stressDecreaseSpeed * FourthDimension.tSM; set => stressDecreaseSpeed = value; }
     public float ReproducingMaximum { get => reproducingMaximum; set => reproducingMaximum = value; }
-    public float ReproducingSpeed { get => reproducingSpeed; set => reproducingSpeed = value; }
+    public float ReproducingSpeed { get => reproducingSpeed * FourthDimension.tSM; set => reproducingSpeed = value; }
     public float ReproducingAge { get => reproducingAge; set => reproducingAge = value; }
     public float PregnancyMaximum { get => pregnancyMaximum; set => pregnancyMaximum = value; }
-    public float PregnancySpeed { get => pregnancySpeed; set => pregnancySpeed = value; }
+    public float PregnancySpeed { get => pregnancySpeed * FourthDimension.tSM; set => pregnancySpeed = value; }
     public int PregnancyChildAmount { get => pregnancyChildAmount; set => pregnancyChildAmount = value; }
 
 }

@@ -24,6 +24,8 @@ public class MoveController : MonoBehaviour
     private Vector3 scanOrigin;
     private bool isWanderRotated;
 
+    private float hitRotateDelay = 0.1f / FourthDimension.tSM;
+
     private void Awake()
     {
         animal = GetComponent<Animal>();
@@ -261,26 +263,26 @@ public class MoveController : MonoBehaviour
                     {
                         if (maxD == -1)
                         {
-                            StartCoroutine(RunChangeDirection(-transform.forward, 0.1f));
+                            StartCoroutine(RunChangeDirection(-transform.forward, hitRotateDelay));
                         }
                         else
                         {
-                            StartCoroutine(RunChangeDirection(transform.right, 0.1f));
+                            StartCoroutine(RunChangeDirection(transform.right, hitRotateDelay));
                         }
                     }
                     else
                     {
                         if (maxD == -1)
                         {
-                            StartCoroutine(RunChangeDirection(-transform.right, 0.1f));
+                            StartCoroutine(RunChangeDirection(-transform.right, hitRotateDelay));
                         }
                         else if (hit2.distance > maxD)
                         {
-                            StartCoroutine(RunChangeDirection(-transform.right, 0.1f));
+                            StartCoroutine(RunChangeDirection(-transform.right, hitRotateDelay));
                         }
                         else
                         {
-                            StartCoroutine(RunChangeDirection(transform.right, 0.1f));
+                            StartCoroutine(RunChangeDirection(transform.right, hitRotateDelay));
                         }
                     }
                 }

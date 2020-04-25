@@ -52,7 +52,7 @@ public class AnimalInteractionManager : MonoBehaviour
     }
 
     /////////Reproduction
-    public void StartReproducing(Animal animal, Animal partner, float reproSpeed, float reproMax)
+    public void StartReproducing(Animal animal, Animal partner)
     {
         if(partner.reproManager == null)
         {
@@ -62,14 +62,13 @@ public class AnimalInteractionManager : MonoBehaviour
 
             ReproManager repro = reproGameObject.AddComponent<ReproManager>();
             animal.reproManager = repro;
-            repro.reproSpeed = reproSpeed;
-            repro.reproMax = reproMax;
-
+            repro.SetAnimal1(animal);
             reproManagers.Add(repro);
         }
         else
         {
             animal.reproManager = partner.reproManager;
+            animal.reproManager.SetAnimal2(animal);
             animal.reproManager.StartReproduction();
         }
     }
@@ -97,7 +96,7 @@ public class AnimalInteractionManager : MonoBehaviour
         EatingManager eating = eatingGameObject.AddComponent<EatingManager>();
         eatingManagers.Add(eating);
         animal.eatingManager = eating;
-        eating.StartEating(food,animal.GetProperties().FoodEatingSpeed);
+        eating.StartEating(food,animal);
         return true;
     }
 
@@ -120,7 +119,7 @@ public class AnimalInteractionManager : MonoBehaviour
         animal.GetComponent<MeshRenderer>().enabled = false;
      
         ParticleSystem particle = Instantiate(turnToFoodFX, animal.transform.position, Quaternion.identity);
-        Destroy(particle.gameObject, particle.duration + particle.startLifetime);
+        Destroy(particle.gameObject, particle.duration + particle.startLifetime/2);
     }
 
 }

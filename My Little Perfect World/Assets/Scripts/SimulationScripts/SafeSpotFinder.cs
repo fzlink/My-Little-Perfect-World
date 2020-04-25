@@ -12,6 +12,10 @@ public class SafeSpotFinder : MonoBehaviour
     public int spotPerChunk;
 
     public event System.Action<List<Vector3>> onSafeSpotsFounded;
+    public List<Vector3> GetSafeSpots()
+    {
+        return safeSpots;
+    }
 
     private void Start()
     {

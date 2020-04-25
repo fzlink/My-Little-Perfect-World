@@ -9,14 +9,16 @@ public class PlantProperties : Properties
 
     [SerializeField] private Vector3 maxGrowth;
     [SerializeField] private float growSpeed;
+    [SerializeField] private float photosynthesisSpeed;
     [SerializeField] private float maxStarch;
     [SerializeField] private float edibilityThreshold;
     [SerializeField] private float nutritionValue;
 
     public GameObject Plant { get => plant; set => plant = value; }
     public float EdibilityThreshold { get => edibilityThreshold; set => edibilityThreshold = value; }
-    public float GrowSpeed { get => growSpeed; set => growSpeed = value; }
+    public float GrowSpeed { get => growSpeed * FourthDimension.tSM; set => growSpeed = value; }
     public float MaxStarch { get => maxStarch; set => maxStarch = value; }
     public Vector3 MaxGrowth { get => maxGrowth; set => maxGrowth = value; }
     public float NutritionValue { get => nutritionValue; set => nutritionValue = value; }
+    public float PhotosynthesisSpeed { get => photosynthesisSpeed * FourthDimension.tSM; set => photosynthesisSpeed = value; }
 }
