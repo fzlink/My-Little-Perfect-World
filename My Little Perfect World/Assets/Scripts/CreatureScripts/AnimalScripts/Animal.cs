@@ -52,6 +52,8 @@ public class Animal : Creature
 
     private Plant currentPlant;
 
+    private ParticleSystem zzzFX;
+
     private void Start()
     {
         GetComponent<ScanController>().onTargetFound += OnTargetFound;
@@ -182,9 +184,15 @@ public class Animal : Creature
     ///////////////Sleep
     private void Sleep()
     {
+        if(zzzFX == null)
+            zzzFX = Instantiate(AnimalInteractionManager.instance.zzzFX, transform.position, AnimalInteractionManager.instance.zzzFX.transform.rotation,transform);
+        if(!zzzFX.isPlaying)
+            zzzFX.Play();
+
         sleepAmount += properties.SleepGettingSpeed * Time.deltaTime;
         if (sleepAmount >= properties.SleepMaximum)
         {
+            zzzFX.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             sleepAmount = properties.SleepMaximum;
             state = AnimalState.Wandering;
         }
@@ -218,6 +226,8 @@ public class Animal : Creature
 
     private void Die()
     {
+        if (zzzFX != null)
+            Destroy(zzzFX);
         Meat meat = gameObject.AddComponent<Meat>();
         AnimalInteractionManager.instance.MakePoof(this);
         meat.nutritionValue = properties.NutritionValue;
@@ -270,6 +280,8 @@ public class Animal : Creature
 
     public void Interrupted()
     {
+        if(zzzFX != null && zzzFX.isPlaying)
+            zzzFX.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         AnimalInteractionManager.instance.Interrupted(this);
     }
 

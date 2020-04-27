@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f647ec4a46ade914db26eab63ad94c87, type: 3}
   m_Name: Default Plant Properties
   m_EditorClassIdentifier: 
-  plant: {fileID: 8209879541702131022, guid: 73c08b2a3c570884d800e05ed730ec2f, type: 3}
-  maxGrowth: {x: 1, y: 2, z: 1}
+  plant: {fileID: 1146341909110904659, guid: d7345667fad78a64dacc5575478c1408, type: 3}
+  maxGrowth: {x: 2, y: 2, z: 2}
   growSpeed: 0.005
   photosynthesisSpeed: 1
   maxStarch: 1000

@@ -6,6 +6,8 @@ public class ReproManager : MonoBehaviour
 {
     private Animal animal1;
     private Animal animal2;
+
+    public ParticleSystem loveFX;
     private float reproduceAmount;
     private bool canStartReproducing;
 
@@ -22,6 +24,7 @@ public class ReproManager : MonoBehaviour
     public void StartReproduction()
     {
         canStartReproducing = true;
+        Instantiate(loveFX, transform.position, loveFX.transform.rotation, transform);
     }
 
 
@@ -33,6 +36,7 @@ public class ReproManager : MonoBehaviour
             reproduceAmount += animal1.GetProperties().ReproducingSpeed * Time.deltaTime;
             if (reproduceAmount >= animal1.GetProperties().ReproducingMaximum)
             {
+                loveFX.Stop();
                 AnimalInteractionManager.instance.FinishReproducing(this,true);
             }
         }

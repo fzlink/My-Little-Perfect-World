@@ -9,7 +9,7 @@ public class AnimalFactory : CreatureFactory
         newChildAnimal.dNA = ConstructDNA(newChildAnimal.GetProperties().CommonSkinColor);
         newChildAnimal.dayOfBirth = Random.Range(-2, 0);
         CheckForFemaleAndAttributes(newChild, newChildAnimal);
-        newChild.GetComponent<Renderer>().material.color = newChildAnimal.dNA.skinColor;
+        newChild.GetComponentInChildren<Renderer>().material.color = newChildAnimal.dNA.skinColor;
         return newChild;
     }
 
@@ -19,7 +19,7 @@ public class AnimalFactory : CreatureFactory
         Animal newChildAnimal = newChild.GetComponent<Animal>();
         newChildAnimal.dNA = ConstructDNA(mother.dNA, father.dNA);
         CheckForFemaleAndAttributes(newChild, newChildAnimal);
-        newChild.GetComponent<Renderer>().material.color = newChildAnimal.dNA.skinColor;
+        newChild.GetComponentInChildren<Renderer>().material.color = newChildAnimal.dNA.skinColor;
 
         newChildAnimal.mother = mother;
         newChildAnimal.father = father;

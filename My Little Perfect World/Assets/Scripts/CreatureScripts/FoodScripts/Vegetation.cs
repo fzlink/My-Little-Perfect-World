@@ -14,7 +14,7 @@ public class Vegetation : Food
     {
         if(UnityEngine.Random.value < .8)
         {
-            GetComponent<Renderer>().enabled = false;
+            GetComponentInChildren<Renderer>().enabled = false;
             LatchSeed(animal);
         }
         else
@@ -35,7 +35,7 @@ public class Vegetation : Food
         {
             transform.position = animal.transform.position - transform.forward;
             GetComponent<Plant>().enabled = true;
-            GetComponent<Renderer>().enabled = true;
+            GetComponentInChildren<Renderer>().enabled = true;
             Destroy(this);
         }
         else

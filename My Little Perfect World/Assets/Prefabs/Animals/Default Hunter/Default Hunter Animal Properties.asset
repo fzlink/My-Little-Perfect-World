@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3f769c48c8e9646b2303028d0562fa, type: 3}
   m_Name: Default Hunter Animal Properties
   m_EditorClassIdentifier: 
-  animal: {fileID: 8595764055261603964, guid: c22879ff8df457a4a8057440b2e872dc, type: 3}
+  animal: {fileID: 4532366093247936154, guid: 3d96aefece60c5f40943cf1a91fa653a, type: 3}
   animalIcon: {fileID: 2800000, guid: d45d6eeffb6f4794d8e4f601fba3b090, type: 3}
-  commonSkinColor: {r: 0.90588236, g: 0.15686275, b: 0.15686275, a: 0}
+  commonSkinColor: {r: 1, g: 1, b: 1, a: 1}
   wanderingSpeed: 8
   wanderChangeDirectionDelay: 9
   runningSpeed: 12

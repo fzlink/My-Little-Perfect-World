@@ -9,6 +9,8 @@ public class AnimalInteractionManager : MonoBehaviour
     public static AnimalInteractionManager instance;
 
     public ParticleSystem turnToFoodFX;
+    public ParticleSystem loveFX;
+    public ParticleSystem zzzFX;
 
     public GameObject meatPrefab;
 
@@ -62,6 +64,7 @@ public class AnimalInteractionManager : MonoBehaviour
 
             ReproManager repro = reproGameObject.AddComponent<ReproManager>();
             animal.reproManager = repro;
+            repro.loveFX = loveFX;
             repro.SetAnimal1(animal);
             reproManagers.Add(repro);
         }
@@ -116,7 +119,7 @@ public class AnimalInteractionManager : MonoBehaviour
     public void MakePoof(Animal animal)
     {
         Instantiate(meatPrefab, animal.transform.position, meatPrefab.transform.rotation, animal.transform);
-        animal.GetComponent<MeshRenderer>().enabled = false;
+        animal.GetComponentInChildren<MeshRenderer>().enabled = false;
      
         ParticleSystem particle = Instantiate(turnToFoodFX, animal.transform.position, Quaternion.identity);
         Destroy(particle.gameObject, particle.duration + particle.startLifetime/2);
