@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f647ec4a46ade914db26eab63ad94c87, type: 3}
   m_Name: Default Plant Properties
   m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: 97cb5f4b83b5db242ab67edda807025e, type: 3}
   plant: {fileID: 1146341909110904659, guid: d7345667fad78a64dacc5575478c1408, type: 3}
   maxGrowth: {x: 2, y: 2, z: 2}
   growSpeed: 0.005

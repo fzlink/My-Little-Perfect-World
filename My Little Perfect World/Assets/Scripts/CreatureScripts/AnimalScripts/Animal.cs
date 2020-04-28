@@ -228,6 +228,7 @@ public class Animal : Creature
     {
         if (zzzFX != null)
             Destroy(zzzFX);
+        GetComponentInChildren<Outline>().enabled = false;
         Meat meat = gameObject.AddComponent<Meat>();
         AnimalInteractionManager.instance.MakePoof(this);
         meat.nutritionValue = properties.NutritionValue;

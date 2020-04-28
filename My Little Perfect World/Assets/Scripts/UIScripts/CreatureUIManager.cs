@@ -28,14 +28,37 @@ public class CreatureUIManager : MonoBehaviour
     void Update()
     {
         GetCreatureWithMouseClick();
-        if (animalOnInterest != null) { GetValues(); }
+        if (animalOnInterest != null)
+        {
+            GetValues();
+        }
+        else
+        {
+            ResetValues();
+        }
     }
 
+    private void ResetValues()
+    {
+        creatureIcon.gameObject.SetActive(false);
+        for (int i = 0; i < statBars.Length; i++)
+        {
+            statBars[i].ChangeValues(0, 0);
+        }
+    }
 
     public void ChangeInterest(Animal animal)
     {
+        if(animalOnInterest != null)
+        {
+            animalOnInterest.gameObject.GetComponentInChildren<Outline>().enabled = false;
+        }
         animalOnInterest = animal;
         AnimalProperties properties = animal.GetProperties();
+        animal.gameObject.GetComponentInChildren<Outline>().enabled = true;
+
+        Camera.main.GetComponent<CameraTargetFollower>().SetTarget(animal.transform);
+
         creatureIcon.gameObject.SetActive(true);
         creatureIcon.texture = properties.AnimalIcon;
         for (int i = 0; i < statBars.Length; i++)
@@ -96,7 +119,7 @@ public class CreatureUIManager : MonoBehaviour
                         statBars[i].ChangeValues(animalOnInterest.stressAmount, properties.StressDangerThreshold);
                         break;
                     case StatBar.BarType.Pregnancy:
-                            statBars[i].ChangeValues(animalOnInterest.GetComponent<FemaleAttributes>().pregnancyAmount, 0f);
+                        statBars[i].ChangeValues(animalOnInterest.GetComponent<FemaleAttributes>().pregnancyAmount, 0f);
                         break;
                     default:
                         break;

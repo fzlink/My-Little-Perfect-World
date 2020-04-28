@@ -175,10 +175,10 @@ namespace DigitalRuby.RainMaker
                     {
                         ParticleSystem.EmissionModule e = RainFallParticleSystem.emission;
                         e.enabled = RainFallParticleSystem.GetComponent<Renderer>().enabled = true;
-                        if (!RainFallParticleSystem.isPlaying)
-                        {
-                            RainFallParticleSystem.Play();
-                        }
+                        //if (!RainFallParticleSystem.isPlaying)
+                        //{
+                        //    RainFallParticleSystem.Play();
+                        //}
                         ParticleSystem.MinMaxCurve rate = e.rateOverTime;
                         rate.mode = ParticleSystemCurveMode.Constant;
                         rate.constantMin = rate.constantMax = RainFallEmissionRate();
@@ -238,11 +238,11 @@ namespace DigitalRuby.RainMaker
             {
                 ParticleSystem.EmissionModule e = RainFallParticleSystem.emission;
                 e.enabled = false;
-                Renderer rainRenderer = RainFallParticleSystem.GetComponent<Renderer>();
-                rainRenderer.enabled = false;
-                rainMaterial = new Material(rainRenderer.material);
-                rainMaterial.EnableKeyword("SOFTPARTICLES_OFF");
-                rainRenderer.material = rainMaterial;
+                //Renderer rainRenderer = RainFallParticleSystem.GetComponent<Renderer>();
+                //rainRenderer.enabled = false;
+                //rainMaterial = new Material(rainRenderer.material);
+                //rainMaterial.EnableKeyword("SOFTPARTICLES_OFF");
+                //rainRenderer.material = rainMaterial;
             }
             if (RainExplosionParticleSystem != null)
             {

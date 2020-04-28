@@ -42,7 +42,7 @@ public class Soil : MonoBehaviour
         GetFed(totalNutrition);
     }
 
-    private void IdentifySeeds()
+    private void IdentifySeeds(List<ObjectsToPlace> objects)
     {
         seeds = new List<Transform>();
         foreach (Transform transform in plantsContainer)
@@ -55,9 +55,12 @@ public class Soil : MonoBehaviour
 
     private void WakeSeed()
     {
-        int index = UnityEngine.Random.Range(0, seeds.Count - 1);
-        seeds[index].GetComponent<Plant>().isDormant = false;
-        seeds.RemoveAt(index);
+        if(seeds.Count > 0)
+        {
+            int index = UnityEngine.Random.Range(0, seeds.Count - 1);
+            seeds[index].GetComponent<Plant>().isDormant = false;
+            seeds.RemoveAt(index);
+        }
     }
 
     private void Update()
@@ -73,6 +76,8 @@ public class Soil : MonoBehaviour
             }
         }
         water -= Time.deltaTime * vaporizeRate * FourthDimension.tSM;
+        if (water < 1)
+            water = 1;
         if(isRaining)
             water += Time.deltaTime * emissionRate * FourthDimension.tSM;
     }

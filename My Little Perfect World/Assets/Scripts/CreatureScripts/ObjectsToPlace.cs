@@ -12,4 +12,5 @@ public class ObjectsToPlace
     public float magnitude;
     public GameObject obj;
     public Transform container;
+    public Texture UIIcon;
 }

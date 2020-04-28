@@ -14,8 +14,10 @@ public class FourthDimension : MonoBehaviour
     public float fullCycleTime;
     public static float tSM;
     public float timeSpeedMultiplier;
+    public static bool isPaused;
 
     public event Action onPassDay;
+    public event Action<TimeOfDay> onDayNightChange;
 
     private void Awake()
     {
@@ -30,17 +32,25 @@ public class FourthDimension : MonoBehaviour
 
     private void Update()
     {
-        fCT = fullCycleTime;
-        tSM = timeSpeedMultiplier;
+
         currentTime += (Time.deltaTime / fCT) * tSM;
         //print(currentTime);
         if(currentTime >= 0.5f)
         {
             timeOfDay = TimeOfDay.Night;
+            ChangeDayNight();
         }
-        if(currentTime >= 1)
+        if (currentTime >= 1)
         {
             PassDay();
+        }
+    }
+
+    private void ChangeDayNight()
+    {
+        if (onDayNightChange != null)
+        {
+            onDayNightChange(timeOfDay);
         }
     }
 
@@ -53,6 +63,7 @@ public class FourthDimension : MonoBehaviour
         {
             onPassDay();
         }
+        ChangeDayNight();
     }
 
     

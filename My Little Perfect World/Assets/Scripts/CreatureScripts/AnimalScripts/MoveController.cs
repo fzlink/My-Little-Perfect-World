@@ -67,6 +67,10 @@ public class MoveController : MonoBehaviour
                     GoToSomething();
                     JudgeDistance();
                 }
+                else
+                {
+                    animal.state = AnimalState.Wandering;
+                }
                 break;
         }
     }

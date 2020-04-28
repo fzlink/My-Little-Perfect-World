@@ -27,6 +27,10 @@ public class AnimalInteractionManager : MonoBehaviour
     public event Action<ReproManager, bool> onReproducingFinished;
     public event Action<EatingManager, bool> onEatingFinished;
 
+    public event Action<Transform> onNewInteraction;
+    public event Action<Transform> onFinishInteraction;
+    public event Action onAnimalDied;
+
     private void Awake()
     {
         instance = this;
@@ -44,6 +48,10 @@ public class AnimalInteractionManager : MonoBehaviour
 
     public void PrintDeadCount()
     {
+        if(onAnimalDied != null)
+        {
+            onAnimalDied();
+        }
         print("Dead Animal Count: " + foodContainer.childCount);
     }
 
@@ -73,6 +81,10 @@ public class AnimalInteractionManager : MonoBehaviour
             animal.reproManager = partner.reproManager;
             animal.reproManager.SetAnimal2(animal);
             animal.reproManager.StartReproduction();
+            if(onNewInteraction != null)
+            {
+                onNewInteraction(animal.reproManager.transform);
+            }
         }
     }
 
@@ -85,6 +97,10 @@ public class AnimalInteractionManager : MonoBehaviour
                 reproManagers.Remove(reproManager);
                 onReproducingFinished(reproManager,isSuccess);
                 Destroy(reproManager.gameObject);
+                if(onFinishInteraction != null)
+                {
+                    onFinishInteraction(reproManager.transform);
+                }
             }
         }
     }
@@ -100,6 +116,10 @@ public class AnimalInteractionManager : MonoBehaviour
         eatingManagers.Add(eating);
         animal.eatingManager = eating;
         eating.StartEating(food,animal);
+        if(onNewInteraction != null)
+        {
+            onNewInteraction(eating.transform);
+        }
         return true;
     }
 
@@ -112,6 +132,10 @@ public class AnimalInteractionManager : MonoBehaviour
                 eatingManagers.Remove(eatingManager);
                 onEatingFinished(eatingManager, isSuccess);
                 Destroy(eatingManager.gameObject);
+                if (onFinishInteraction != null)
+                {
+                    onFinishInteraction(eatingManager.transform);
+                }
             }
         }
     }

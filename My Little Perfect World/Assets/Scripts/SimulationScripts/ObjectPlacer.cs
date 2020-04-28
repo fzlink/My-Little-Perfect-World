@@ -7,7 +7,7 @@ using UnityEngine;
 public class ObjectPlacer : MonoBehaviour
 {
     public List<ObjectsToPlace> objectsToPlace;
-    public event Action onObjectsPlaced;
+    public event Action<List<ObjectsToPlace>> onObjectsPlaced;
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +59,7 @@ public class ObjectPlacer : MonoBehaviour
         }
         if(onObjectsPlaced != null)
         {
-            onObjectsPlaced();
+            onObjectsPlaced(objectsToPlace);
         }
         gameObject.GetComponent<SafeSpotFinder>().onSafeSpotsFounded -= PlaceObjects;
     }

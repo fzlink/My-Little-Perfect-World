@@ -21,12 +21,22 @@ public class Climate: MonoBehaviour
 
     [SerializeField] private ClimateProperties properties;
     [SerializeField] private int dayInSeason;
-    [SerializeField] private GameObject rain;
+    [SerializeField] private ParticleSystem rain;
 
+
+    private int rainIndex;
 
     private FourthDimension time;
     float[] nums;
-    float rainDuration;
+    float[] rainTimes;
+    float rainFallDuration;
+    private float rainWaitTimer;
+    private float rainFallTimer;
+    private bool isRaining;
+
+    private float changeColorTimer;
+    private bool onChangeColor;
+    private Color seasonColor;
 
     public event Action onRainStart;
     public event Action onRainStop;
@@ -42,17 +52,76 @@ public class Climate: MonoBehaviour
     {
         time.onPassDay += OnPassDay;
         season = (Season)UnityEngine.Random.Range(0, 4);
+        ChangeSeason();
         SetTemperature();
         tempdeb = temperature;
         CalculateRain();
     }
 
+    private void Update()
+    {
+        if(rainIndex < nums.Length)
+        {
+            rainWaitTimer += Time.deltaTime * FourthDimension.tSM;
+            if (rainWaitTimer >= rainTimes[rainIndex])
+            {
+                rainIndex++;
+                StartRain();
+            }
+        }
+
+
+        if (isRaining)
+        {
+            rainFallTimer += Time.deltaTime * FourthDimension.tSM;
+            if(rainFallTimer >= rainFallDuration)
+            {
+                StopRain();
+                rainFallTimer = 0;
+                if(rainIndex < nums.Length)
+                    rainFallDuration = (nums[rainIndex] / 10f);
+            }
+        }
+
+        if (onChangeColor)
+        {
+            changeColorTimer += Time.deltaTime * FourthDimension.tSM;
+            if(changeColorTimer >= 1)
+            {
+                changeColorTimer = 0;
+                onChangeColor = false;
+            }
+            else
+            {
+                RenderSettings.ambientLight = Color.Lerp(RenderSettings.ambientLight, seasonColor, Time.deltaTime * FourthDimension.tSM);
+            }
+
+        }
+    }
+
     private void SetTemperature()
     {
-        if (season == Season.WINTER) temperature = properties.WinterTemperature;
-        else if (season == Season.SPRING) temperature = properties.SpringTemperature;
-        else if (season == Season.SUMMER) temperature = properties.SummerTemperature;
-        else temperature = properties.FallTemperature;
+        onChangeColor = true;
+        if (season == Season.WINTER)
+        {
+            seasonColor = Color.blue/2;
+            temperature = properties.WinterTemperature;
+        }
+        else if (season == Season.SPRING)
+        {
+            seasonColor = Color.green/2;
+            temperature = properties.SpringTemperature;
+        }
+        else if (season == Season.SUMMER)
+        {
+            seasonColor = Color.red/2;
+            temperature = properties.SummerTemperature;
+        }
+        else
+        {
+            seasonColor = Color.gray/2;
+            temperature = properties.FallTemperature;
+        }
     }
 
     private void CalculateRain()
@@ -65,33 +134,47 @@ public class Climate: MonoBehaviour
 
         nums = new float[UnityEngine.Random.Range(3, 5)];
 
-        for (int i = 0; i < nums.Length - 1; i++)
+        for (int i = 0; i < nums.Length; i++)
         {
-            nums[i] = UnityEngine.Random.Range(0, totalSeasonRainAmount);
+            nums[i] = UnityEngine.Random.Range(0, totalSeasonRainAmount/2);
             totalSeasonRainAmount -= nums[i];
         }
-        nums[nums.Length - 1] = totalSeasonRainAmount;
-        StartCoroutine(WaitRain());
+        for (int i = 0; i < nums.Length; i++)
+        {
+            nums[i] += totalSeasonRainAmount / nums.Length;
+            print(nums[i]);
+        }
+        CalculateRainWaits();
     }
 
-    private IEnumerator WaitRain()
+    private void CalculateRainWaits()
     {
-        float[] rainTimes = new float[nums.Length];
-        float prevTimes = 0;
+        rainTimes = new float[nums.Length];
+        //float prevTimes = 0;
         float max = FourthDimension.fCT * dayInSeason;
         for (int i = 0; i < nums.Length; i++)
         {
-            rainTimes[i] = UnityEngine.Random.Range(0f, max);
+            rainTimes[i] = UnityEngine.Random.Range(10f, max - 10f);
         }
         rainTimes = rainTimes.OrderBy(x => x).ToArray();
 
         for (int i = 0; i < rainTimes.Length; i++)
         {
-            rainDuration = (nums[i] / 10f) / FourthDimension.tSM;
-            yield return new WaitForSeconds((rainTimes[i] - prevTimes)/FourthDimension.tSM);
-            StartRain();
-            prevTimes += rainTimes[i];
+            if(i % 2 == 1 && i != rainTimes.Length - 1)
+            {
+                rainTimes[i] = (rainTimes[i - 1] + rainTimes[i + 1]) / 2;
+            }
         }
+
+        rainIndex = 0;
+        rainFallDuration = (nums[0] / 10f);
+        //for (int i = 0; i < rainTimes.Length && i < nums.Length; i++)
+        //{
+        //    rainDuration = (nums[i] / 10f) / FourthDimension.tSM;
+        //    yield return new WaitForSeconds((rainTimes[i] - prevTimes) / FourthDimension.tSM);
+        //    StartRain();
+        //    prevTimes += rainTimes[i];
+        //}
 
         //float max = time.fullCycleTime * (dayInSeason/2f)/time.timeSpeedMultiplier;
         //for(int i = 0; i < nums.Length; i++)
@@ -111,9 +194,9 @@ public class Climate: MonoBehaviour
 
     private void StartRain()
     {
+        isRaining = true;
         print("Raining");
-        rain.SetActive(true);
-        StartCoroutine(StopRain());
+        rain.Play();
         if(onRainStart != null)
         {
             onRainStart();
@@ -121,10 +204,10 @@ public class Climate: MonoBehaviour
 
     }
 
-    private IEnumerator StopRain()
+    private void StopRain()
     {
-        yield return new WaitForSeconds(rainDuration);
-        rain.SetActive(false);
+        isRaining = false;
+        rain.Stop();
         if(onRainStop != null)
         {
             onRainStop();
@@ -136,14 +219,20 @@ public class Climate: MonoBehaviour
         if(FourthDimension.currentDay % dayInSeason == 0)
         {
             season++;
-            if ((int)season >= 3)
+            if ((int)season >= 4)
                 season = 0;
-            if(onSeasonChange != null)
-            {
-                onSeasonChange(season);
-            }
+            ChangeSeason();
             SetTemperature();
             CalculateRain();
+        }
+    }
+
+    private void ChangeSeason()
+    {
+        rainFallTimer = 0;
+        if (onSeasonChange != null)
+        {
+            onSeasonChange(season);
         }
     }
 
