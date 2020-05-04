@@ -18,6 +18,7 @@ public class Animal : Creature
     public AnimalState state { get; set; }
 
     public DNA dNA { get; set; }
+    public bool autoDNA;
     [SerializeField] private AnimalProperties properties;
     public AnimalProperties GetProperties() { return properties; }
 
@@ -49,10 +50,21 @@ public class Animal : Creature
 
     public ReproManager reproManager { get; set; }
     public EatingManager eatingManager { get; set; }
+    public RunManager runManager { get; set; }
 
     private Plant currentPlant;
 
     private ParticleSystem zzzFX;
+
+    protected virtual void Awake()
+    {
+        if (autoDNA)
+        {
+            dNA = new DNA(Color.white, 0.5f, UnityEngine.Random.value < 0.5f ? Sex.Female : Sex.Male);
+            if (dNA.sex == Sex.Female)
+                gameObject.AddComponent<FemaleAttributes>();
+        }
+    }
 
     private void Start()
     {
@@ -69,7 +81,7 @@ public class Animal : Creature
         sleepAmount = UnityEngine.Random.Range(25f, 100f);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         switch (state)
         {
@@ -213,7 +225,6 @@ public class Animal : Creature
                 currentFood = currentEnemy.GetComponent<Food>();
                 FoodConfrontation();
             }
-
         }
         catch { }
     }

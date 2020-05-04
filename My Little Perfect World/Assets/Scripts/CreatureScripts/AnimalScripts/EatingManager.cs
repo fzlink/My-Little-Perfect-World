@@ -13,6 +13,7 @@ public class EatingManager : MonoBehaviour
         this.food = food.transform;
         this.animal = animal;
         canStartEating = true;
+        food.isBeingEaten = true;
     }
 
     private void Update()
@@ -23,8 +24,10 @@ public class EatingManager : MonoBehaviour
             if (food.localScale.magnitude < destroyMagnitudeThreshold || isScaleNegative())
             {
                 AnimalInteractionManager.instance.FinishEating(this, true);
+                food.GetComponent<Food>().isBeingEaten = false;
             }
         }
+
     }
 
     private bool isScaleNegative()

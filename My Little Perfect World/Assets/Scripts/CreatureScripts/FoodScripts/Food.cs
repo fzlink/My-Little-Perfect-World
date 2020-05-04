@@ -12,7 +12,8 @@ public class Food : MonoBehaviour
     private float magnitude;
     public float nutritionValue { get; set; }
 
-    private const float destroyMagnitudeThreshold = 0.5f;
+    protected const float destroyMagnitudeThreshold = 0.5f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,25 +34,17 @@ public class Food : MonoBehaviour
 
     public bool IsEdible()
     {
-        return transform.localScale.magnitude > 0.5f;
+        return transform.localScale.magnitude > destroyMagnitudeThreshold;
     }
 
     // Update is called once per frame
-    //protected virtual void Update()
-    //{
-    //    //Decay();
-    //    //if (isBeingEaten)
-    //    {
-    //        //transform.localScale -= Vector3.one * Time.deltaTime * beingEatenSpeed;
-    //        //if(transform.localScale.magnitude < destroyMagnitudeThreshold || isScaleNegative())
-    //        //{
-    //        //    Destroy(gameObject);
-    //        //}
-    //    }
-    //}
+    protected virtual void Update()
+    {
 
-    //private void Decay()
-    //{
-        
-    //}
+    }
+
+    protected bool isScaleNegative()
+    {
+        return transform.localScale.x < 0 || transform.localScale.y < 0 || transform.localScale.z < 0;
+    }
 }

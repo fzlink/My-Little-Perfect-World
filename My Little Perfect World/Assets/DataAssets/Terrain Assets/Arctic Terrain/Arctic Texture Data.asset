@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc5ad2250167c6847b4ebf63afe31379, type: 3}
+  m_Name: Arctic Texture Data
+  m_EditorClassIdentifier: 
+  autoUpdate: 1
+  layers:
+  - texture: {fileID: 2800000, guid: e68f7556eecfca9428a688205ac3f02e, type: 3}
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    tintStrength: 0
+    startHeight: 0
+    blendStrength: 0
+    textureScale: 23.57
+  - texture: {fileID: 2800000, guid: 909f46d77f22d4c4ead7ea682bc689fa, type: 3}
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    tintStrength: 0
+    startHeight: 0.007
+    blendStrength: 0.068
+    textureScale: 7.1
+  - texture: {fileID: 2800000, guid: acf0192bfc0853e4687c815de75153e5, type: 3}
+    tint: {r: 0.8324136, g: 0.8867924, b: 0.88457227, a: 0}
+    tintStrength: 0.272
+    startHeight: 0.409
+    blendStrength: 0.204
+    textureScale: 39.6

@@ -279,6 +279,7 @@ MonoBehaviour:
   interactionTransform: {fileID: 0}
   reproIcon: {fileID: 2800000, guid: e23221d2fb17f304192e416679e92501, type: 3}
   eatingIcon: {fileID: 2800000, guid: 2b61dda45d425b2498fb10d3decc1e5a, type: 3}
+  runIcon: {fileID: 2800000, guid: 77804b1abb29ee547817bcd359792e8c, type: 3}
 --- !u!1 &8768748720147746913
 GameObject:
   m_ObjectHideFlags: 0

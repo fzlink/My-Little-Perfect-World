@@ -16,14 +16,17 @@ public class AnimalInteractionManager : MonoBehaviour
 
     private GameObject reproducingManagersParent;
     private GameObject eatingManagersParent;
+    private GameObject runManagersParent;
 
     public Transform foodContainer;
     public Transform interactionContainer;
 
     private int reproManagerCount;
     private int eatingManagerCount;
+    private int runManagerCount;
     private List<ReproManager> reproManagers;
     private List<EatingManager> eatingManagers;
+    private List<RunManager> runManagers;
     public event Action<ReproManager, bool> onReproducingFinished;
     public event Action<EatingManager, bool> onEatingFinished;
 
@@ -36,14 +39,17 @@ public class AnimalInteractionManager : MonoBehaviour
         instance = this;
         reproducingManagersParent = new GameObject("Repros");
         eatingManagersParent = new GameObject("Eatings");
+        runManagersParent = new GameObject("Running");
         reproducingManagersParent.transform.parent = interactionContainer;
         eatingManagersParent.transform.parent = interactionContainer;
+        runManagersParent.transform.parent = interactionContainer;
     }
 
     private void Start()
     {
         reproManagers = new List<ReproManager>();
         eatingManagers = new List<EatingManager>();
+        runManagers = new List<RunManager>();
     }
 
     public void PrintDeadCount()
@@ -130,6 +136,8 @@ public class AnimalInteractionManager : MonoBehaviour
             if(onEatingFinished != null)
             {
                 eatingManagers.Remove(eatingManager);
+                if(eatingManager.food != null)
+                    eatingManager.food.GetComponent<Food>().isBeingEaten = false;
                 onEatingFinished(eatingManager, isSuccess);
                 Destroy(eatingManager.gameObject);
                 if (onFinishInteraction != null)
@@ -140,11 +148,40 @@ public class AnimalInteractionManager : MonoBehaviour
         }
     }
 
+    //////////Running
+    public void StartRunning(Animal hunter, Transform prey)
+    {
+        if (hunter == null || prey == null) return;
+        GameObject runGameObject = new GameObject("Run Manager" + runManagerCount++);
+        runGameObject.transform.parent = runManagersParent.transform;
+        RunManager runManager = runGameObject.AddComponent<RunManager>();
+        runManager.SetHunterAndPrey(hunter, prey);
+        hunter.runManager = runManager;
+        runManagers.Add(runManager);
+        if (onNewInteraction != null)
+        {
+            onNewInteraction(runManager.transform);
+        }
+    }
+
+    public void FinishRunning(RunManager runManager)
+    {
+        if(runManager != null)
+        {
+            runManagers.Remove(runManager);
+            Destroy(runManager.gameObject);
+            if (onFinishInteraction != null)
+            {
+                onFinishInteraction(runManager.transform);
+            }
+        }
+    }
+
     public void MakePoof(Animal animal)
     {
         Instantiate(meatPrefab, animal.transform.position, meatPrefab.transform.rotation, animal.transform);
-        animal.GetComponentInChildren<MeshRenderer>().enabled = false;
-     
+        animal.GetComponentInChildren<Renderer>().enabled = false;
+
         ParticleSystem particle = Instantiate(turnToFoodFX, animal.transform.position, Quaternion.identity);
         Destroy(particle.gameObject, particle.duration + particle.startLifetime/2);
     }

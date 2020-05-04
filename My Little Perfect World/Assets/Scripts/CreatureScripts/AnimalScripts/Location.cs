@@ -82,4 +82,12 @@ public class Location
         return locationType;
     }
 
+    public int GetEnemyFoodChainIndex()
+    {
+        if(locationType == LocationType.Enemy)
+        {
+            return objectToFollow.GetComponent<Animal>().foodChainIndex;
+        }
+        return -1;
+    }
 }

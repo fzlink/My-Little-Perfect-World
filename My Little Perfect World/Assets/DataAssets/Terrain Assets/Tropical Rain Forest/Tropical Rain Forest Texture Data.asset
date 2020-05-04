@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc5ad2250167c6847b4ebf63afe31379, type: 3}
+  m_Name: Tropical Rain Forest Texture Data
+  m_EditorClassIdentifier: 
+  autoUpdate: 1
+  layers:
+  - texture: {fileID: 2800000, guid: c8743570d1226da4e94c300a026d1905, type: 3}
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    tintStrength: 0
+    startHeight: 0
+    blendStrength: 0.075
+    textureScale: 12
+  - texture: {fileID: 2800000, guid: 923e36da61e93ac42bd4396b7638c125, type: 3}
+    tint: {r: 0.21584702, g: 0.5, b: 0, a: 0}
+    tintStrength: 1
+    startHeight: 0.095
+    blendStrength: 0.797
+    textureScale: 10
+  - texture: {fileID: 2800000, guid: f321163462c705841985eedf53b6a50d, type: 3}
+    tint: {r: 0.22699933, g: 0.4528302, b: 0.014951949, a: 0}
+    tintStrength: 0.346
+    startHeight: 0.251
+    blendStrength: 0.071
+    textureScale: 5.26

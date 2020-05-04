@@ -19,7 +19,7 @@ public class MoveController : MonoBehaviour
     private Location target = null;
 
     private bool isRotated;
-    private bool isRunning;
+    public bool isRunning { get; set; }
 
     private Vector3 scanOrigin;
     private bool isWanderRotated;
@@ -79,7 +79,14 @@ public class MoveController : MonoBehaviour
     {
         this.target = target;
         if (target.GetLocationType() == LocationType.Enemy)
+        {
             isRunning = true;
+            if (animal.runManager == null && animal.foodChainIndex > target.GetEnemyFoodChainIndex())
+            {
+                AnimalInteractionManager.instance.StartRunning(animal, target.GetObjectToFollow());
+            }
+        }
+
     }
 
     private void GoToSomething()

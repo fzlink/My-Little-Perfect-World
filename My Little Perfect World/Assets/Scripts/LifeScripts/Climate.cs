@@ -104,22 +104,22 @@ public class Climate: MonoBehaviour
         onChangeColor = true;
         if (season == Season.WINTER)
         {
-            seasonColor = Color.blue/2;
+            seasonColor = Color.blue/4;
             temperature = properties.WinterTemperature;
         }
         else if (season == Season.SPRING)
         {
-            seasonColor = Color.green/2;
+            seasonColor = Color.green/4;
             temperature = properties.SpringTemperature;
         }
         else if (season == Season.SUMMER)
         {
-            seasonColor = Color.red/2;
+            seasonColor = Color.red/4;
             temperature = properties.SummerTemperature;
         }
         else
         {
-            seasonColor = Color.gray/2;
+            seasonColor = Color.gray/4;
             temperature = properties.FallTemperature;
         }
     }
