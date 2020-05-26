@@ -7,10 +7,12 @@ public class DragRotater : MonoBehaviour
     Vector3 posDelta = Vector3.zero;
     Vector3 prevPos = Vector3.zero;
 
+    public bool canDrag;
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (canDrag && Input.GetMouseButton(0))
         {
             posDelta = Input.mousePosition - prevPos;
             if(Vector3.Dot(transform.up,Vector3.up) >= 0)

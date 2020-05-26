@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd3f769c48c8e9646b2303028d0562fa, type: 3}
+  m_Name: Capybara Properties
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: ff11ac42c0b99444cbb2d10c1d73caf1, type: 3}
+  animal: {fileID: 122544, guid: fbeedccb3c13cce4ab95046979707660, type: 3}
+  animalIcon: {fileID: 2800000, guid: ff11ac42c0b99444cbb2d10c1d73caf1, type: 3}
+  commonSkinColor: {r: 1, g: 1, b: 1, a: 1}
+  wanderingSpeed: 5
+  wanderChangeDirectionDelay: 3
+  runningSpeed: 10
+  awarenessRadius: 10
+  lookForWaterdirections:
+  - {x: -30, y: -1, z: 10}
+  - {x: -5, y: -1, z: 10}
+  - {x: 0, y: -1, z: 10}
+  - {x: 5, y: -1, z: 10}
+  - {x: 30, y: -1, z: 10}
+  isCarnivore: 0
+  isHerbivore: 1
+  nutritionValue: 75
+  foodMaximum: 100
+  foodDangerThreshold: 25
+  foodEatingSpeed: 1
+  foodDecreaseSpeed: 0.25
+  waterMaximum: 100
+  waterDangerThreshold: 25
+  waterDrinkingSpeed: 10
+  waterDecreaseSpeed: 1
+  sleepMaximum: 100
+  sleepDangerThreshold: 25
+  sleepGettingSpeed: 15
+  sleepDecreaseSpeed: 1
+  stressMaximum: 100
+  stressDangerThreshold: 25
+  stressGettingSpeed: 1
+  stressDecreaseSpeed: 1
+  reproducingMaximum: 100
+  reproducingSpeed: 10
+  reproducingAge: 1
+  pregnancyMaximum: 100
+  pregnancySpeed: 10
+  pregnancyChildAmount: 1

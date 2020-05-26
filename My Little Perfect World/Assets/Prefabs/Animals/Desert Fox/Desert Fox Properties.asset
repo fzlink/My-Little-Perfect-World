@@ -32,7 +32,7 @@ MonoBehaviour:
   foodMaximum: 100
   foodDangerThreshold: 50
   foodEatingSpeed: 1
-  foodDecreaseSpeed: 0.5
+  foodDecreaseSpeed: 0.25
   waterMaximum: 100
   waterDangerThreshold: 25
   waterDrinkingSpeed: 7.5

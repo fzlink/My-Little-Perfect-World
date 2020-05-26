@@ -1,0 +1,156 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class SelectPropertiesMenu : MonoBehaviour
+{
+    public Transform previewItemModel;
+    public TMP_Text itemNameText;
+
+    public Button addButton;
+    public Button removeButton;
+
+    private PreviewProperties currentItemProperties;
+    private GameObject currentListItem;
+    private Dictionary<PreviewProperties, GameObject> addedItems;
+
+    public RectTransform addedList;
+
+    public Button startButton;
+
+    public Slider populationSlider;
+    public Slider foodChainSlider;
+    public TMP_Text populationCountText;
+    public TMP_Text foodChainCountText;
+
+    public GameObject alertDialog;
+
+    void Start()
+    {
+        DisableUIElements();
+        populationSlider.onValueChanged.AddListener(SetPopulationCount);
+        foodChainSlider.onValueChanged.AddListener(SetFoodChainCount);
+        populationSlider.maxValue = 300;
+        foodChainSlider.maxValue = 5;
+        addedItems = new Dictionary<PreviewProperties, GameObject>();
+        FindObjectOfType<PreviewListView>().OnItemSelected += GetItem;
+        addButton.onClick.AddListener(() => AddItem());
+        removeButton.onClick.AddListener(() => RemoveItem());
+        startButton.onClick.AddListener(() => StartSim());
+        alertDialog.GetComponentInChildren<Button>().onClick.AddListener(() => alertDialog.SetActive(false));
+    }
+
+    private void DisableUIElements()
+    {
+        removeButton.interactable = false;
+        addButton.interactable = false;
+        itemNameText.gameObject.SetActive(false);
+        populationSlider.transform.parent.gameObject.SetActive(false);
+        foodChainSlider.transform.parent.gameObject.SetActive(false);
+    }
+
+    private void EnableUIElements()
+    {
+        removeButton.interactable = true;
+        addButton.interactable = true;
+        itemNameText.gameObject.SetActive(true);
+        populationSlider.transform.parent.gameObject.SetActive(true);
+        foodChainSlider.transform.parent.gameObject.SetActive(true);
+    }
+
+    private void StartSim()
+    {
+        bool[] requirements = new bool[3];
+        foreach (var item in addedItems.Keys)
+        {
+            if (item.TYPE == PreviewProperties.PreviewType.PLANT) requirements[0] = true;
+            else if (item.TYPE == PreviewProperties.PreviewType.ANIMAL_HERBIVORE) requirements[1] = true;
+            else if (item.TYPE == PreviewProperties.PreviewType.ANIMAL_CARNIVORE) requirements[2] = true;
+        }
+        bool error = false;
+        for (int i = 0; i < requirements.Length; i++)
+        {
+            if (requirements[i] == false)
+                error = true;
+        }
+        if (error)
+        {
+            alertDialog.SetActive(true);
+        }
+        else
+        {
+            LoadSim();
+        }
+    }
+
+    private void LoadSim()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void RemoveItem()
+    {
+        GameObject g;
+        if (addedItems.TryGetValue(currentItemProperties, out g))
+        {
+            Destroy(g);
+            addedItems.Remove(currentItemProperties);
+        }
+    }
+
+    private void AddItem()
+    {
+        if (!addedItems.ContainsKey(currentItemProperties))
+        {
+            GameObject g = Instantiate(currentListItem, addedList);
+            currentItemProperties.Population = populationSlider.value;
+            currentItemProperties.FoodChain = foodChainSlider.value;
+            addedItems.Add(currentItemProperties,g);
+        }
+    }
+
+    private void SetPopulationCount(float val)
+    {
+        populationSlider.value = val;
+        populationCountText.text = val.ToString();
+    }
+
+    private void SetFoodChainCount(float val)
+    {
+        foodChainSlider.value = val;
+        foodChainCountText.text = val.ToString();
+    }
+
+    private void GetItem(PreviewProperties properties, GameObject listItem)
+    {
+        currentItemProperties = properties;
+        currentListItem = listItem;
+        EnableUIElements();
+        foreach (Transform item in previewItemModel)
+        {
+            Destroy(item.gameObject);
+        }
+        GameObject g = Instantiate(properties.PreviewObject, previewItemModel.transform.position, Quaternion.Euler(0,180,0),previewItemModel);
+        if(g.GetComponent<RotateAround>() == null)
+        {
+            RotateAround r = g.AddComponent<RotateAround>();
+            r.rotationSpeed = 25;
+        }
+        itemNameText.SetText(properties.Name);
+        SetPopulationCount(100);
+        if(properties.TYPE == PreviewProperties.PreviewType.PLANT)
+        {
+            foodChainSlider.transform.parent.gameObject.SetActive(false);
+        }
+        else
+        {
+            foodChainSlider.transform.parent.gameObject.SetActive(true);
+            SetFoodChainCount(0);
+        }
+
+    }
+}

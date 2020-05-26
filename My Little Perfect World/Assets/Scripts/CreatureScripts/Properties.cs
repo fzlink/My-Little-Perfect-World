@@ -7,8 +7,6 @@ using UnityEngine;
 
 public class Properties : ScriptableObject
 {
-    [SerializeField] private Texture icon;
-
-    public Texture Icon { get => icon; set => icon = value; }
+   
 }
 

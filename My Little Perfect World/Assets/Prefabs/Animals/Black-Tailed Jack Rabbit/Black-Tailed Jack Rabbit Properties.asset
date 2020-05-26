@@ -21,18 +21,18 @@ MonoBehaviour:
   runningSpeed: 10
   awarenessRadius: 10
   lookForWaterdirections:
-  - {x: -10, y: -1, z: 10}
+  - {x: -30, y: -1, z: 10}
   - {x: -5, y: -1, z: 10}
   - {x: 0, y: -1, z: 10}
   - {x: 5, y: -1, z: 10}
-  - {x: 10, y: -1, z: 10}
+  - {x: 30, y: -1, z: 10}
   isCarnivore: 0
   isHerbivore: 1
   nutritionValue: 75
   foodMaximum: 100
   foodDangerThreshold: 25
   foodEatingSpeed: 1
-  foodDecreaseSpeed: 1
+  foodDecreaseSpeed: 0.25
   waterMaximum: 100
   waterDangerThreshold: 25
   waterDrinkingSpeed: 10
@@ -49,5 +49,5 @@ MonoBehaviour:
   reproducingSpeed: 10
   reproducingAge: 1
   pregnancyMaximum: 100
-  pregnancySpeed: 3
+  pregnancySpeed: 10
   pregnancyChildAmount: 1

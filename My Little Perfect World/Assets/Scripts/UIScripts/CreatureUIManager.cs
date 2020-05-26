@@ -51,11 +51,11 @@ public class CreatureUIManager : MonoBehaviour
     {
         if(animalOnInterest != null)
         {
-            animalOnInterest.gameObject.GetComponentInChildren<Outline>().enabled = false;
+            animalOnInterest.gameObject.GetComponentInChildren<OutlineCamera>().enabled = false;
         }
         animalOnInterest = animal;
         AnimalProperties properties = animal.GetProperties();
-        animal.gameObject.GetComponentInChildren<Outline>().enabled = true;
+        animal.gameObject.GetComponentInChildren<OutlineCamera>().enabled = true;
 
         Camera.main.GetComponent<CameraTargetFollower>().SetTarget(animal.transform);
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ public class MoveController : MonoBehaviour
     private Collider boxCollider;
 
     private Location target = null;
+    private List<Location> targetHistory;
 
     private bool isRotated;
     public bool isRunning { get; set; }
@@ -25,6 +27,8 @@ public class MoveController : MonoBehaviour
     private bool isWanderRotated;
 
     private float hitRotateDelay = 0.1f / FourthDimension.tSM;
+
+    private bool followBias;
 
     private void Awake()
     {
@@ -35,6 +39,7 @@ public class MoveController : MonoBehaviour
 
     private void Start()
     {
+        targetHistory = new List<Location>();
         GetComponent<ScanController>().onTargetFound += SetTarget;
     }
 
@@ -73,6 +78,17 @@ public class MoveController : MonoBehaviour
                 }
                 break;
         }
+        ClampMovement();
+    }
+
+    private void ClampMovement()
+    {
+        Vector3 clampedPos = transform.position;
+        float mapXClampVal = (MapEventManager.instance.xOffset * MapEventManager.chunkCoordInc + (MapEventManager.chunkCoordInc / 2)-3);
+        float mapYClampVal = (MapEventManager.instance.yOffset * MapEventManager.chunkCoordInc + (MapEventManager.chunkCoordInc / 2)-3);
+        clampedPos.x = Mathf.Clamp(clampedPos.x, -mapXClampVal, mapXClampVal);
+        clampedPos.z = Mathf.Clamp(clampedPos.z, -mapYClampVal, mapYClampVal);
+        transform.position = clampedPos;
     }
 
     private void SetTarget(Location target)
@@ -91,6 +107,7 @@ public class MoveController : MonoBehaviour
 
     private void GoToSomething()
     {
+        followBias = false;
         if (!isRotated)
         {
             Vector3 direction = target.GetPosition() - transform.position;
@@ -138,8 +155,11 @@ public class MoveController : MonoBehaviour
             default:
                 break;
         }
+        targetHistory.Add(target);
         target = null;
     }
+
+
 
     private void Lost()
     {
@@ -191,11 +211,70 @@ public class MoveController : MonoBehaviour
 
     private void Wander()
     {
-        if (!isWanderRotated)
+        if (ShouldBiasRotation() && !isWanderRotated &&  UnityEngine.Random.value < .05f)
+        {
+            Location biasLocation = GetBiasLocation(GetBiasType());
+            if (biasLocation != null )
+            {
+                Vector3 direction = biasLocation.GetPosition() - transform.position;
+                //direction.x = 0;
+                if (biasLocation.isGettingAwayFrom) { direction = -direction; }
+                transform.rotation = Quaternion.LookRotation(direction);
+                followBias = true;
+            }
+        }
+        else if (!isWanderRotated && !followBias)
         {
             StartCoroutine(WanderChangeDirection(properties.WanderChangeDirectionDelay));
         }
         transform.position += transform.forward * Time.deltaTime * properties.WanderingSpeed;
+    }
+
+    private Location GetBiasLocation(LocationType locationType)
+    {
+        if(locationType == LocationType.Water)
+        {
+            return FindLastWaterLocation();
+        }
+        return null;
+    }
+
+    private Location FindLastWaterLocation()
+    {
+        for (int i = targetHistory.Count - 1; i >= 0; i--)
+        {
+            if (targetHistory[i].GetLocationType() == LocationType.Water)
+                return targetHistory[i];
+        }
+        return null;
+    }
+
+    private LocationType GetBiasType()
+    {
+        if (animal.isThirsty)
+        {
+            return LocationType.Water;
+        }
+        else
+        {
+            return LocationType.Default;
+        }
+    }
+
+    private bool ShouldBiasRotation()
+    {
+        if (!followBias)
+        {
+            if (animal.isThirsty)
+                return true;
+            else
+                return false;
+        }
+        else
+        {
+            return false;
+        }
+
     }
 
     IEnumerator WanderChangeDirection(float seconds)

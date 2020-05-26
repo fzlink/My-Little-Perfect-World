@@ -299,3 +299,5 @@ C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Littl
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Boo.Lang.PatternMatching.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Boo.Lang.Parser.dll
 C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\Boo.Lang.Useful.dll
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\DOTween.dll
+C:\Users\fazb7\Documents\Game Development\Unity\My-Little-Perfect-World\My Little Perfect World\Temp\bin\Debug\DOTween.xml

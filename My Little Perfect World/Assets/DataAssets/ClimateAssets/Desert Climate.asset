@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Desert Climate
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  winterRainAmount: 150
-  springRainAmount: 250
-  summerRainAmount: 150
-  fallRainAmount: 250
+  winterRainAmount: 50
+  springRainAmount: 100
+  summerRainAmount: 50
+  fallRainAmount: 100
   rainVolume: 1
   winterTemperature: 20
   springTemperature: 40
