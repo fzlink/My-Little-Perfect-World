@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SelectPropertiesMenu : MonoBehaviour
@@ -83,13 +85,15 @@ public class SelectPropertiesMenu : MonoBehaviour
         }
         else
         {
+            FindObjectOfType<MenuData>().SaveItems(addedItems.Keys.ToList());
             LoadSim();
         }
     }
 
     private void LoadSim()
     {
-        throw new NotImplementedException();
+        string simScene = FindObjectOfType<MenuData>().GetScene();
+        SceneManager.LoadScene(simScene);
     }
 
     private void RemoveItem()

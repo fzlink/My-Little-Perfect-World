@@ -55,8 +55,6 @@ public class AnimalProperties : Properties
     [SerializeField] private int pregnancyChildAmount;
 
 
-
-
     public GameObject Animal { get => animal; set => animal = value; }
     public Texture AnimalIcon { get => animalIcon; set => animalIcon = value; }
     public Color CommonSkinColor { get => commonSkinColor; set => commonSkinColor = value; }

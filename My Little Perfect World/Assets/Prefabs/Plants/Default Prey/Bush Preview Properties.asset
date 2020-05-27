@@ -15,5 +15,9 @@ MonoBehaviour:
   icon: {fileID: 2800000, guid: 97cb5f4b83b5db242ab67edda807025e, type: 3}
   previewObject: {fileID: 1146341909110904659, guid: faaf7a987945c6b49b341c33c03058a4,
     type: 3}
+  actualObject: {fileID: 1146341909110904659, guid: d7345667fad78a64dacc5575478c1408,
+    type: 3}
   name: Bush
   type: 1
+  population: 0
+  foodChain: 0

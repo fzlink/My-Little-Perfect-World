@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3f769c48c8e9646b2303028d0562fa, type: 3}
   m_Name: Black-Tailed Jack Rabbit Properties
   m_EditorClassIdentifier: 
-  icon: {fileID: 2800000, guid: 8f6cb10c3e261624ebe168440d59ed06, type: 3}
   animal: {fileID: 5464626758099616294, guid: 34db4091b279dc9498d9e5d63dc78d14, type: 3}
-  animalIcon: {fileID: 2800000, guid: 8f6cb10c3e261624ebe168440d59ed06, type: 3}
+  animalIcon: {fileID: 2800000, guid: 912b021ac0fb89940be55ca5c58e403f, type: 3}
   commonSkinColor: {r: 1, g: 1, b: 1, a: 1}
   wanderingSpeed: 5
   wanderChangeDirectionDelay: 3

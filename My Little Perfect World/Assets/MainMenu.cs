@@ -11,7 +11,6 @@ public class MainMenu : MonoBehaviour
     public enum State { START = 1, SELECT_HABITAT = 2, INFO_SHOWN = 3};
 
     private State state;
-    public static string biomeType;
 
     public GameObject planet;
     public GameObject menuButtonContainer;
@@ -130,7 +129,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnHabitatBrought(string landPieceType)
     {
-        biomeType = landPieceType;
+        FindObjectOfType<MenuData>().SetHabitatType(landPieceType);
         state = State.INFO_SHOWN;
         StateChange();
         if(OnHabitatSelected != null)

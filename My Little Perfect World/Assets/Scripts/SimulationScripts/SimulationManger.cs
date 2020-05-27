@@ -23,7 +23,14 @@ public class SimulationManger : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
     }
 
     public void SoilIncreaseDead(float magnitude)

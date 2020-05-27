@@ -13,4 +13,8 @@ public class ObjectsToPlace
     public GameObject obj;
     public Transform container;
     public Texture UIIcon;
+
+    public string name;
+    public int population;
+    public int foodChain;
 }

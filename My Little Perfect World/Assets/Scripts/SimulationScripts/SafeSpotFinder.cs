@@ -11,6 +11,7 @@ public class SafeSpotFinder : MonoBehaviour
     public Transform mapChunks;
     public int spotPerChunk;
 
+
     public event System.Action<List<Vector3>> onSafeSpotsFounded;
     public List<Vector3> GetSafeSpots()
     {
@@ -19,6 +20,7 @@ public class SafeSpotFinder : MonoBehaviour
 
     private void Start()
     {
+
         safeSpots = new List<Vector3>();
         chunkCoordInc = MapEventManager.chunkCoordInc;
         MapEventManager.instance.onTerrainGenerationFinished += FindSafeSpots;
@@ -26,6 +28,9 @@ public class SafeSpotFinder : MonoBehaviour
 
     public void FindSafeSpots()
     {
+        if(FindObjectOfType<MenuData>() != null)
+            spotPerChunk = (int)FindObjectOfType<MenuData>().GetSpotPerChunk(mapChunks.childCount);
+        spotPerChunk++;
         Vector3 center;
         RaycastHit hit;
         float xRange;

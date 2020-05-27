@@ -12,6 +12,7 @@ public class PreviewProperties : Properties
 
     [SerializeField] private Texture icon;
     [SerializeField] private GameObject previewObject;
+    [SerializeField] private GameObject actualObject;
     [SerializeField] private string name;
     [SerializeField] private PreviewType type;
     [SerializeField] private float population;
@@ -23,5 +24,6 @@ public class PreviewProperties : Properties
     public PreviewType TYPE { get => type; set => type = value; }
     public float Population { get => population; set => population = value; }
     public float FoodChain { get => foodChain; set => foodChain = value; }
+    public GameObject ActualObject { get => actualObject; set => actualObject = value; }
 }
 
