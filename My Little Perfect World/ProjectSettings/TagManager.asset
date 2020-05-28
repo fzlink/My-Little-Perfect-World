@@ -8,6 +8,14 @@ TagManager:
   - Prey
   - Plant
   - Water
+  - ArcticFox
+  - ArcticHare
+  - BlackTailedJackRabbit
+  - Capybara
+  - Cheetah
+  - DesertFox
+  - Gazelle
+  - Jaguar
   layers:
   - Default
   - TransparentFX

@@ -777,7 +777,7 @@ GameObject:
   - component: {fileID: 930359987137422795}
   m_Layer: 9
   m_Name: Arctic Fox
-  m_TagString: Hunter
+  m_TagString: ArcticFox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

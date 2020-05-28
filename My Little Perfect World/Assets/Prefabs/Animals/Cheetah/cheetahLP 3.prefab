@@ -1169,7 +1169,7 @@ GameObject:
   - component: {fileID: -4434931757977347909}
   m_Layer: 9
   m_Name: cheetahLP 3
-  m_TagString: Hunter
+  m_TagString: Cheetah
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

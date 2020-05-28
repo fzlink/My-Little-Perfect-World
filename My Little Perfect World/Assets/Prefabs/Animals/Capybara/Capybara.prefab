@@ -388,7 +388,7 @@ GameObject:
   - component: {fileID: 4593917401229721301}
   m_Layer: 9
   m_Name: Capybara
-  m_TagString: Prey
+  m_TagString: Capybara
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

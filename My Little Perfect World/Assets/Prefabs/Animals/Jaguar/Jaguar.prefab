@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4684231297478196386}
   m_Layer: 9
   m_Name: Jaguar
-  m_TagString: Hunter
+  m_TagString: Jaguar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

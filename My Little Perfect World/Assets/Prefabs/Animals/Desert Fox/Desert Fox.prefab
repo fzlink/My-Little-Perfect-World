@@ -777,7 +777,7 @@ GameObject:
   - component: {fileID: -3668543388752719716}
   m_Layer: 9
   m_Name: Desert Fox
-  m_TagString: Hunter
+  m_TagString: DesertFox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 4432223547960739519}
   m_Layer: 9
   m_Name: Black-Tailed Jack Rabbit Animated
-  m_TagString: Prey
+  m_TagString: BlackTailedJackRabbit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
