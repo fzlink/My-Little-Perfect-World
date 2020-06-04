@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3f769c48c8e9646b2303028d0562fa, type: 3}
   m_Name: Gazelle Properties
   m_EditorClassIdentifier: 
-  icon: {fileID: 2800000, guid: aa285e2aa0d9b2540afdde83568cadcd, type: 3}
   animal: {fileID: 100080, guid: 2f35b752faa93dd4987c8825a98c81e6, type: 3}
   animalIcon: {fileID: 2800000, guid: aa285e2aa0d9b2540afdde83568cadcd, type: 3}
   commonSkinColor: {r: 1, g: 1, b: 1, a: 1}
@@ -51,3 +50,4 @@ MonoBehaviour:
   pregnancyMaximum: 100
   pregnancySpeed: 3
   pregnancyChildAmount: 1
+  pregnancyChildAmountMax: 4

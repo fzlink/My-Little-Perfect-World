@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3f769c48c8e9646b2303028d0562fa, type: 3}
   m_Name: Black-Tailed Jack Rabbit Properties
   m_EditorClassIdentifier: 
-  animal: {fileID: 5464626758099616294, guid: 34db4091b279dc9498d9e5d63dc78d14, type: 3}
+  animal: {fileID: 1262440479064932, guid: 704e535c2d434af48bfd927fbdeb902d, type: 3}
   animalIcon: {fileID: 2800000, guid: 912b021ac0fb89940be55ca5c58e403f, type: 3}
   commonSkinColor: {r: 1, g: 1, b: 1, a: 1}
   wanderingSpeed: 5
@@ -35,7 +35,7 @@ MonoBehaviour:
   waterMaximum: 100
   waterDangerThreshold: 25
   waterDrinkingSpeed: 10
-  waterDecreaseSpeed: 1
+  waterDecreaseSpeed: 0.5
   sleepMaximum: 100
   sleepDangerThreshold: 25
   sleepGettingSpeed: 15
@@ -50,3 +50,4 @@ MonoBehaviour:
   pregnancyMaximum: 100
   pregnancySpeed: 10
   pregnancyChildAmount: 1
+  pregnancyChildAmountMax: 16

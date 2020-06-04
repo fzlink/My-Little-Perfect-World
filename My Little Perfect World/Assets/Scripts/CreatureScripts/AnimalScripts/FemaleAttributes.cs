@@ -36,7 +36,6 @@ public class FemaleAttributes : MonoBehaviour
         for (int i = 0; i < properties.PregnancyChildAmount; i++)
         {
             AnimalFactory.GiveBirthChild(animal, father);
-
         }
     }
 

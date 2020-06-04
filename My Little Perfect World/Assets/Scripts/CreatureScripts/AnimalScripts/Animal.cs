@@ -247,10 +247,12 @@ public class Animal : Creature
         Destroy(this);
         Destroy(GetComponent<MoveController>());
         Destroy(GetComponent<ScanController>());
+        if (GetComponent<Animator>() != null)
+            Destroy(GetComponent<Animator>());
         if (sex == Sex.Female)
             Destroy(GetComponent<FemaleAttributes>());
         transform.parent = AnimalInteractionManager.instance.foodContainer.transform;
-        AnimalInteractionManager.instance.PrintDeadCount();
+        AnimalInteractionManager.instance.Died(properties.Animal);
     }
 
     ///////////////Reproduction
@@ -348,4 +350,3 @@ public class Animal : Creature
     }
 
 }
-

@@ -19,6 +19,7 @@ public class PreviewListView : MonoBehaviour
     public GameObject previewItemUIAsset;
 
     public Action<PreviewProperties,GameObject> OnItemSelected;
+    public Action OnSectionChanged;
 
     private void Start()
     {
@@ -40,6 +41,10 @@ public class PreviewListView : MonoBehaviour
         if (currentSectionID < 0)
             currentSectionID = sections.Count - 1;
         PopulateList();
+        if (OnSectionChanged != null)
+        {
+            OnSectionChanged();
+        }
     }
 
     private void NextButton()
@@ -48,6 +53,10 @@ public class PreviewListView : MonoBehaviour
         if (currentSectionID >= sections.Count)
             currentSectionID = 0;
         PopulateList();
+        if(OnSectionChanged != null)
+        {
+            OnSectionChanged();
+        }
     }
 
     private void PopulateList()

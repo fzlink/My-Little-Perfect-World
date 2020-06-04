@@ -23,14 +23,14 @@ public class CreatureCountUIController : MonoBehaviour
         objectPlacer = FindObjectOfType<ObjectPlacer>();
         animalInteractionManager = FindObjectOfType<AnimalInteractionManager>();
     }
-    // Start is called before the first frame update
+
     void Start()
     {
         objectPlacer.onObjectsPlaced += InitCreatures;
         animalInteractionManager.onAnimalDied += UpdateCreatureCount;
     }
 
-    private void UpdateCreatureCount()
+    private void UpdateCreatureCount(GameObject animal)
     {
         for (int i = 0; i < creatureContainers.Count; i++)
         {

@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="Animal Properties", menuName ="Animal/Animal Properties",order = 0)]
 public class AnimalProperties : Properties
 {
+    CreatureCountOptimizer creatureCountOptimizer;
+
     [Header("General Values")]
     [SerializeField] private GameObject animal;
     [SerializeField] private Texture animalIcon;
@@ -53,6 +55,7 @@ public class AnimalProperties : Properties
     [SerializeField] private float pregnancyMaximum;
     [SerializeField] private float pregnancySpeed;
     [SerializeField] private int pregnancyChildAmount;
+    [SerializeField] private int pregnancyChildAmountMax;
 
 
     public GameObject Animal { get => animal; set => animal = value; }
@@ -85,8 +88,24 @@ public class AnimalProperties : Properties
     public float ReproducingMaximum { get => reproducingMaximum; set => reproducingMaximum = value; }
     public float ReproducingSpeed { get => reproducingSpeed * FourthDimension.tSM; set => reproducingSpeed = value; }
     public float ReproducingAge { get => reproducingAge; set => reproducingAge = value; }
+
     public float PregnancyMaximum { get => pregnancyMaximum; set => pregnancyMaximum = value; }
-    public float PregnancySpeed { get => pregnancySpeed * FourthDimension.tSM; set => pregnancySpeed = value; }
-    public int PregnancyChildAmount { get => pregnancyChildAmount; set => pregnancyChildAmount = value; }
+    public float PregnancySpeed { get {
+            if(creatureCountOptimizer == null)
+            {
+                creatureCountOptimizer = FindObjectOfType<CreatureCountOptimizer>();
+            }
+            return pregnancySpeed* FourthDimension.tSM* creatureCountOptimizer.GetEvaluatedPregnancySpeedFactor(animal);
+        }  set => pregnancySpeed = value; }
+    public int PregnancyChildAmount { get {
+            if (creatureCountOptimizer == null)
+            {
+                creatureCountOptimizer = FindObjectOfType<CreatureCountOptimizer>();
+            }
+            if (pregnancyChildAmount < pregnancyChildAmountMax)
+                return pregnancyChildAmount * creatureCountOptimizer.GetEvaluatedBirthCountFactor(animal);
+            else
+                return pregnancyChildAmountMax;
+        }  set => pregnancyChildAmount = value; }
 
 }

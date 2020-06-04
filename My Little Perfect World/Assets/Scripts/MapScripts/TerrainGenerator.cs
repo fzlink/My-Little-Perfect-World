@@ -15,6 +15,7 @@ public class TerrainGenerator : MonoBehaviour
     {
         get
         {
+
             return ((mapChunkConstraintX - 1) * 2 + 1) * ((mapChunkConstraintY - 1) * 2 + 1);
         }
     }
@@ -45,8 +46,20 @@ public class TerrainGenerator : MonoBehaviour
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
+    private void Awake()
+    {
+        MenuData menuData = FindObjectOfType<MenuData>();
+        if (menuData != null)
+        {
+            int[] mapSize = menuData.GetMapSizeXY();
+            mapChunkConstraintX = mapSize[0];
+            mapChunkConstraintY = mapSize[1];
+        }
+    }
+
     void Start()
     {
+       
 
         textureSettings.ApplyToMaterial(mapMaterial);
         textureSettings.UpdateMeshHeights(mapMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);

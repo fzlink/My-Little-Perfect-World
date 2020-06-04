@@ -32,7 +32,7 @@ public class AnimalInteractionManager : MonoBehaviour
 
     public event Action<Transform> onNewInteraction;
     public event Action<Transform> onFinishInteraction;
-    public event Action onAnimalDied;
+    public event Action<GameObject> onAnimalDied;
 
     private void Awake()
     {
@@ -52,11 +52,11 @@ public class AnimalInteractionManager : MonoBehaviour
         runManagers = new List<RunManager>();
     }
 
-    public void PrintDeadCount()
+    public void Died(GameObject originalAnimalObj)
     {
         if(onAnimalDied != null)
         {
-            onAnimalDied();
+            onAnimalDied(originalAnimalObj);
         }
         print("Dead Animal Count: " + foodContainer.childCount);
     }

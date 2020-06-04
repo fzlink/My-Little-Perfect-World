@@ -1,10 +1,9 @@
 ﻿using DG.Tweening;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -22,12 +21,15 @@ public class MainMenu : MonoBehaviour
     private Vector3 planetStartRot;
 
     public TMP_Text titleText;
-    private bool canRotatePlanet = true;
+    private bool rotatePlanet = true;
     [SerializeField] private float planetRotationSpeed;
 
     public Action OnCenterPlanetFinished;
     public Action<string> OnHabitatSelected;
     public Action<State> OnStateChanged;
+
+    public Slider mapSizeXSlider;
+    public Slider mapSizeYSlider;
 
     public void Exit()
     {
@@ -42,6 +44,7 @@ public class MainMenu : MonoBehaviour
     {
         if(state == State.INFO_SHOWN)
         {
+            FindObjectOfType<MenuData>().SetMapSize((int)mapSizeXSlider.value, (int)mapSizeYSlider.value);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
@@ -56,7 +59,7 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        if (canRotatePlanet)
+        if (rotatePlanet)
         {
             RotatePlanet();
         }
@@ -71,10 +74,9 @@ public class MainMenu : MonoBehaviour
             infoContainer.SetActive(false);
             titleContainer.SetActive(true);
             titleText.SetText("MY LITTLE PERFECT WORLD");
-            planet.transform.DOKill();
-            planet.transform.DOMove(planetStartPos, 1).OnComplete(() => canRotatePlanet = true);
-            planet.transform.DORotate(planetStartRot, 1);
             planet.GetComponent<DragRotater>().canDrag = false;
+            StartStatePlanet();
+            rotatePlanet = true;
         }
         else if(state == State.SELECT_HABITAT)
         {
@@ -84,8 +86,8 @@ public class MainMenu : MonoBehaviour
             infoContainer.SetActive(false);
             titleContainer.SetActive(true);
             titleText.SetText("PLEASE SELECT A HABITAT");
+            rotatePlanet = false;
             CenterPlanet();
-            canRotatePlanet = false;
             planet.GetComponent<DragRotater>().canDrag = true;
         }
         else if(state == State.INFO_SHOWN)
@@ -96,7 +98,6 @@ public class MainMenu : MonoBehaviour
             infoContainer.SetActive(true);
             titleContainer.SetActive(false);
             planet.GetComponent<DragRotater>().canDrag = false;
-            canRotatePlanet = false;
         }
         if(OnStateChanged != null)
         {
@@ -119,6 +120,12 @@ public class MainMenu : MonoBehaviour
                 OnCenterPlanetFinished();
             }
         });
+    }
+
+    public void StartStatePlanet()
+    {
+        planet.transform.DOMove(planetStartPos, 1);
+        planet.transform.DORotate(planetStartRot, 1);
     }
 
 

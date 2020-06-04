@@ -31,19 +31,37 @@ public class SelectPropertiesMenu : MonoBehaviour
 
     public GameObject alertDialog;
 
+    public Toggle willOptimizedToggle;
+
     void Start()
     {
         DisableUIElements();
         populationSlider.onValueChanged.AddListener(SetPopulationCount);
         foodChainSlider.onValueChanged.AddListener(SetFoodChainCount);
-        populationSlider.maxValue = 300;
+
+        MenuData menuData = FindObjectOfType<MenuData>();
+        int[] mapSize = menuData.GetMapSizeXY();
+        int mapSizeMagnitude = (mapSize[0]-1) * (mapSize[1]-1);
+        populationSlider.maxValue = mapSizeMagnitude * (10);
+        populationSlider.minValue = 1;
+        populationSlider.value = populationSlider.maxValue / 2;
+
         foodChainSlider.maxValue = 5;
         addedItems = new Dictionary<PreviewProperties, GameObject>();
-        FindObjectOfType<PreviewListView>().OnItemSelected += GetItem;
+        PreviewListView previewListView = FindObjectOfType<PreviewListView>();
+        previewListView.OnItemSelected += GetItem;
+        previewListView.OnSectionChanged += Clear;
+
         addButton.onClick.AddListener(() => AddItem());
         removeButton.onClick.AddListener(() => RemoveItem());
         startButton.onClick.AddListener(() => StartSim());
         alertDialog.GetComponentInChildren<Button>().onClick.AddListener(() => alertDialog.SetActive(false));
+    }
+
+    private void Clear()
+    {
+        DisableUIElements();
+        previewItemModel.gameObject.SetActive(false);
     }
 
     private void DisableUIElements()
@@ -53,6 +71,7 @@ public class SelectPropertiesMenu : MonoBehaviour
         itemNameText.gameObject.SetActive(false);
         populationSlider.transform.parent.gameObject.SetActive(false);
         foodChainSlider.transform.parent.gameObject.SetActive(false);
+        willOptimizedToggle.gameObject.SetActive(false);
     }
 
     private void EnableUIElements()
@@ -113,6 +132,8 @@ public class SelectPropertiesMenu : MonoBehaviour
             GameObject g = Instantiate(currentListItem, addedList);
             currentItemProperties.Population = populationSlider.value;
             currentItemProperties.FoodChain = foodChainSlider.value;
+            currentItemProperties.WillOptimized = willOptimizedToggle.isOn;
+            willOptimizedToggle.isOn = false;
             addedItems.Add(currentItemProperties,g);
         }
     }
@@ -134,6 +155,7 @@ public class SelectPropertiesMenu : MonoBehaviour
         currentItemProperties = properties;
         currentListItem = listItem;
         EnableUIElements();
+        previewItemModel.gameObject.SetActive(true);
         foreach (Transform item in previewItemModel)
         {
             Destroy(item.gameObject);
@@ -145,14 +167,16 @@ public class SelectPropertiesMenu : MonoBehaviour
             r.rotationSpeed = 25;
         }
         itemNameText.SetText(properties.Name);
-        SetPopulationCount(100);
+        SetPopulationCount(populationSlider.maxValue / 2);
         if(properties.TYPE == PreviewProperties.PreviewType.PLANT)
         {
+            willOptimizedToggle.gameObject.SetActive(false);
             foodChainSlider.transform.parent.gameObject.SetActive(false);
         }
         else
         {
             foodChainSlider.transform.parent.gameObject.SetActive(true);
+            willOptimizedToggle.gameObject.SetActive(true);
             SetFoodChainCount(0);
         }
 

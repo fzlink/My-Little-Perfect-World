@@ -17,6 +17,7 @@ public class PreviewProperties : Properties
     [SerializeField] private PreviewType type;
     [SerializeField] private float population;
     [SerializeField] private float foodChain;
+    [SerializeField] private bool willOptimized;
 
     public Texture Icon { get => icon; set => icon = value; }
     public GameObject PreviewObject { get => previewObject; set => previewObject = value; }
@@ -25,5 +26,6 @@ public class PreviewProperties : Properties
     public float Population { get => population; set => population = value; }
     public float FoodChain { get => foodChain; set => foodChain = value; }
     public GameObject ActualObject { get => actualObject; set => actualObject = value; }
+    public bool WillOptimized { get => willOptimized; set => willOptimized = value; }
 }
 

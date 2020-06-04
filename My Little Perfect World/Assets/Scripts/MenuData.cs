@@ -15,6 +15,9 @@ public class MenuData : MonoBehaviour
     public string rainForestSceneName;
     public string desertSceneName;
 
+    public int mapSizeX;
+    public int mapSizeY;
+
 
     private HabitatType habitatType;
     private List<ObjectsToPlace> objectsToPlaceList;
@@ -30,6 +33,7 @@ public class MenuData : MonoBehaviour
             item.UIIcon = previewProperties[i].Icon;
             item.name = previewProperties[i].Name;
             item.obj = previewProperties[i].ActualObject;
+            item.willOptimized = previewProperties[i].WillOptimized;
             objectsToPlaceList.Add(item);
         }
     }
@@ -49,6 +53,11 @@ public class MenuData : MonoBehaviour
         return objectsToPlaceList;
     }
 
+    public int[] GetMapSizeXY()
+    {
+        return new int[]{mapSizeX,mapSizeY};
+    }
+
     public string GetScene()
     {
         switch (habitatType)
@@ -63,6 +72,12 @@ public class MenuData : MonoBehaviour
                 return tundraSceneName;
         }
         return null;
+    }
+
+    public void SetMapSize(int mapSizeX, int mapSizeY)
+    {
+        this.mapSizeX = mapSizeX;
+        this.mapSizeY = mapSizeY;
     }
 
     public void SetHabitatType(string landPieceType)

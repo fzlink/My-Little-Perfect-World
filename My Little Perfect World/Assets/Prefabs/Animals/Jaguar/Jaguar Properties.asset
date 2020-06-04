@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3f769c48c8e9646b2303028d0562fa, type: 3}
   m_Name: Jaguar Properties
   m_EditorClassIdentifier: 
-  icon: {fileID: 2800000, guid: 3df581e23260ce444928d24e1501826e, type: 3}
   animal: {fileID: 1000013163704080, guid: d0ad99ec86de4154f876d3a4ca3b447a, type: 3}
   animalIcon: {fileID: 2800000, guid: 3df581e23260ce444928d24e1501826e, type: 3}
   commonSkinColor: {r: 1, g: 1, b: 1, a: 1}
@@ -51,3 +50,4 @@ MonoBehaviour:
   pregnancyMaximum: 100
   pregnancySpeed: 2
   pregnancyChildAmount: 1
+  pregnancyChildAmountMax: 4

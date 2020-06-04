@@ -17,4 +17,5 @@ public class ObjectsToPlace
     public string name;
     public int population;
     public int foodChain;
+    public bool willOptimized;
 }

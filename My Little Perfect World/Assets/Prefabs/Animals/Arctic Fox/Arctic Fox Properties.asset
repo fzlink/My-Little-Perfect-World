@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3f769c48c8e9646b2303028d0562fa, type: 3}
   m_Name: Arctic Fox Properties
   m_EditorClassIdentifier: 
-  icon: {fileID: 2800000, guid: c51f577dca546df43adc02d5ffb051d6, type: 3}
   animal: {fileID: 1000012598859214, guid: 257a4137d36873f4981964b8a634512d, type: 3}
   animalIcon: {fileID: 2800000, guid: c51f577dca546df43adc02d5ffb051d6, type: 3}
   commonSkinColor: {r: 1, g: 1, b: 1, a: 1}
@@ -51,3 +50,4 @@ MonoBehaviour:
   pregnancyMaximum: 100
   pregnancySpeed: 2
   pregnancyChildAmount: 1
+  pregnancyChildAmountMax: 6
