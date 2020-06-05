@@ -21,3 +21,5 @@ MonoBehaviour:
   type: 2
   population: 0
   foodChain: 0
+  willOptimized: 0
+  optimalHabitat: Desert

@@ -12,15 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Select Properties Menu.unity
     guid: 1344478175fa4934282b7cace0ad0ce1
   - enabled: 1
-    path: Assets/Scenes/Desert.unity
+    path: Assets/Scenes/Habitats/Desert.unity
     guid: 3da0d85388af5314aa2c22a5767b9246
   - enabled: 1
-    path: Assets/Scenes/Savanna.unity
+    path: Assets/Scenes/Habitats/Savanna.unity
     guid: c9084475830f20a4980124205362e279
   - enabled: 1
-    path: Assets/Scenes/Tundra.unity
+    path: Assets/Scenes/Habitats/Tundra.unity
     guid: c51e28dd126d5f84cb7a47cfeb8c37f5
   - enabled: 1
-    path: Assets/Scenes/Tropical Rain Forest.unity
+    path: Assets/Scenes/Habitats/Tropical Rain Forest.unity
     guid: 7a6182ffc584deb4590d0e06a6bd85ed
   m_configObjects: {}

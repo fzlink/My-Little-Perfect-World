@@ -27,13 +27,12 @@ public class Soil : MonoBehaviour
 
     private void Awake()
     {
-        climate = FindObjectOfType<Climate>();
-        decomposers = FindObjectOfType<Decomposers>();
+        climate = SimulationManger.instance.climate;
     }
 
     private void Start()
     {
-        FindObjectOfType<ObjectPlacer>().onObjectsPlaced += IdentifySeeds;
+        SimulationManger.instance.objectPlacer.onObjectsPlaced += IdentifySeeds;
 
         water = 5;
         plantCreateDuration = plantCreateThreshold;
@@ -50,7 +49,7 @@ public class Soil : MonoBehaviour
             if (transform.GetComponent<Plant>().isDormant)
                 seeds.Add(transform);
         }
-        FindObjectOfType<ObjectPlacer>().onObjectsPlaced -= IdentifySeeds;
+        SimulationManger.instance.objectPlacer.onObjectsPlaced -= IdentifySeeds;
     }
 
     private void WakeSeed()
@@ -94,12 +93,6 @@ public class Soil : MonoBehaviour
         isRaining = false;
     }
 
-
-
-    public void IncreaseDead(float magnitude)
-    {
-        decomposers.GetDecomposeJob(magnitude);
-    }
 
     public void GetFed(float nutrition)
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="Animal Properties", menuName ="Animal/Animal Properties",order = 0)]
 public class AnimalProperties : Properties
 {
-    CreatureCountOptimizer creatureCountOptimizer;
+    PopulationOptimizer creatureCountOptimizer;
 
     [Header("General Values")]
     [SerializeField] private GameObject animal;
@@ -93,14 +93,14 @@ public class AnimalProperties : Properties
     public float PregnancySpeed { get {
             if(creatureCountOptimizer == null)
             {
-                creatureCountOptimizer = FindObjectOfType<CreatureCountOptimizer>();
+                creatureCountOptimizer = SimulationManger.instance.populationOptimizer;
             }
             return pregnancySpeed* FourthDimension.tSM* creatureCountOptimizer.GetEvaluatedPregnancySpeedFactor(animal);
         }  set => pregnancySpeed = value; }
     public int PregnancyChildAmount { get {
             if (creatureCountOptimizer == null)
             {
-                creatureCountOptimizer = FindObjectOfType<CreatureCountOptimizer>();
+                creatureCountOptimizer = SimulationManger.instance.populationOptimizer;
             }
             if (pregnancyChildAmount < pregnancyChildAmountMax)
                 return pregnancyChildAmount * creatureCountOptimizer.GetEvaluatedBirthCountFactor(animal);

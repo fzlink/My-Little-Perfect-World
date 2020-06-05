@@ -45,7 +45,7 @@ public class Climate: MonoBehaviour
 
     private void Awake()
     {
-        time = FindObjectOfType<FourthDimension>();
+        time = SimulationManger.instance.timeManager;
     }
 
     private void Start()

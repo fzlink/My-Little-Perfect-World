@@ -13,8 +13,8 @@ public class Decomposers : MonoBehaviour
 
     private void Awake()
     {
-        air = FindObjectOfType<Air>();
-        soil = FindObjectOfType<Soil>();
+        air = SimulationManger.instance.air;
+        soil = SimulationManger.instance.soil;
     }
 
     private void Start()

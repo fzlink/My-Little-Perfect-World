@@ -6,20 +6,14 @@ public class SimulationManger : MonoBehaviour
 {
     public static SimulationManger instance;
 
-    //public List<GameObject> creaturePrefabs;
-    //public List<Properties> creatureProperties;
-
-
-
-    [SerializeField] private CreatureController creatureController;
-    [SerializeField] private FourthDimension timeManager;
-    [SerializeField] private Air air;
-    [SerializeField] private static Sun sun;
-    [SerializeField] private Soil soil;
-    [SerializeField] private Decomposers decomposers;
-
-    
-
+    public FourthDimension timeManager;
+    public Air air;
+    public Sun sun;
+    public Soil soil;
+    public Climate climate;
+    public ObjectPlacer objectPlacer;
+    public AnimalInteractionManager animalInteractionManager;
+    public PopulationOptimizer populationOptimizer;
 
     private void Awake()
     {
@@ -31,10 +25,5 @@ public class SimulationManger : MonoBehaviour
         {
             instance = this;
         }
-    }
-
-    public void SoilIncreaseDead(float magnitude)
-    {
-        soil.IncreaseDead(magnitude);
     }
 }

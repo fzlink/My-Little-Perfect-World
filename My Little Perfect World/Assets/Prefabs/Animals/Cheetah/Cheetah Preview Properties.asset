@@ -19,3 +19,5 @@ MonoBehaviour:
   type: 3
   population: 0
   foodChain: 0
+  willOptimized: 0
+  optimalHabitat: Savanna

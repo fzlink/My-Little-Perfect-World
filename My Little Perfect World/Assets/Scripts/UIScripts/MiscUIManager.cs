@@ -28,8 +28,8 @@ public class MiscUIManager : MonoBehaviour
 
     private void Awake()
     {
-        air = FindObjectOfType<Air>();
-        fourthDimension = FindObjectOfType<FourthDimension>();
+        air = SimulationManger.instance.air;
+        fourthDimension = SimulationManger.instance.timeManager;
     }
 
     void Start()

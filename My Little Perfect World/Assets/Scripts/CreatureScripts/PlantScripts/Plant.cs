@@ -10,7 +10,6 @@ public class Plant : Creature
     public bool isDormant { get; set; }
     
     private Air air;
-    private FourthDimension time;
     private Sun sun;
     private Soil soil;
 
@@ -20,10 +19,9 @@ public class Plant : Creature
 
     private void Awake()
     {
-        soil = FindObjectOfType<Soil>();
-        air = FindObjectOfType<Air>();
-        time = FindObjectOfType<FourthDimension>();
-        sun = FindObjectOfType<Sun>();
+        soil = SimulationManger.instance.soil;
+        air = SimulationManger.instance.air;
+        sun = SimulationManger.instance.sun;
     }
 
     private void Update()
