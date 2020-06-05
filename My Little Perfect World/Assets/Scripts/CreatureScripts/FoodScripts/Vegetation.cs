@@ -12,7 +12,7 @@ public class Vegetation : Food
 
     public override void Finish(Animal animal)
     {
-        if(UnityEngine.Random.value < 0.2f)
+        if(UnityEngine.Random.value < 0.33f)
         {
             GetComponentInChildren<Renderer>().enabled = false;
             LatchSeed(animal);

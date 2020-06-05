@@ -26,7 +26,7 @@ public class ScanController : MonoBehaviour
 {
     private Animal animal;
     private AnimalProperties properties;
-    private Collider boxCollider;
+    private Collider collider;
     private Vector3 scanOrigin;
     private Vector3[] fovDirections;
     private Location target = new Location();
@@ -38,7 +38,7 @@ public class ScanController : MonoBehaviour
     private void Awake()
     {
         animal = GetComponent<Animal>();
-        boxCollider = GetComponent<Collider>();
+        collider = GetComponent<Collider>();
         properties = animal.GetProperties();
         fovDirections = properties.LookForWaterdirections;
     }
@@ -257,11 +257,12 @@ public class ScanController : MonoBehaviour
         Vector3 direction;
         float minDst = Mathf.Infinity;
         Vector3 minPoint = Vector3.zero;
+        Vector3 scanPoint = scanOrigin + (transform.up * collider.bounds.extents.y);
         for (int i = 0; i < fovDirections.Length; i += 2)
         {
             direction = fovDirections[i].normalized;
-            direction = transform.TransformVector(direction);
-            if (Physics.Raycast(scanOrigin, direction, out hit, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterMask))
+            direction = transform.TransformDirection(direction);
+            if (Physics.Raycast(scanPoint, direction, out hit, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterMask))
             {
                 if (hit.transform.gameObject.layer == 4) // Is Water
                 {
@@ -270,11 +271,11 @@ public class ScanController : MonoBehaviour
                         minDst = hit.distance;
                         minPoint = hit.point;
                     }
-                    //Debug.DrawLine(scanOrigin, hit.point, Color.green);
+                    //Debug.DrawLine(scanPoint, hit.point, Color.green);
                 }
                 else
                 {
-                    //Debug.DrawRay(scanOrigin, direction, Color.black);
+                    //Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownDistance, Color.black);
                 }
             }
         }
@@ -287,13 +288,13 @@ public class ScanController : MonoBehaviour
     }
 
 
-    //private void OnDrawGizmos()
-    //{
-    //    if (Application.isPlaying)
-    //    {
-    //        Gizmos.color = Color.yellow;
-    //        Gizmos.DrawWireSphere(scanOrigin, properties.AwarenessRadius); //ScanArea
-    //    }
-    //}
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(scanOrigin, properties.AwarenessRadius); //ScanArea
+        }
+    }
 
 }

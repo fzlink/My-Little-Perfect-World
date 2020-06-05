@@ -33,11 +33,21 @@ public class ReproManager : MonoBehaviour
     {
         if (canStartReproducing)
         {
-            reproduceAmount += animal1.GetProperties().ReproducingSpeed * Time.deltaTime;
-            if (reproduceAmount >= animal1.GetProperties().ReproducingMaximum)
+            if (animal1.state != AnimalState.Reproducing || animal2.state != AnimalState.Reproducing)
             {
+                canStartReproducing = false;
                 loveFX.Stop();
-                AnimalInteractionManager.instance.FinishReproducing(this,true);
+                AnimalInteractionManager.instance.FinishReproducing(this, false);
+            }
+            else
+            {
+                reproduceAmount += animal1.GetProperties().ReproducingSpeed * Time.deltaTime;
+                if (reproduceAmount >= animal1.GetProperties().ReproducingMaximum)
+                {
+                    canStartReproducing = false;
+                    loveFX.Stop();
+                    AnimalInteractionManager.instance.FinishReproducing(this, true);
+                }
             }
         }
     }

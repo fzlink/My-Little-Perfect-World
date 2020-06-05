@@ -15,7 +15,7 @@ public class MoveController : MonoBehaviour
 {
     private Animal animal;
     private AnimalProperties properties;
-    private Collider boxCollider;
+    private Collider collider;
 
     private Location target = null;
     private List<Location> targetHistory;
@@ -29,16 +29,18 @@ public class MoveController : MonoBehaviour
     private float hitRotateDelay = 0.1f / FourthDimension.tSM;
 
     private bool followBias;
+    int chunkCoordInc;
 
     private void Awake()
     {
         animal = GetComponent<Animal>();
         properties = animal.GetProperties();
-        boxCollider = GetComponent<Collider>();
+        collider = GetComponent<Collider>();
     }
 
     private void Start()
     {
+        chunkCoordInc = MapEventManager.chunkCoordInc;
         targetHistory = new List<Location>();
         GetComponent<ScanController>().onTargetFound += SetTarget;
     }
@@ -50,8 +52,13 @@ public class MoveController : MonoBehaviour
         switch (animal.state)
         {
             case AnimalState.Wandering:
-            case AnimalState.GoingToSomething:
                 if (LookInFarFront())
+                    break;
+                if (LookInFront())
+                    break;
+                break;
+            case AnimalState.GoingToSomething:
+                if (target.isGettingAwayFrom && LookInFarFront())
                     break;
                 if (LookInFront())
                     break;
@@ -84,8 +91,8 @@ public class MoveController : MonoBehaviour
     private void ClampMovement()
     {
         Vector3 clampedPos = transform.position;
-        float mapXClampVal = (MapEventManager.instance.xOffset * MapEventManager.chunkCoordInc + (MapEventManager.chunkCoordInc / 2)-3);
-        float mapYClampVal = (MapEventManager.instance.yOffset * MapEventManager.chunkCoordInc + (MapEventManager.chunkCoordInc / 2)-3);
+        float mapXClampVal = (MapEventManager.instance.xOffset * chunkCoordInc + (chunkCoordInc / 2)-3);
+        float mapYClampVal = (MapEventManager.instance.yOffset * chunkCoordInc + (chunkCoordInc / 2)-3);
         clampedPos.x = Mathf.Clamp(clampedPos.x, -mapXClampVal, mapXClampVal);
         clampedPos.z = Mathf.Clamp(clampedPos.z, -mapYClampVal, mapYClampVal);
         transform.position = clampedPos;
@@ -178,7 +185,7 @@ public class MoveController : MonoBehaviour
         if (Physics.Raycast(scanOrigin, Vector3.down, out hit, GroundingProp.maxLookDownDistance, Masks.groundMask))
         {
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-            if (hit.distance <= boxCollider.bounds.extents.y + 0.25f && hit.distance >= boxCollider.bounds.extents.y)
+            if (hit.distance <= collider.bounds.extents.y + 0.25f && hit.distance >= collider.bounds.extents.y)
             {
                 //Debug.DrawLine(scanOrigin, hit.point, Color.green);
                 return true;
@@ -296,14 +303,15 @@ public class MoveController : MonoBehaviour
     private bool LookInFront()
     {
         RaycastHit hit;
-
-        if (Physics.Raycast(scanOrigin + transform.forward * 2, Vector3.down, out hit, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
+        Vector3 scanPoint = scanOrigin + (transform.forward * collider.bounds.extents.z + transform.up*10);
+        Vector3 direction = -transform.up;
+        if (Physics.Raycast(scanPoint, direction, out hit, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
         {
             if (hit.collider.gameObject.layer == 4) // Is Water
             {
                 if (target != null && target.GetLocationType() == LocationType.Water)
                 {
-                    //Debug.DrawLine(scanOrigin + transform.forward * 2, hit.point, Color.blue);
+                    Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.blue);
                     animal.WaterConfrontation();
                     target = null;
                     //Vector3 angleBisectorVector = (hitItem.point - transform.position) + (enemyGameObject.transform.position - transform.position);
@@ -316,9 +324,10 @@ public class MoveController : MonoBehaviour
             }
             else if(hit.collider.gameObject.layer == 11 || hit.collider.gameObject.layer == 12)
             {
-                Debug.DrawLine(scanOrigin + transform.forward * 2, hit.point, Color.magenta);
+                Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.magenta);
                 RotationEvent(-transform.forward, 0);
             }
+            Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.black);
             return true;
         }
         return false;
@@ -331,11 +340,13 @@ public class MoveController : MonoBehaviour
         RaycastHit hit1;
         RaycastHit hit2;
         float maxD = 0;
-        if (Physics.Raycast(scanOrigin + transform.up , transform.TransformVector(new Vector3(0, -1, 1)), out hit, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
+        Vector3 direction = transform.TransformDirection(new Vector3(0, -1, 1));
+        Vector3 scanPoint = scanOrigin + (transform.up * collider.bounds.extents.y);
+        if (Physics.Raycast(scanPoint, direction, out hit, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
         {
             if ((hit.collider.gameObject.layer == 4 && target != null && target.GetLocationType() != LocationType.Water) || hit.collider.gameObject.layer == 11 || hit.collider.gameObject.layer == 12)
             {
-                if(Physics.Raycast(scanOrigin + transform.up , transform.TransformVector(new Vector3(1, -1, 0)), out hit1, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
+                if(Physics.Raycast(scanPoint, direction, out hit1, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
                 {
                     if (hit1.collider.gameObject.layer != 8)
                     {
@@ -347,7 +358,7 @@ public class MoveController : MonoBehaviour
                     }
                 }
 
-                if(Physics.Raycast(scanOrigin + transform.up, transform.TransformVector(new Vector3(-1, -1, 0)), out hit2, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
+                if(Physics.Raycast(scanPoint, direction, out hit2, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
                 {
                     if (hit2.collider.gameObject.layer != 8)
                     {
@@ -376,12 +387,13 @@ public class MoveController : MonoBehaviour
                         }
                     }
                 }
-                //Debug.DrawLine(scanOrigin + transform.up , hit.point, Color.green);
+                //Debug.DrawLine(scanPoint , hit.point, Color.green);
                 return true;
             }
             else
             {
-                //Debug.DrawLine(scanOrigin + transform.up , hit.point, Color.black);
+                //Debug.DrawLine(scanPoint , hit.point, Color.black);
+                return false;
             }
         }
         return false;
