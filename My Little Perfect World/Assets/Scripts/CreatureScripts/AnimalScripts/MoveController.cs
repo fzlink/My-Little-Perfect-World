@@ -58,7 +58,7 @@ public class MoveController : MonoBehaviour
                     break;
                 break;
             case AnimalState.GoingToSomething:
-                if (target.isGettingAwayFrom && LookInFarFront())
+                if (target != null && target.isGettingAwayFrom && LookInFarFront())
                     break;
                 if (LookInFront())
                     break;

@@ -26,4 +26,9 @@ public class SimulationManger : MonoBehaviour
             instance = this;
         }
     }
+
+    private void Start()
+    {
+        
+    }
 }
