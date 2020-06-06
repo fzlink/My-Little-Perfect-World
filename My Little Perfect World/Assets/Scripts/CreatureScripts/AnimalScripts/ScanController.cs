@@ -287,7 +287,7 @@ public class ScanController : MonoBehaviour
         return false;
     }
 
-
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (Application.isPlaying)
@@ -296,5 +296,5 @@ public class ScanController : MonoBehaviour
             Gizmos.DrawWireSphere(scanOrigin, properties.AwarenessRadius); //ScanArea
         }
     }
-
+#endif
 }

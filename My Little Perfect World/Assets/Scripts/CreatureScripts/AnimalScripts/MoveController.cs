@@ -311,7 +311,7 @@ public class MoveController : MonoBehaviour
             {
                 if (target != null && target.GetLocationType() == LocationType.Water)
                 {
-                    Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.blue);
+                    //Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.blue);
                     animal.WaterConfrontation();
                     target = null;
                     //Vector3 angleBisectorVector = (hitItem.point - transform.position) + (enemyGameObject.transform.position - transform.position);
@@ -324,10 +324,10 @@ public class MoveController : MonoBehaviour
             }
             else if(hit.collider.gameObject.layer == 11 || hit.collider.gameObject.layer == 12)
             {
-                Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.magenta);
+                //Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.magenta);
                 RotationEvent(-transform.forward, 0);
             }
-            Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.black);
+            //Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.black);
             return true;
         }
         return false;

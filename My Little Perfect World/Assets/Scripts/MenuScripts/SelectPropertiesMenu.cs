@@ -33,7 +33,7 @@ public class SelectPropertiesMenu : MonoBehaviour
     public GameObject alertDialog;
 
     public Toggle willOptimizedToggle;
-
+    int mapSizeMagnitude;
     void Start()
     {
         DisableUIElements();
@@ -42,10 +42,9 @@ public class SelectPropertiesMenu : MonoBehaviour
 
         MenuData menuData = FindObjectOfType<MenuData>();
         int[] mapSize = menuData.GetMapSizeXY();
-        int mapSizeMagnitude = (mapSize[0]-1) * (mapSize[1]-1);
-        populationSlider.maxValue = mapSizeMagnitude * (10);
-        populationSlider.minValue = 1;
-        populationSlider.value = populationSlider.maxValue / 2;
+        mapSizeMagnitude = (mapSize[0]-1) * (mapSize[1]-1);
+
+        SetPopulationSliderMax(mapSizeMagnitude * 10);
 
         foodChainSlider.maxValue = 5;
         addedItems = new Dictionary<PreviewProperties, GameObject>();
@@ -57,6 +56,13 @@ public class SelectPropertiesMenu : MonoBehaviour
         removeButton.onClick.AddListener(() => RemoveItem());
         startButton.onClick.AddListener(() => StartSim());
         alertDialog.GetComponentInChildren<Button>().onClick.AddListener(() => alertDialog.SetActive(false));
+    }
+
+    private void SetPopulationSliderMax(float maxVal)
+    {
+        populationSlider.minValue = 1;
+        populationSlider.maxValue = maxVal;
+        populationSlider.value = populationSlider.maxValue / 2;
     }
 
     private void Clear()
@@ -176,12 +182,14 @@ public class SelectPropertiesMenu : MonoBehaviour
         {
             willOptimizedToggle.gameObject.SetActive(false);
             foodChainSlider.transform.parent.gameObject.SetActive(false);
+            SetPopulationSliderMax(mapSizeMagnitude * 20);
         }
         else
         {
             foodChainSlider.transform.parent.gameObject.SetActive(true);
             willOptimizedToggle.gameObject.SetActive(true);
             SetFoodChainCount(0);
+            SetPopulationSliderMax(mapSizeMagnitude * 10);
         }
         optimalHabitatText.text = "Optimal Habitat: " + properties.OptimalHabitat;
 
