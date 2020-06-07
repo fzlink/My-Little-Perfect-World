@@ -7,8 +7,8 @@ using UnityEngine;
 public static class GroundingProp
 {
     public const int fallRiseSpeed = 20;
-    public const int maxLookDownDistance = 100;
-    public const int maxLookDownForItemDistance = 20;
+    public const int maxLookDownDistance = 50;
+    public const int maxLookDownForItemDistance = 10;
 }
 
 public class MoveController : MonoBehaviour
@@ -26,7 +26,7 @@ public class MoveController : MonoBehaviour
     private Vector3 scanOrigin;
     private bool isWanderRotated;
 
-    private float hitRotateDelay = 0.1f / FourthDimension.tSM;
+    private float hitRotateDelay = 0.25f / FourthDimension.tSM;
 
     private bool followBias;
     int chunkCoordInc;
@@ -45,7 +45,7 @@ public class MoveController : MonoBehaviour
         GetComponent<ScanController>().onTargetFound += SetTarget;
     }
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         scanOrigin = transform.position;
         MakeGrounded();
@@ -58,16 +58,33 @@ public class MoveController : MonoBehaviour
                     break;
                 break;
             case AnimalState.GoingToSomething:
+                if (LookInFarFront())
+                    break;
+                if (LookInFront())
+                    break;
+                break;
+        }
+    }*/
+
+    private void Update()
+    {
+        scanOrigin = transform.position;
+        MakeGrounded();
+        switch (animal.state)
+        {
+            case AnimalState.Wandering:
+                if (LookInFront())
+                    break;
+                break;
+            case AnimalState.GoingToSomething:
                 if (target != null && target.isGettingAwayFrom && LookInFarFront())
                     break;
                 if (LookInFront())
                     break;
                 break;
         }
-    }
 
-    private void Update()
-    {
+
         switch (animal.state)
         {
             case AnimalState.Wandering:
@@ -133,7 +150,7 @@ public class MoveController : MonoBehaviour
         {
             ArrivedToTarget();
         }
-        else if (Vector3.Distance(transform.position, target.GetPosition()) >= 25f)
+        else if (target.GetLocationType() == LocationType.Enemy && Vector3.Distance(transform.position, target.GetPosition()) >= 25f)
         {
             Lost();
         }
@@ -185,9 +202,9 @@ public class MoveController : MonoBehaviour
         if (Physics.Raycast(scanOrigin, Vector3.down, out hit, GroundingProp.maxLookDownDistance, Masks.groundMask))
         {
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            Debug.DrawRay(scanOrigin, Vector3.down * GroundingProp.maxLookDownDistance, Color.red);
             if (hit.distance <= collider.bounds.extents.y + 0.25f && hit.distance >= collider.bounds.extents.y)
             {
-                //Debug.DrawLine(scanOrigin, hit.point, Color.green);
                 return true;
             }
             else
@@ -303,13 +320,13 @@ public class MoveController : MonoBehaviour
     private bool LookInFront()
     {
         RaycastHit hit;
-        Vector3 scanPoint = scanOrigin + (transform.forward * collider.bounds.extents.z + transform.up*10);
-        Vector3 direction = -transform.up;
-        if (Physics.Raycast(scanPoint, direction, out hit, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
+        Vector3 direction = transform.TransformDirection(new Vector3(0, -3, 1));
+        Vector3 scanPoint = scanOrigin + (transform.up * collider.bounds.extents.y * 2.5f);
+        if (Physics.Raycast(scanPoint, direction, out hit, GroundingProp.maxLookDownForItemDistance*10, Masks.groundWaterObstacleTreeMask))
         {
             if (hit.collider.gameObject.layer == 4) // Is Water
             {
-                if (target != null && target.GetLocationType() == LocationType.Water)
+                if (target != null && target.GetLocationType() == LocationType.Water && animal.isThirsty)
                 {
                     //Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.blue);
                     animal.WaterConfrontation();
@@ -327,7 +344,7 @@ public class MoveController : MonoBehaviour
                 //Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.magenta);
                 RotationEvent(-transform.forward, 0);
             }
-            //Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.black);
+            Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownForItemDistance, Color.gray);
             return true;
         }
         return false;
@@ -341,12 +358,13 @@ public class MoveController : MonoBehaviour
         RaycastHit hit2;
         float maxD = 0;
         Vector3 direction = transform.TransformDirection(new Vector3(0, -1, 1));
-        Vector3 scanPoint = scanOrigin + (transform.up * collider.bounds.extents.y);
-        if (Physics.Raycast(scanPoint, direction, out hit, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
+        Vector3 scanPoint = scanOrigin + (transform.up * collider.bounds.extents.y * 2.5f);
+        if (Physics.Raycast(scanPoint, direction, out hit, GroundingProp.maxLookDownForItemDistance*2, Masks.groundWaterMask))
         {
-            if ((hit.collider.gameObject.layer == 4 && target != null && target.GetLocationType() != LocationType.Water) || hit.collider.gameObject.layer == 11 || hit.collider.gameObject.layer == 12)
+            if ((hit.collider.gameObject.layer == 4 && target != null && target.GetLocationType() != LocationType.Water))
             {
-                if(Physics.Raycast(scanPoint, direction, out hit1, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
+                direction = transform.TransformDirection(new Vector3(1, -1, 0));
+                if (Physics.Raycast(scanPoint, direction, out hit1, GroundingProp.maxLookDownForItemDistance*2, Masks.groundWaterObstacleTreeMask))
                 {
                     if (hit1.collider.gameObject.layer != 8)
                     {
@@ -357,8 +375,8 @@ public class MoveController : MonoBehaviour
                         maxD = hit1.distance;
                     }
                 }
-
-                if(Physics.Raycast(scanPoint, direction, out hit2, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterObstacleTreeMask))
+                direction = transform.TransformDirection(new Vector3(-1, -1, 0));
+                if (Physics.Raycast(scanPoint, direction, out hit2, GroundingProp.maxLookDownForItemDistance*2, Masks.groundWaterObstacleTreeMask))
                 {
                     if (hit2.collider.gameObject.layer != 8)
                     {
@@ -387,12 +405,12 @@ public class MoveController : MonoBehaviour
                         }
                     }
                 }
-                //Debug.DrawLine(scanPoint , hit.point, Color.green);
+                Debug.DrawLine(scanPoint , hit.point, Color.magenta);
                 return true;
             }
             else
             {
-                //Debug.DrawLine(scanPoint , hit.point, Color.black);
+                Debug.DrawLine(scanPoint , hit.point, Color.black);
                 return false;
             }
         }

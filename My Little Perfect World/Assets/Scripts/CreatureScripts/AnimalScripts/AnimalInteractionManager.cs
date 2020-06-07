@@ -70,6 +70,7 @@ public class AnimalInteractionManager : MonoBehaviour
     /////////Reproduction
     public void StartReproducing(Animal animal, Animal partner)
     {
+        if (animal == null || partner == null) return;
         if(partner.reproManager == null)
         {
             GameObject reproGameObject = new GameObject("Repro Manager" + reproManagerCount++);
@@ -84,6 +85,7 @@ public class AnimalInteractionManager : MonoBehaviour
         }
         else
         {
+            if (partner.reproManager.IsFull()) return;
             animal.reproManager = partner.reproManager;
             animal.reproManager.SetAnimal2(animal);
             animal.reproManager.StartReproduction();
@@ -102,11 +104,11 @@ public class AnimalInteractionManager : MonoBehaviour
             {
                 reproManagers.Remove(reproManager);
                 onReproducingFinished(reproManager,isSuccess);
-                Destroy(reproManager.gameObject);
                 if(onFinishInteraction != null)
                 {
                     onFinishInteraction(reproManager.transform);
                 }
+                Destroy(reproManager.gameObject);
             }
         }
     }

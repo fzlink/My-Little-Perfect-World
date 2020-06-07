@@ -39,7 +39,12 @@ public class Capybara : Animal
                 animator.SetBool("isRunning", false);
                 animator.SetBool("isWalking", false);
                 break;
-
+            case AnimalState.Reproducing:
+            case AnimalState.Sleeping:
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isRunning", false);
+                animator.SetBool("isEating", false);
+                break;
         }
     }
 

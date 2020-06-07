@@ -18,13 +18,21 @@ public class ReproManager : MonoBehaviour
 
     public void SetAnimal2(Animal animal2)
     {
-        this.animal2 = animal1;
+        this.animal2 = animal2;
     }
 
     public void StartReproduction()
     {
         canStartReproducing = true;
         Instantiate(loveFX, transform.position, loveFX.transform.rotation, transform);
+    }
+    public bool IsFull()
+    {
+        if(animal1 != null && animal2 != null)
+        {
+            return true;
+        }
+        return false;
     }
 
 

@@ -21,6 +21,8 @@ public class FourthDimension : MonoBehaviour
 
     private void Awake()
     {
+        currentTime = 0;
+        currentDay = 0;
         fCT = fullCycleTime;
         tSM = timeSpeedMultiplier;
     }

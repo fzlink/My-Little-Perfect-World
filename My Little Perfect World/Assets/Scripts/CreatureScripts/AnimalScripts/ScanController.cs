@@ -43,7 +43,7 @@ public class ScanController : MonoBehaviour
         fovDirections = properties.LookForWaterdirections;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         scanOrigin = transform.position;
         scannedColliders = Physics.OverlapSphere(scanOrigin, properties.AwarenessRadius, Masks.animalPlantMask);
@@ -188,6 +188,10 @@ public class ScanController : MonoBehaviour
                     AssignTarget(collider.transform, LocationType.Partner, false);
                     return true;
                 }
+                else
+                {
+                    animal.FriendEncounter();
+                }
             }
         }
         return false;
@@ -255,35 +259,43 @@ public class ScanController : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 direction;
-        float minDst = Mathf.Infinity;
-        Vector3 minPoint = Vector3.zero;
-        Vector3 scanPoint = scanOrigin + (transform.up * collider.bounds.extents.y);
-        for (int i = 0; i < fovDirections.Length; i += 2)
+        //float minDst = Mathf.Infinity;
+        //Vector3 minPoint = Vector3.zero;
+        Vector3 scanPoint = scanOrigin + (transform.up * collider.bounds.extents.y * 2.5f);
+        for (int i = 0; i < fovDirections.Length; i+= 2)
         {
             direction = fovDirections[i].normalized;
             direction = transform.TransformDirection(direction);
-            if (Physics.Raycast(scanPoint, direction, out hit, GroundingProp.maxLookDownForItemDistance, Masks.groundWaterMask))
+            if (Physics.Raycast(scanPoint, direction, out hit, GroundingProp.maxLookDownForItemDistance*10, Masks.groundWaterMask))
             {
                 if (hit.transform.gameObject.layer == 4) // Is Water
                 {
-                    if(hit.distance < minDst)
+                    Debug.DrawLine(scanPoint, hit.point, Color.green);
+                    AssignTarget(hit.point, LocationType.Water, false);
+                    return true;
+                    /*if(hit.distance < minDst)
                     {
                         minDst = hit.distance;
                         minPoint = hit.point;
-                    }
-                    //Debug.DrawLine(scanPoint, hit.point, Color.green);
+
+                    }*/
                 }
                 else
                 {
-                    //Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownDistance, Color.black);
+                    Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownDistance, Color.blue);
                 }
             }
+            else
+            {
+                Debug.DrawRay(scanPoint, direction * GroundingProp.maxLookDownDistance, Color.cyan);
+            }
+
         }
-        if(minPoint != Vector3.zero)
+        /*if(minPoint != Vector3.zero)
         {
             AssignTarget(minPoint, LocationType.Water, false);
             return true;
-        }
+        }*/
         return false;
     }
 

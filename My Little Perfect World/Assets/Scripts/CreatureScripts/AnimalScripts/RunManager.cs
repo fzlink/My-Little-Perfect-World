@@ -20,10 +20,11 @@ public class RunManager: MonoBehaviour
 
     private void LateUpdate()
     {
-        if(canFollow )
+        if(canFollow)
         {
             if(hunter == null || prey == null)
             {
+                canFollow = false;
                 AnimalInteractionManager.instance.FinishRunning(this);
             }
             else

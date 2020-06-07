@@ -9,9 +9,9 @@ using UnityEngine.SceneManagement;
 public class MenuData : MonoBehaviour
 {
     public static bool created = false;
-    public enum HabitatType { TUNDRA = 1, SAVANNAH = 2, RAINFOREST = 3, DESERT = 4};
+    public enum HabitatType { TUNDRA = 1, SAVANNA = 2, RAINFOREST = 3, DESERT = 4};
     public string tundraSceneName;
-    public string savannahSceneName;
+    public string savannaSceneName;
     public string rainForestSceneName;
     public string desertSceneName;
 
@@ -66,8 +66,8 @@ public class MenuData : MonoBehaviour
                 return desertSceneName;
             case HabitatType.RAINFOREST:
                 return rainForestSceneName;
-            case HabitatType.SAVANNAH:
-                return savannahSceneName;
+            case HabitatType.SAVANNA:
+                return savannaSceneName;
             case HabitatType.TUNDRA:
                 return tundraSceneName;
         }
@@ -94,7 +94,7 @@ public class MenuData : MonoBehaviour
                 habitatType = HabitatType.RAINFOREST;
                 break;
             case "Savanna":
-                habitatType = HabitatType.DESERT;
+                habitatType = HabitatType.SAVANNA;
                 break;
             default:
                 habitatType = HabitatType.DESERT;

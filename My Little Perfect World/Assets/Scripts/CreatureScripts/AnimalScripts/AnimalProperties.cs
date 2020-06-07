@@ -40,11 +40,11 @@ public class AnimalProperties : Properties
     [SerializeField] private float sleepGettingSpeed;
     [SerializeField] private float sleepDecreaseSpeed;
 
-    [Header("Stress Values")]
-    [SerializeField] private float stressMaximum;
-    [SerializeField] private float stressDangerThreshold;
-    [SerializeField] private float stressGettingSpeed;
-    [SerializeField] private float stressDecreaseSpeed;
+    [Header("Social Values")]
+    [SerializeField] private float socialMaximum;
+    [SerializeField] private float socialDangerThreshold;
+    [SerializeField] private float socialGettingSpeed;
+    [SerializeField] private float socialDecreaseSpeed;
 
     [Header("Reproducing Values")]
     [SerializeField] private float reproducingMaximum;
@@ -56,6 +56,8 @@ public class AnimalProperties : Properties
     [SerializeField] private float pregnancySpeed;
     [SerializeField] private int pregnancyChildAmount;
     [SerializeField] private int pregnancyChildAmountMax;
+    [SerializeField] private int maximumLifetimeInDays;
+    
 
 
     public GameObject Animal { get => animal; set => animal = value; }
@@ -81,10 +83,10 @@ public class AnimalProperties : Properties
     public float SleepDangerThreshold { get => sleepDangerThreshold; set => sleepDangerThreshold = value; }
     public float SleepGettingSpeed { get => sleepGettingSpeed * FourthDimension.tSM; set => sleepGettingSpeed = value; }
     public float SleepDecreaseSpeed { get => sleepDecreaseSpeed * FourthDimension.tSM; set => sleepDecreaseSpeed = value; }
-    public float StressMaximum { get => stressMaximum; set => stressMaximum = value; }
-    public float StressDangerThreshold { get => stressDangerThreshold; set => stressDangerThreshold = value; }
-    public float StressGettingSpeed { get => stressGettingSpeed * FourthDimension.tSM; set => stressGettingSpeed = value; }
-    public float StressDecreaseSpeed { get => stressDecreaseSpeed * FourthDimension.tSM; set => stressDecreaseSpeed = value; }
+    public float SocialMaximum { get => socialMaximum; set => socialMaximum = value; }
+    public float SocialDangerThreshold { get => socialDangerThreshold; set => socialDangerThreshold = value; }
+    public float SocialGettingSpeed { get => socialGettingSpeed * FourthDimension.tSM; set => socialGettingSpeed = value; }
+    public float SocialDecreaseSpeed { get => socialDecreaseSpeed * FourthDimension.tSM; set => socialDecreaseSpeed = value; }
     public float ReproducingMaximum { get => reproducingMaximum; set => reproducingMaximum = value; }
     public float ReproducingSpeed { get => reproducingSpeed * FourthDimension.tSM; set => reproducingSpeed = value; }
     public float ReproducingAge { get => reproducingAge; set => reproducingAge = value; }
@@ -108,4 +110,5 @@ public class AnimalProperties : Properties
                 return pregnancyChildAmountMax;
         }  set => pregnancyChildAmount = value; }
 
+    public int MaximumLifetimeInDays { get => maximumLifetimeInDays; set => maximumLifetimeInDays = value; }
 }

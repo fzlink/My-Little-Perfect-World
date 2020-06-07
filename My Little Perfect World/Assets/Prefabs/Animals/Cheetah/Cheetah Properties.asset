@@ -17,14 +17,14 @@ MonoBehaviour:
   commonSkinColor: {r: 1, g: 1, b: 1, a: 1}
   wanderingSpeed: 8
   wanderChangeDirectionDelay: 9
-  runningSpeed: 12
+  runningSpeed: 20
   awarenessRadius: 20
   lookForWaterdirections:
-  - {x: -10, y: -1, z: 10}
-  - {x: -5, y: -1, z: 10}
-  - {x: 0, y: -1, z: 10}
-  - {x: 5, y: -1, z: 10}
-  - {x: 10, y: -1, z: 10}
+  - {x: -10, y: -5, z: 10}
+  - {x: -5, y: -5, z: 10}
+  - {x: 0, y: -5, z: 10}
+  - {x: 5, y: -5, z: 10}
+  - {x: 10, y: -5, z: 10}
   isCarnivore: 1
   isHerbivore: 0
   nutritionValue: 100
@@ -34,20 +34,21 @@ MonoBehaviour:
   foodDecreaseSpeed: 0.5
   waterMaximum: 100
   waterDangerThreshold: 25
-  waterDrinkingSpeed: 7.5
-  waterDecreaseSpeed: 1
+  waterDrinkingSpeed: 10
+  waterDecreaseSpeed: 0.75
   sleepMaximum: 100
   sleepDangerThreshold: 25
   sleepGettingSpeed: 15
   sleepDecreaseSpeed: 1
-  stressMaximum: 100
-  stressDangerThreshold: 25
-  stressGettingSpeed: 1
-  stressDecreaseSpeed: 1
+  socialMaximum: 100
+  socialDangerThreshold: 25
+  socialGettingSpeed: 10
+  socialDecreaseSpeed: 0.2
   reproducingMaximum: 100
   reproducingSpeed: 10
   reproducingAge: 1
   pregnancyMaximum: 100
-  pregnancySpeed: 2
+  pregnancySpeed: 5
   pregnancyChildAmount: 1
   pregnancyChildAmountMax: 4
+  maximumLifetimeInDays: 20

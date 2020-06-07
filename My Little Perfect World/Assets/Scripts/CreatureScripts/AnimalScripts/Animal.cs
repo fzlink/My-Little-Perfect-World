@@ -25,7 +25,7 @@ public class Animal : Creature
     public float foodAmount { get; set; }
     public float waterAmount { get; set; }
     public float sleepAmount { get; set; }
-    public float stressAmount { get; set; }
+    public float socialAmount { get; set; }
 
     public bool isHungry { get; set; }
     public bool isThirsty { get; set; }
@@ -75,10 +75,10 @@ public class Animal : Creature
 
     protected virtual void InitValues()
     {
-
         foodAmount = UnityEngine.Random.Range(25f, 100f);
         waterAmount = UnityEngine.Random.Range(25f, 100f);
         sleepAmount = UnityEngine.Random.Range(25f, 100f);
+        socialAmount = properties.SocialMaximum;
     }
 
     protected virtual void Update()
@@ -120,6 +120,7 @@ public class Animal : Creature
             case LocationType.Plant:
                 currentPlant = target.GetObjectToFollow().GetComponent<Plant>();
                 break;
+
         }
         state = AnimalState.GoingToSomething;
     }
@@ -266,18 +267,15 @@ public class Animal : Creature
 
     private void OnReproductionFinished(ReproManager reproManager, bool isSuccess)
     {
-        if(this.reproManager == reproManager && isSuccess)
-        {
-            if(sex == Sex.Female)
-            {
-                GetComponent<FemaleAttributes>().isPregnant = true;
-            }
-        }
         if(this.reproManager == reproManager)
         {
             reproManager = null;
             state = AnimalState.Wandering;
             AnimalInteractionManager.instance.onReproducingFinished -= OnReproductionFinished;
+            if (isSuccess && sex == Sex.Female)
+            {
+                GetComponent<FemaleAttributes>().isPregnant = true;
+            }
         }
     }
     
@@ -291,6 +289,12 @@ public class Animal : Creature
 
 
     //////////////////Misc
+
+    public void FriendEncounter()
+    {
+        //Stress == Relieve, Stress means good
+        socialAmount += Time.deltaTime * properties.SocialGettingSpeed;
+    }
 
     public void Interrupted()
     {
@@ -341,6 +345,23 @@ public class Animal : Creature
                 state = AnimalState.Sleeping;
             }
         }
+        //////////////////////
+        if(state == AnimalState.Reproducing)
+        {
+            if(reproManager == null)
+            {
+                state = AnimalState.Wandering;
+                AnimalInteractionManager.instance.onReproducingFinished -= OnReproductionFinished;
+            }
+        }
+
+        if(age > properties.MaximumLifetimeInDays)
+        {
+            Interrupted();
+            Die();
+        }
+
+        socialAmount -= Time.deltaTime * properties.SocialDecreaseSpeed;
     }
     
  

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class CreatureUIManager : MonoBehaviour
 {
 
     public RawImage creatureIcon;
+    public TMP_Text ageText;
     private StatBar[] statBars;
     public Animal animalOnInterest = null;
     private float animalOnInterestDangerThreshold;
@@ -21,7 +23,6 @@ public class CreatureUIManager : MonoBehaviour
     private void Start()
     {
         statBars = GetComponentsInChildren<StatBar>();
-
     }
 
     // Update is called once per frame
@@ -76,7 +77,7 @@ public class CreatureUIManager : MonoBehaviour
                     statBars[i].ChangeInterest(animal.sleepAmount, properties.SleepMaximum, properties.SleepDangerThreshold);
                     break;
                 case StatBar.BarType.Stress:
-                    statBars[i].ChangeInterest(animal.stressAmount, properties.StressMaximum, properties.StressDangerThreshold);
+                    statBars[i].ChangeInterest(animal.socialAmount, properties.SocialMaximum, properties.SocialDangerThreshold);
                     break;
                 case StatBar.BarType.Pregnancy:
                     if(animal.dNA.sex == Sex.Female)
@@ -91,10 +92,9 @@ public class CreatureUIManager : MonoBehaviour
                 default:
                     statBars[i].parentCapsule.SetActive(false);
                     break;
-                
             }
-
         }
+        ageText.text = "Age: " + animal.age;
     }
 
     private void GetValues()
@@ -116,7 +116,7 @@ public class CreatureUIManager : MonoBehaviour
                         statBars[i].ChangeValues(animalOnInterest.sleepAmount, properties.SleepDangerThreshold);
                         break;
                     case StatBar.BarType.Stress:
-                        statBars[i].ChangeValues(animalOnInterest.stressAmount, properties.StressDangerThreshold);
+                        statBars[i].ChangeValues(animalOnInterest.socialAmount, properties.SocialDangerThreshold);
                         break;
                     case StatBar.BarType.Pregnancy:
                         statBars[i].ChangeValues(animalOnInterest.GetComponent<FemaleAttributes>().pregnancyAmount, 0f);
@@ -126,6 +126,7 @@ public class CreatureUIManager : MonoBehaviour
 
                 }
             }
+            ageText.text = "Age: " + animalOnInterest.age;
         }
     }
 

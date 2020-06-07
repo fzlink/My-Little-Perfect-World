@@ -17,7 +17,7 @@ public class Rabbit : Animal
     protected override void Update()
     {
         base.Update();
-
+        animator.SetBool("isWalking", true);
         switch (state)
         {
             case AnimalState.Wandering:

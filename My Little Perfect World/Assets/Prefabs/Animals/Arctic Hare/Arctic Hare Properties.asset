@@ -16,15 +16,15 @@ MonoBehaviour:
   animalIcon: {fileID: 2800000, guid: 8f6cb10c3e261624ebe168440d59ed06, type: 3}
   commonSkinColor: {r: 1, g: 1, b: 1, a: 1}
   wanderingSpeed: 5
-  wanderChangeDirectionDelay: 3
+  wanderChangeDirectionDelay: 5
   runningSpeed: 10
   awarenessRadius: 10
   lookForWaterdirections:
-  - {x: -30, y: -1, z: 10}
-  - {x: -5, y: -1, z: 10}
-  - {x: 0, y: -1, z: 10}
-  - {x: 5, y: -1, z: 10}
-  - {x: 30, y: -1, z: 10}
+  - {x: -20, y: -5, z: 10}
+  - {x: -5, y: -5, z: 10}
+  - {x: 0, y: -5, z: 10}
+  - {x: 5, y: -5, z: 10}
+  - {x: 20, y: -5, z: 10}
   isCarnivore: 0
   isHerbivore: 1
   nutritionValue: 75
@@ -40,10 +40,10 @@ MonoBehaviour:
   sleepDangerThreshold: 25
   sleepGettingSpeed: 15
   sleepDecreaseSpeed: 1
-  stressMaximum: 100
-  stressDangerThreshold: 25
-  stressGettingSpeed: 1
-  stressDecreaseSpeed: 1
+  socialMaximum: 100
+  socialDangerThreshold: 25
+  socialGettingSpeed: 10
+  socialDecreaseSpeed: 0.2
   reproducingMaximum: 100
   reproducingSpeed: 10
   reproducingAge: 1
@@ -51,3 +51,4 @@ MonoBehaviour:
   pregnancySpeed: 10
   pregnancyChildAmount: 1
   pregnancyChildAmountMax: 16
+  maximumLifetimeInDays: 20

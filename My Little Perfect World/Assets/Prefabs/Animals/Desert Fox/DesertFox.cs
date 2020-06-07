@@ -18,6 +18,7 @@ public class DesertFox : Animal
     protected override void Update()
     {
         base.Update();
+        animator.SetBool("isWalking", true);
         switch (state)
         {
             case AnimalState.Wandering:
@@ -27,6 +28,7 @@ public class DesertFox : Animal
                 animator.SetBool("isEating", false);
                 animator.SetBool("isSleeping", false);
                 break;
+            case AnimalState.Reproducing:
             case AnimalState.Eating:
                 animator.SetBool("isEating", true);
                 break;
@@ -41,9 +43,6 @@ public class DesertFox : Animal
                 break;
             case AnimalState.Sleeping:
                 animator.SetBool("isSleeping", true);
-                break;
-            case AnimalState.Reproducing:
-                animator.SetBool("isWalking", false);
                 break;
         }
 

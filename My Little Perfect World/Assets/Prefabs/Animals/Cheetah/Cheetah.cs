@@ -27,9 +27,15 @@ public class Cheetah : Animal
                 }
                 break;
             case AnimalState.GoingToSomething:
-                if (!animation.IsPlaying("Run") && moveController.isRunning)
+                if (moveController.isRunning)
                 {
-                    animation.Play("Run");
+                    if (!animation.IsPlaying("Run"))
+                        animation.Play("Run");
+                }
+                else
+                {
+                    if (!animation.IsPlaying("Walk"))
+                        animation.Play("Walk");
                 }
                 break;
             case AnimalState.Eating:

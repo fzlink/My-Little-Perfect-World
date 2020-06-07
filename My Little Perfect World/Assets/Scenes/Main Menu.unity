@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tundraSceneName: Tundra
-  savannahSceneName: Savanna
+  savannaSceneName: Savanna
   rainForestSceneName: Tropical Rain Forest
   desertSceneName: Desert
   mapSizeX: 0

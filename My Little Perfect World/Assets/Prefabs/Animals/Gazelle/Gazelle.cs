@@ -27,9 +27,15 @@ public class Gazelle : Animal
                 }
                 break;
             case AnimalState.GoingToSomething:
-                if (!animation.IsPlaying("Run Fast") && moveController.isRunning)
+                if (moveController.isRunning)
                 {
-                    animation.Play("Run Fast");
+                    if(!animation.IsPlaying("Run Fast"))
+                        animation.Play("Run Fast");
+                }
+                else
+                {
+                    if (!animation.IsPlaying("Walk"))
+                        animation.Play("Walk");
                 }
                 break;
             case AnimalState.Eating:
