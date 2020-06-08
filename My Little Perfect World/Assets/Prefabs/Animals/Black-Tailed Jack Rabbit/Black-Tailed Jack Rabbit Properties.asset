@@ -31,7 +31,7 @@ MonoBehaviour:
   foodMaximum: 100
   foodDangerThreshold: 50
   foodEatingSpeed: 1
-  foodDecreaseSpeed: 0.35
+  foodDecreaseSpeed: 0.5
   waterMaximum: 100
   waterDangerThreshold: 50
   waterDrinkingSpeed: 10
@@ -46,7 +46,7 @@ MonoBehaviour:
   socialDecreaseSpeed: 0.2
   reproducingMaximum: 100
   reproducingSpeed: 10
-  reproducingAge: 1
+  reproducingAge: 2
   pregnancyMaximum: 100
   pregnancySpeed: 10
   pregnancyChildAmount: 1

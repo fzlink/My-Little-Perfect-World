@@ -182,13 +182,20 @@ public class SelectPropertiesMenu : MonoBehaviour
         {
             willOptimizedToggle.gameObject.SetActive(false);
             foodChainSlider.transform.parent.gameObject.SetActive(false);
-            SetPopulationSliderMax(mapSizeMagnitude * 20);
+            SetPopulationSliderMax(mapSizeMagnitude * 40);
         }
-        else
+        else if(properties.TYPE == PreviewProperties.PreviewType.ANIMAL_HERBIVORE)
         {
             foodChainSlider.transform.parent.gameObject.SetActive(true);
             willOptimizedToggle.gameObject.SetActive(true);
             SetFoodChainCount(0);
+            SetPopulationSliderMax(mapSizeMagnitude * 30);
+        }
+        else if (properties.TYPE == PreviewProperties.PreviewType.ANIMAL_CARNIVORE)
+        {
+            foodChainSlider.transform.parent.gameObject.SetActive(true);
+            willOptimizedToggle.gameObject.SetActive(true);
+            SetFoodChainCount(1);
             SetPopulationSliderMax(mapSizeMagnitude * 10);
         }
         optimalHabitatText.text = "Optimal Habitat: " + properties.OptimalHabitat;

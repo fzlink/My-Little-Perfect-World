@@ -34,8 +34,23 @@ public class PopulationOptimizer: MonoBehaviour
         if (aop.evaluatedPregnancySpeedFactor < 0.25f)
             aop.evaluatedPregnancySpeedFactor = 0.25f;
 
+        if(aop.container.childCount > aop.topPopThres)
+        {
+            aop.bottomPopThres = aop.topPopThres;
+            aop.topPopThres = aop.bottomPopThres * 1.5f;
+            aop.evaluatedBirthCountFactor--;
+        }
+        else if(aop.container.childCount < aop.bottomPopThres)
+        {
+            aop.topPopThres = aop.bottomPopThres;
+            aop.bottomPopThres = aop.topPopThres / 1.5f;
+            aop.evaluatedBirthCountFactor++;
+        }
 
-        if (ratio >= aop.divideForBirthCountFactor)
+        if (aop.evaluatedBirthCountFactor < 1)
+            aop.evaluatedBirthCountFactor = 1;
+
+        /*if (ratio >= aop.divideForBirthCountFactor)
         {
             aop.divideForBirthCountFactor*=2;
             aop.evaluatedBirthCountFactor++;
@@ -45,7 +60,7 @@ public class PopulationOptimizer: MonoBehaviour
             aop.evaluatedBirthCountFactor--;
             if (aop.evaluatedBirthCountFactor < 1)
                 aop.evaluatedBirthCountFactor = 1;
-        }
+        }*/
     }
 
     public int GetEvaluatedBirthCountFactor(GameObject animalObj)
@@ -93,6 +108,9 @@ public class PopulationOptimizer: MonoBehaviour
         public float evaluatedPregnancySpeedFactor;
         public float divideForBirthCountFactor;
 
+        public float topPopThres;
+        public float bottomPopThres;
+
         public AnimalOptimizationProperties(Transform container, int startPopulation, bool willOptimized)
         {
             this.container = container;
@@ -101,6 +119,9 @@ public class PopulationOptimizer: MonoBehaviour
             evaluatedBirthCountFactor = 1;
             evaluatedPregnancySpeedFactor = 1;
             divideForBirthCountFactor = 2;
+
+            topPopThres = startPopulation;
+            bottomPopThres = topPopThres / 1.5f;
         }
 
         public void SetEvaluation(int evaluatedBirthCount, float evaluatedPregnancySpeed)

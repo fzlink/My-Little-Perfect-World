@@ -138,14 +138,14 @@ public class AnimalInteractionManager : MonoBehaviour
             if(onEatingFinished != null)
             {
                 eatingManagers.Remove(eatingManager);
-                if(eatingManager.food != null)
+                if(eatingManager.food != null && eatingManager.food.GetComponent<Food>() != null)
                     eatingManager.food.GetComponent<Food>().isBeingEaten = false;
                 onEatingFinished(eatingManager, isSuccess);
-                Destroy(eatingManager.gameObject);
                 if (onFinishInteraction != null)
                 {
                     onFinishInteraction(eatingManager.transform);
                 }
+                Destroy(eatingManager.gameObject);
             }
         }
     }

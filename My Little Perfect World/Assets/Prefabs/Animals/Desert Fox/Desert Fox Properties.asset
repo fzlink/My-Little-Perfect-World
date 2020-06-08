@@ -46,7 +46,7 @@ MonoBehaviour:
   socialDecreaseSpeed: 0.4
   reproducingMaximum: 100
   reproducingSpeed: 10
-  reproducingAge: 1
+  reproducingAge: 2
   pregnancyMaximum: 100
   pregnancySpeed: 4
   pregnancyChildAmount: 1
