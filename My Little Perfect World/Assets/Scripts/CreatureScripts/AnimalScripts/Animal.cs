@@ -75,9 +75,9 @@ public class Animal : Creature
 
     protected virtual void InitValues()
     {
-        foodAmount = UnityEngine.Random.Range(25f, 100f);
-        waterAmount = UnityEngine.Random.Range(25f, 100f);
-        sleepAmount = UnityEngine.Random.Range(25f, 100f);
+        foodAmount = UnityEngine.Random.Range(75f, 100f);
+        waterAmount = UnityEngine.Random.Range(75f, 100f);
+        sleepAmount = UnityEngine.Random.Range(75f, 100f);
         socialAmount = properties.SocialMaximum;
     }
 

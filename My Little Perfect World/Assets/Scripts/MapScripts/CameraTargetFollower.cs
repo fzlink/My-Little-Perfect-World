@@ -8,6 +8,7 @@ public class CameraTargetFollower : MonoBehaviour
     private Vector3 offset = Vector3.one * 30;
     private Camera cam;
     private PlayModeCamera playModeCamera;
+    private Vector3 lastPos;
 
     private void Awake()
     {

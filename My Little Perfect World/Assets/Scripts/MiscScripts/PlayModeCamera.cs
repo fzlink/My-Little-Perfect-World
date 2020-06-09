@@ -29,6 +29,7 @@ public class PlayModeCamera : MonoBehaviour
 
     void Start() { Init(); }
     void OnEnable() { Init(); }
+    void OnDisable() { target = null; }
 
     public void Init()
     {

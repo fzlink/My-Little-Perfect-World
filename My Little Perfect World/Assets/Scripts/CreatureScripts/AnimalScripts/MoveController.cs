@@ -203,7 +203,7 @@ public class MoveController : MonoBehaviour
         {
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
             Debug.DrawRay(scanOrigin, Vector3.down * GroundingProp.maxLookDownDistance, Color.red);
-            if (hit.distance <= collider.bounds.extents.y + 0.25f && hit.distance >= collider.bounds.extents.y)
+            if (hit.distance <= collider.bounds.extents.y && hit.distance >= collider.bounds.extents.y)
             {
                 return true;
             }

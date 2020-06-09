@@ -7,7 +7,7 @@ public class AnimalFactory : CreatureFactory
         GameObject newChild = GameObject.Instantiate(clone, position, Quaternion.identity, container);
         Animal newChildAnimal = newChild.GetComponent<Animal>();
         newChildAnimal.dNA = ConstructDNA(newChildAnimal.GetProperties().CommonSkinColor);
-        newChildAnimal.dayOfBirth = Random.Range(-2, 0);
+        newChildAnimal.dayOfBirth = Random.Range(-3, 1);
         CheckForFemaleAndAttributes(newChild, newChildAnimal);
         newChild.GetComponentInChildren<Renderer>().material.color = newChildAnimal.dNA.skinColor;
         return newChild;

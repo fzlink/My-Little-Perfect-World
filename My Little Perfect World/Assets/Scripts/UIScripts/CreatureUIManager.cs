@@ -137,7 +137,7 @@ public class CreatureUIManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
+            if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, Masks.animalMask))
             {
                 if(hit.collider.gameObject.GetComponent<Animal>() != null)
                 {

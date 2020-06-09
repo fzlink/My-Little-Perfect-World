@@ -171,11 +171,11 @@ public class AnimalInteractionManager : MonoBehaviour
         if(runManager != null)
         {
             runManagers.Remove(runManager);
-            Destroy(runManager.gameObject);
             if (onFinishInteraction != null)
             {
                 onFinishInteraction(runManager.transform);
             }
+            Destroy(runManager.gameObject);
         }
     }
 
